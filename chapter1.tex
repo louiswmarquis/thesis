@@ -1,0 +1,284 @@
+% From mitthesis package
+% Version: 1.07, 2024/09/26
+% Documentation: https://ctan.org/pkg/mitthesis
+
+
+\chapter{Introduction}
+
+The field of computational chemistry aims to use computers to simulate and better understand the behavior of complex chemical systems in the real world. Drug discovery, materials science, and nanotechnology are only a few areas that would benefit from the ability to computationally predict behavior of molecular systems. However, chemical systems at the particle level are inherently shaped by quantum effects, which are not easily modeled by a classical (non-quantum) computer. In particular, the phenomenon of quantum superposition allows a system to be in a linear combination of an exponential number of basis states at the same time. A classical computer must numerically store this exponential amount of data, a prohibitive task.
+
+Quantum computational chemistry aims to perform this task using quantum computers, which can represent such systems more easily because its hardware, by definition, is inherently quantum. A superposition in a chemical system, for example, can represented by physically putting a quantum computer's hardware into superposition.
+
+\section{Hamiltonian Simulation}
+
+In any quantum system, the behavior in which its state changes over time is dictated by its Hamiltonian operator $\hat{H}$. In particular, if the system starts in state $\ket{\psi(0)}$, then we can determine its state $\ket{\psi(t)}$ at time $t$.
+
+\begin{equation}
+    \ket{\psi(t)} = e^{-i\hat{H}t}\ket{\psi(0)}
+\end{equation}
+
+Operators and states can be thought of as matrices and vectors, but where a vector maps integer indices to values, a state is a function that maps a continuous variable (such as position) to an amplitude value. An operator maps state functions to state functions how a matrix maps vectors to vectors.
+
+The Hamiltonian $\hat{H}$ depends on many factors, such as the nature of interactions between particles in the system or external forces such as electric or magnetic fields acting in the system. $\hat{H}$, and in turn $U = e^{-i\hat{H}t}$ can be very complex, and usually it's not feasible to simulate $U$ exactly. Instead, we try find a different operator $\tilde{U}$ that is easy to simulate and sufficiently close to $\tilde{U}$. Usually we choose to define the error as the spectral norm (largest singular value) of the difference between $U$ and $\tilde{U}$. The goal is for the error to be below some variable threshold $\epsilon$.
+
+\begin{equation}
+    \epsilon \geq ||\tilde{U} - U|| = ||\tilde{U} - e^{-iHt}||
+\end{equation}
+
+This task is accordingly named Hamiltonian simulation.
+
+One important Hamiltonian is the electronic structure Hamiltonian, describing the behavior of electrons in a molecule consisting of many nuclei and electrons. In modeling this system, we use the Born-Oppenheimer approximation, which assumes that the positions of the nuclei are essentially fixed. This is justified by the fact that the nuclei are far more massive than the electrons, so we can study the movement of electrons separately from the movement of the nuclei. With this assumption, the electronic structure Hamiltonian contains only terms for the electrons' kinetic energies, for the interactions between electrons and nuclei, and for the interactions among electrons.
+
+\begin{equation}
+    \hat{H} = -\sum_p \frac{\hbar^2}{2m_e} \nabla^2_p - \sum_{p, P}\frac{e^2}{4\pi\epsilon_0}\frac{Z_P}{|\vec{r}_p - \vec{R}_P|} + \frac{1}{2}\sum_{p \neq q}\frac{e^2}{4\pi\epsilon_0}\frac{1}{|\vec{r}_p - \vec{r}_q|} \label{eq: H}
+\end{equation}
+
+$\vec{r}_p$ denotes the position of the $p$th electron, and $\vec{r}_P$ and $Z_P$ denote the position and charge of the $P$th nucleus.
+
+The ultimate goal of electronic structure theory is to find the eigenvalues and eigenstates of $e^{-i\hat{H}t}$, or the states that are invariant (up to a phase) under $e^{-i\hat{H}t}$. The ability to simulate the behavior of $e^{-i\hat{H}t}$ on an arbitrary state can directly be used to find the eigenvalues using the quantum phase estimation algorithm. The details of this algorithm are not essential in the topic of this paper, the relevant fact is the power unlocked by performing $e^{-i\hat{H}t}$.
+
+\section{Trotterization}
+
+The Hamiltonian $H$ of a system may often be a sum of many terms $\hat{h}_j$, as exemplified by the electronic structure Hamiltonian in $\eqref{eq: H}$.
+
+\begin{equation}
+    \hat{H} = \sum_j \hat{h}_j
+\end{equation}
+
+We can use the Lie-Trotter formula to approximate the target operator $U = e^{-i\hat{H}t}$ as the product of many smaller rotations.
+
+\begin{equation}
+    U = e^{-i\hat{H}t} = e^{-i\sum_j \hat{h}_jt} = \lim_{r \rightarrow \infty} \prod_j e^{-i\hat{h}_j\frac{t}{r}}
+\end{equation}
+
+In other words, for sufficiently large $r$, $U$ is essentially equivalent to a series of much smaller evolutions with Hamiltonian $\hat{h}_j$. This is the first-order Trotter-Suzuki Algorithm. This is very convenient because it means that if we can simulate a Hamiltonian evolution with $\hat{h}_j$, we can also approximately simulate $U$. This will be the case most of the time in this paper.
+
+However, it should be noted that $r$ must be sufficiently large to make the approximation sufficiently precise. At the same time, the computation cost of the algorithm scales linearly with the number of individual evolutions and therefore with $r$. It turns out that, to achieve an error threshold of $\epsilon$, a cost of $\frac{L^3\Lambda^2t^2}{\epsilon}$ is necessary, in which $L$ is the number of terms $h_j$, and $\Lambda = \max_j ||h_j||$.
+
+First-order Trotterization as described is the most basic of such Hamiltonian simulation algorithms, and there is a rich field of literature finding improved methods to decrease error and computation cost for this problem.
+
+One example is qDRIFT, a randomized version of first-order Trotterization. Its computation cost is $O(\frac{\lambda^2 t^2}{\epsilon})$, in which $\lambda = \sum_j ||h_j||$.
+
+The power of such Trotter-like techniques (breaking $e^{-i\hat{H}t}$ into many $e^{-i\hat{h}_jt}$) allows us to analyze each term $\hat{h}_j$ independently of the others. If one can simulate $e^{-i\hat{h}_jt}$ for every term, one can simulate $U$.
+
+\section{Second Quantized Fock States}
+
+We would like to model the electronic structure system described by $\hat{H}$ in \eqref{eq: H}. As previously described, the system consists of numerous identical electrons and numerous nuclei at fixed positions. The indistinguishability of the electrons means that the joint wavefunction is only determined by how many electrons are in each basis state, rather than which electron is in which state. For example, electrons $1$ and $2$ being in respective states $\phi_1$ and $\phi_2$ is the same as being in the states $\phi_2$ and $\phi_1$. In addition, the joint wavefunction of many identical fermions must be anti-symmetric upon exchange of any pair of fermions. For example, if we want to express a state where one electron is in state $\phi_1$ and the other is in state $\phi_2$, a simple tensor product $\phi_1 \otimes \phi_2$ would not be a valid joint wavefunction. Instead, it must be anti-symmetrized.
+
+\begin{equation}
+    \psi = \phi_1 \otimes \phi_2 - \phi_2 \otimes \phi_1
+\end{equation}
+
+This rule can make many-body calculations very cumbersome. Fortunately, second quantization significantly simplifies the representation of many-body systems by introducing the Fock basis, whose states are inherently anti-symmetrized.
+
+Suppose for a single electron we'd like to use a basis $\{\phi_i\}$. Although the basis has infinite size, usually only basis states below a certain energy threshold are relevant, restricting our concern to a finite basis $\{\phi_i\}_{i \in [0, n)}$.
+
+If there are many identical particles, we might want to express a state where $f_i$ particles are in the $\phi_i$ state. We can label such a state with a vector $\vec{f}$. This is a Fock state $\ket{\vec{f}}$. For fermions (such as electrons), $f_i \in \{0, 1\}$ due to the Pauli-Exclusion Principle, so $\vec{f} \in \{0, 1\}^n$.
+
+\begin{equation}
+    \ket{\vec{f}} = \ket{f_0, f_1, ..., f_{n - 1}} \label{eq: fock}
+\end{equation}
+
+With $n$ orbitals (basis states), there are $2^n$ such Fock states, one for each n-bitstring $\vec{f} \in \{0, 1\}^n$. These $2^n$ states form a complete basis of the many-body Hilbert space. That is, any state possible for a many-body system within these $n$ orbitals can be expressed as a linear combination of Fock states.
+
+We can define fermionic creation $a^\dag_i$ and annihilation $a_i$ operators that map Fock states to Fock states.
+
+\begin{equation}
+    \begin{split}
+        a^\dag_i\ket{\vec{f}} &= a^\dag_i\ket{f_0, ..., f_{n - 1}} \\
+        &= \delta_{f_i, 1}(-1)^{\sum_{j = 0}^{i - 1}}\ket{f_0, ..., f_i \oplus 1, ..., f_{n - 1}}
+    \end{split}
+    \label{eq: creation}
+\end{equation}
+\begin{equation}
+    \begin{split}
+        a_i\ket{\vec{f}} &= a_i\ket{f_0, ..., f_{n - 1}} \\
+        &= \delta_{f_i, 0}(-1)^{\sum_{j = 0}^{i - 1}}\ket{f_0, ..., f_i \oplus 1, ..., f_{n - 1}}
+    \end{split}
+    \label{eq: annihilation}
+\end{equation}
+
+$a^\dag_i$ transforms a Fock state with $f_i = 0$ into a Fock state with $f_i = 1$, thereby ``creating'' a fermion in state $\phi_i$ and adding a phase shift to account for anti-symmetry. If orbital $i$ is already occupied, the new state is $0$ (it disappears). $a_i$ does the reverse, de-occupying orbital $i$.
+
+As typical with creation and annihilation operators, their product is a number operator $\hat{n}_i = a^\dag_ia_i$ \cite{QCC}.
+
+\begin{equation}
+    \hat{n}_i\ket{\vec{f}} = f_i\ket{f_0, ..., f_{n - 1}}
+\end{equation}
+
+The creation and annihilation operators have anti-commutation relations \cite{QCC} that are analogous to typical commutation relations of creation and annihilation operators.
+
+\begin{equation}
+    \{a^\dag_i, a_j\} = \delta_{i, j}
+\end{equation}
+\begin{equation}
+    \{a_i, a_j\} = \{a^\dag_i, a^\dag_j\} = 0
+\end{equation}
+
+Second quantization, in short, equips us with a concise representation of many-fermion wavefunction in the form of Fock states and operators to $a^\dag_ia_i$ easily manipulate them.
+
+\section{Jordan-Wigner Transformation}
+
+The Fock basis allows us to easily represent physical systems of many electrons. We would like to encode these physical systems on a quantum computer made of qubits so that we can compute on them. Conveniently, it is very straightforward to do so with the Fock basis.
+
+Quantum computers are comprised of qubits. A qubit is simply a system with a two-dimensional Hilbert space. One example is an electron spin (up or down). Given a basis $\{\ket{0}, \ket{1}\}$, the state of a qubit can be any normalized linear combination of these two basis vectors.
+
+\begin{equation}
+    \ket{\psi} = A_0\ket{0} + A_1\ket{1} \text{ such that } |A_0|^2 + |A_1|^2 = 1
+\end{equation}
+
+The joint state of $n$ qubits can be any normalized superposition of all $2^n$ basis states $\{\ket{\vec{x}}\}_{x \in \{0, 1\}^n} = \{\ket{x_0, x_1, ..., x_{n - 1}}\}_{x \in \{0, 1\}^n}$.
+
+\begin{equation}
+    \ket{\psi} = \sum_{\vec{x} \in \{0, 1\}^n} A_{\vec{x}} \ket{\vec{x}} \text{ such that } \sum_{\vec{x} \in \{0, 1\}^n} |A_{\vec{x}}|^2 = 1
+\end{equation}
+
+It is then straightforward that basis states \eqref{eq: fock} of an $n$-orbital many-electron physical system correspond to basis states of $n$ qubits in a quantum computer. This is the Jordan-Wigner Encoding.
+
+\begin{equation}
+    \ket{\vec{f}} \leftrightarrow \ket{\vec{x}}
+\end{equation}
+
+That is, in the Jordan-Wigner Encoding, the value $x_i$ of the $i$th qubit represents the occupation $f_i$ of the orbital $\phi_i$.
+
+Accordingly, creation \eqref{eq: creation} and annihilation \eqref{eq: annihilation} operators on the physical system also correspond to qubit operators.
+
+\begin{equation}
+    a_i \leftrightarrow Z_0Z_1...Z_{i - 1}\ket{0}\bra{1}_i \label{eq: JWdown}
+\end{equation}
+\begin{equation}
+    a^\dag_i \leftrightarrow Z_0Z_1...Z_{i - 1}\ket{1}\bra{0}_i \label{eq: JWup}
+\end{equation}
+\begin{equation}
+    \hat{n}_i = a^\dag_ia_i \leftrightarrow \ket{1}\bra{1}_i
+\end{equation}
+
+We use the short-hand $U_i = I^{\otimes i}\otimes U \otimes I^{\otimes n - i - 1}$ to denote applying a gate $U$ on the $i$th qubit.
+
+Observe that individual physical and annihilation operators map to a series of $i$ gates (qubit operators). In the average case, this amounts to $O(n)$ gates, which is not ideal. There are other encodings that optimize the efficiency of operator mappings, but they sacrifice the simplicity in basis state mappings exhibited by the Jordan-Wigner Encoding. For the purposes of this project, the Jordan-Wigner Encoding is sufficient.
+
+\section{Double Factorization of Electronic Structure Hamiltonian}
+
+Equipped with Fock states and creation annihilation operators, we can rewrite the electron structure Hamiltonian from \eqref{eq: H} in a simpler, second-quantized form.
+
+\begin{equation}
+    \hat{H} = \sum_{i, j} h_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia^\dag_ja_ka_l \label{eq: H2}
+\end{equation}
+
+The real coefficients $h_{ij}$ and $h_{ijkl}$ are the projections of $\hat{H}$ onto the chosen single-particle basis $\{\phi_i\}_{i \in [0, n)}$.
+
+\begin{equation}
+    \begin{split}
+        h_{ij} &= \braket{\phi_i | (-\frac{\hbar^2}{2m_e}\nabla^2 - \sum_I \frac{e^2}{4\pi\epsilon_0}\frac{Z_I}{|\vec{r} - \vec{R}_I|}) | \phi_j} \\
+        &= \int \phi^*_i(\vec{r})(-\frac{\hbar^2}{2m_e}\nabla^2 - \sum_I \frac{e^2}{4\pi\epsilon_0}\frac{Z_I}{|\vec{r} - \vec{R}_I|})\phi_j(\vec{r}) d^3\vec{r}
+    \end{split}
+    \label{eq: hij}
+\end{equation}
+\begin{equation}
+    \begin{split}
+        h_{ijkl} &= \braket{\phi_i, \phi_j | \frac{e^2}{4\pi\epsilon_0}\frac{1}{|\vec{r}_1 - \vec{r}_2|} | \phi_l, \phi_k} \\
+        &= \iint \phi^*_i(\vec{r}_1)\phi^*_j(\vec{r}_2)\frac{e^2}{4\pi\epsilon_0}\frac{1}{|\vec{r}_1 - \vec{r}_2|}\phi_l(\vec{r}_1)\phi_k(\vec{r}_2) d^3\vec{r}_1d^3\vec{r}_2
+    \end{split}
+    \label{eq: hijkl}
+\end{equation}
+
+Observe from \eqref{eq: hij} that $h_{ij}$, which is real, must be symmetric between $i$ and $j$. From \eqref{eq: hijkl}, $h_{ijkl}$, which is also real, must also be symmetric between $i$ and $l$, $j$ and $k$, and $(i, l)$ and $(j, k)$. Inspired by this symmetry, we can rearrange the operators in the second summation using anti-commutation relations to put $i, l$ and $j, k$ next to each other.
+
+\begin{equation}
+    \begin{split}
+        \hat{H} &= \sum_{i, j} h_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia^\dag_ja_ka_l \\
+        &= \sum_{i, j} h_{ij}a^\dag_ia_j - \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia^\dag_ja_la_k \\
+        &= \sum_{i, j} h_{ij}a^\dag_ia_j - \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_i(\delta_{jl} - a_la^\dag_j)a_k \\
+        &= \sum_{i, j} h_{ij}a^\dag_ia_j - \frac{1}{2}(\sum_{i, j, k}h_{ijkj}a^\dag_ia_k - \sum_{i,j,k,l} h_{ijkl}a^\dag_ia_la^\dag_ja_k) \\
+        &= \sum_{i, j} (h_{ij} - \frac{1}{2}\sum_k h_{ikjk})a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia_la^\dag_ja_k \\
+        &= \sum_{i, j} h'_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h'_{iljk}a^\dag_ia_la^\dag_ja_k \\
+        &= \hat{H}_1 + \hat{H}_2
+    \end{split}
+    \label{eq: H3}
+\end{equation}
+We introduced new coefficients $h'_{ij}$ and $h'_{iljk}$ for this new ordering and label the summations $\hat{H}_1$ and $\hat{H}_2$.
+\begin{equation}
+    \begin{split}
+        h'_{ij} &= (h_{ij} - \frac{1}{2}\sum_k h_{ikjk}) \\
+        \hat{H}_1 &= \sum_{i, j} h'_{ij}a^\dag_ia_j \\
+        h'_{iljk} &= h_{ijkl} \\
+        \hat{H}_2 &= \frac{1}{2}\sum_{i,j,k,l} h'_{iljk}a^\dag_ia_la^\dag_ja_k
+    \end{split}
+\end{equation}
+
+As a reminder, we would like to simulate $U = e^{-i\hat{H}t}$ on a quantum computer. Trotterization allows us to study each term in \eqref{eq: H3} independently. That is, we just need to find a way to simulate $U_1 = e^{-i\hat{H}_1t}$ and $U_2 = e^{-i\hat{H}_2t}$ for arbitrary $t$. The direct brute force method is to substitute the operator correspondances from \eqref{eq: JWdown} and \eqref{eq: JWup} into \eqref{eq: H3} to obtain the corresponding qubit Hamiltonian. With this method, it turns out that $U_1$ requires $O(n^2)$ gates and $U_2 = e^{-\hat{H}_2t}$ requires $O(n^4)$ gates.
+
+Recall that because $h'_{iljk} = h_{ijkl}$ is symmetric between $(i, l)$ and $(j, k)$, $h'$ can be treated as a real symmetric $n^2 \times n^2$ matrix and eigendecomposed with eigenvalues $\lambda_r$ and eigenvectors $Q^{(r)}$ whose indices are $(i, l)$ ordered pairs. A Cholesky decomposition is also an option but for now we will use an eigendecomposition.
+
+\begin{equation}
+    h'_{iljk} = \sum_r \lambda_r Q^{(r)}_{i, l}Q^{(r)}_{j, k}
+\end{equation}
+
+\begin{equation}
+    \begin{split}
+        \hat{H}_2 &= \frac{1}{2}\sum_{i,j,k,l} h'_{ijkl}a^\dag_ia_la^\dag_ja_k \\
+        &= \frac{1}{2}\sum_{i,j,k,l} \sum_r \lambda_r Q^{(r)}_{i, l}Q^{(r)}_{j, k}a^\dag_ia_la^\dag_ja_k \\
+        &= \frac{1}{2}\sum_r \lambda_r \sum_{i,l} Q^{(r)}_{i, l}a^\dag_ia_l\sum_{j,k}Q^{(r)}_{j, k}a^\dag_ja_k \\
+        &= \frac{1}{2}\sum_r\lambda_r(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j)^2
+    \end{split}
+\end{equation}
+
+Because $h'_{iljk}$ is symmetric between $i$ and $l$ and between $j$ and $k$, $Q^{(r)}_{i, j}$ is symmetric between $i$ and $j$. Each $n^2$-length vector $Q^{(r)}$ can then be treated as an $n \times n$ matrix to be further eigendecomposed with eigenvalues $\lambda'^{(r)}_s$ and real orthonormal eigenvectors $R^{(r)}_s$ as the columns of $R^{(r)}$, which is orthogonal.
+
+\begin{equation}
+    \begin{split}
+        Q^{(r)} &= R^{(r)}\begin{bmatrix}
+            \lambda'_0 & & \\ & \ddots & \\ & & \lambda'_{n - 1}
+          \end{bmatrix}R^{(r)T} \\
+        Q^{(r)}_{i, j} &= \sum_s \lambda'^{(r)}_s R^{(r)}_{is}R^{(r)}_{js}
+    \end{split}
+\end{equation}
+
+We introduce the operators $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s$, which are respectively linear combinations of the the creation operators $\{a^\dag_i\}_{i \in [0, n)}$ and annihilation operators $\{a_i\}_{i \in [0, n)}$. Because $R^{(r)}$ is orthogonal (and therefore unitary), these $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s$ are actually creation and annihilation operators of a different Fock basis; that is, the basis $\{\tilde{\phi}_s = \sum_s R^{(r)}_{is} \phi_i\}_{s \in [0, n)}$. This rotated basis also has its own number operators $\tilde{n}^{(r)}_s$.
+
+\begin{equation}
+    \begin{split}
+        \tilde{a}^{(r)\dag}_s &= \sum_iR^{(r)}_{is}a^\dag_i \\
+        \tilde{a}^{(r)}_s &= \sum_iR^{(r)}_{is}a_i \\
+        \tilde{n}^{(r)}_s &= \tilde{a}^{(r)\dag}_s\tilde{a}^{(r)}_s
+    \end{split}
+\end{equation}
+
+We can rewrite $\hat{H}_2$ in terms of $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s, \tilde{n}^{(r)}_s$.
+
+\begin{equation}
+    \begin{split}
+        \hat{H}_2 &= \frac{1}{2}\sum_r\lambda_r(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j)^2 \\
+        &= \frac{1}{2}\sum_r\lambda_r(\sum_{i,j} \sum_s \lambda'^{(r)}_s R^{(r)}_{is}R^{(r)}_{js}a^\dag_ia_j)^2 \\
+        &= \frac{1}{2}\sum_r\lambda_r(\sum_s \lambda'^{(r)}_s \sum_i R^{(r)}_{is}a^\dag_i\sum_jR^{(r)}_{js}a_j)^2 \\
+        &= \frac{1}{2}\sum_r\lambda_r(\sum_s \lambda'^{(r)}_s \tilde{a}^{(r)\dag}_s\tilde{a}^{(r)}_s)^2 \\
+        &= \frac{1}{2}\sum_r\lambda_r(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s)^2
+    \end{split}
+\end{equation}
+
+We would like to simulate $U_2 = e^{-i\hat{H}_2}$; that is, implement efficiently its corresponding qubit operator. Since it's a summation over $r$, Trotterization again allows us to look at each term individually.
+
+We would like to simulate $U_2^{(r)} = e^{-\frac{it}{2}\lambda_r(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s)^2}$. If the operator's eigenbasis were the same as the qubits' computational basis, it would be very simple. However, its eigenbasis is the Fock basis constructed from the rotated basis $\{\tilde{\phi}_s\}$. Meanwhile, the qubit computational basis $\{\ket{\vec{x}}\}$ corresponds to the original physical Fock basis $\{\ket{\vec{f}}\}$ constructed from $\{\phi_i\}$. To deal with this, we have to essentially rotate the operator $U_r$ into the computational basis. \cite{FSN} uses the Thouless Theorem to show that such a rotation operator $U(R^{(r)})$ necessary can be calculated from $R^{(r)}$ and and corresponds to a maximum of ${n \choose 2} = O(n^2)$ gates on the quantum computer. 
+
+\begin{equation}
+    \begin{split}
+        U_2^{(r)} = e^{-\frac{it}{2}\lambda_r(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s)^2} &= U(R^{(r)})^\dag e^{-\frac{it}{2}\lambda_r(\sum_s \lambda'^{(r)}_s n_s)^2}U(R^{(r)})
+    \end{split}
+\end{equation}
+
+One can expand the square in the middle operator and factor it into $O(n^2)$ individual operators.
+
+\begin{equation}
+    e^{-\frac{it}{2}\lambda_r(\sum_s \lambda'^{(r)}_s n_s)^2} = e^{-\frac{it}{2}\lambda_r\sum_{s, s'} \lambda'^{(r)}_s\lambda'^{(r)}_{s'} n_sn_{s'}} = \prod_{s, s'} e^{-\frac{it}{2}\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'} n_sn_{s'}}
+\end{equation}
+
+Each operator is the exponent of a product of two number operators $n_s, n_{s'}$. If $s = s'$, then that operator corresponds to a Z-rotation on a qubit. If $s \neq s'$, that operator corresponds to a controlled Z-rotation. In total this would comprise $O(n^2)$ gates.
+
+Since $U_2^{(r)}$ can be implemented on the quantum computer with three steps each comprising $O(n^2)$ gates, it itself has gate complexity $O(n^2)$. However, the number of values of $r$ is the rank of $\hat{H}_2$, which is bounded by $n^2$. Then even one Trotter iteration of the terms in $H_2$ has gate complexity $O(n^4)$, which does no better than the original brute force method.
+
+However, the $O(n^2)$ figure for the gate count of $U(R^{(r)})$ from \cite{FSN} is only an upper bound, and much of the time $R^{(r)}$ is simple enough that $U(R^{(r)})$ can be implemented more cheaply, often in linear $O(n)$ gate count. The operator $e^{-\frac{it}{2}\lambda_r(\sum_s \lambda'^{(r)}_s n_s)^2}$ can also be implemented in sub-quadratic asymptotic gate count with a coherent method using quantum arithmetic circuits. This situation allows for a sub-quartic simulation of $e^{-i\hat{H_2}t}$, surpassing the naive brute force method.
+
+This project attempted to explore the conditions for which a linear $O(n)$ gate count for $U(R^{(r)})$ arises, construct a quantum circuit design to implement the described coherent method, and analyze its cost and error. It further attempted some unconventional decomposition techniques on the electronic structure Hamiltonian that were inspired by the linear-gate count conditions, using gradient descent methods to optimize the decomposition.
+
+%%%%%%%%%%%%%%%% end table %%%%%%%%%%%%%%%%%%% 
+

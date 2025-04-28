@@ -1,0 +1,155 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{QCC}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=3daf73fd06a4958752298e706cc55a5a}{%
+           family={McArdle},
+           familyi={M\bibinitperiod},
+           given={Sam},
+           giveni={S\bibinitperiod}}}%
+        {{hash=c3acfc5e323c389790b828fbf6955f09}{%
+           family={Endo},
+           familyi={E\bibinitperiod},
+           given={Suguru},
+           giveni={S\bibinitperiod}}}%
+        {{hash=083dcdd0db2687433b22fabfb2e55c17}{%
+           family={Aspuru-Guzik},
+           familyi={A\bibinithyphendelim G\bibinitperiod},
+           given={Alán},
+           giveni={A\bibinitperiod}}}%
+        {{hash=b10a34e16a501939634880eade0cec5e}{%
+           family={Benjamin},
+           familyi={B\bibinitperiod},
+           given={Simon\bibnamedelima C.},
+           giveni={S\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=001b5a60b43cad93e93a32a46ae0c874}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={Xiao},
+           giveni={X\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society (APS)}%
+      }
+      \strng{namehash}{effc795ef39c881daa1ba1650e02594b}
+      \strng{fullhash}{5f29953c0d828b365afbef814aaad6df}
+      \strng{fullhashraw}{5f29953c0d828b365afbef814aaad6df}
+      \strng{bibnamehash}{5f29953c0d828b365afbef814aaad6df}
+      \strng{authorbibnamehash}{5f29953c0d828b365afbef814aaad6df}
+      \strng{authornamehash}{effc795ef39c881daa1ba1650e02594b}
+      \strng{authorfullhash}{5f29953c0d828b365afbef814aaad6df}
+      \strng{authorfullhashraw}{5f29953c0d828b365afbef814aaad6df}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1539-0756}
+      \field{journaltitle}{Reviews of Modern Physics}
+      \field{month}{3}
+      \field{number}{1}
+      \field{title}{Quantum computational chemistry}
+      \field{volume}{92}
+      \field{year}{2020}
+      \verb{doi}
+      \verb 10.1103/revmodphys.92.015003
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1103/RevModPhys.92.015003
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1103/RevModPhys.92.015003
+      \endverb
+    \endentry
+    \entry{FSN}{article}{}{}
+      \name{author}{7}{}{%
+        {{hash=96586fe81debb62fa36b7cc6d84cde5e}{%
+           family={Kivlichan},
+           familyi={K\bibinitperiod},
+           given={Ian\bibnamedelima D.},
+           giveni={I\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=44d80c9bccbe7462fe524bbf9cd54a08}{%
+           family={McClean},
+           familyi={M\bibinitperiod},
+           given={Jarrod},
+           giveni={J\bibinitperiod}}}%
+        {{hash=9906b78ec80183f9ac5008ae54ce7088}{%
+           family={Wiebe},
+           familyi={W\bibinitperiod},
+           given={Nathan},
+           giveni={N\bibinitperiod}}}%
+        {{hash=0101a428978c8ddc038880b7a77afd98}{%
+           family={Gidney},
+           familyi={G\bibinitperiod},
+           given={Craig},
+           giveni={C\bibinitperiod}}}%
+        {{hash=083dcdd0db2687433b22fabfb2e55c17}{%
+           family={Aspuru-Guzik},
+           familyi={A\bibinithyphendelim G\bibinitperiod},
+           given={Alán},
+           giveni={A\bibinitperiod}}}%
+        {{hash=9fa3b07f3d74fe2c76629514daf4277d}{%
+           family={Chan},
+           familyi={C\bibinitperiod},
+           given={Garnet\bibnamedelima Kin-Lic},
+           giveni={G\bibinitperiod\bibinitdelim K\bibinithyphendelim L\bibinitperiod}}}%
+        {{hash=7bb1dcf8a93d1ecc6f9531ece93ef1fa}{%
+           family={Babbush},
+           familyi={B\bibinitperiod},
+           given={Ryan},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society (APS)}%
+      }
+      \strng{namehash}{88bb752bc9192b6bcb9544c0ed00d8e6}
+      \strng{fullhash}{1f9257de35e866fe65e4bec27ebb3362}
+      \strng{fullhashraw}{1f9257de35e866fe65e4bec27ebb3362}
+      \strng{bibnamehash}{1f9257de35e866fe65e4bec27ebb3362}
+      \strng{authorbibnamehash}{1f9257de35e866fe65e4bec27ebb3362}
+      \strng{authornamehash}{88bb752bc9192b6bcb9544c0ed00d8e6}
+      \strng{authorfullhash}{1f9257de35e866fe65e4bec27ebb3362}
+      \strng{authorfullhashraw}{1f9257de35e866fe65e4bec27ebb3362}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1079-7114}
+      \field{journaltitle}{Physical Review Letters}
+      \field{month}{3}
+      \field{number}{11}
+      \field{title}{Quantum Simulation of Electronic Structure with Linear Depth and Connectivity}
+      \field{volume}{120}
+      \field{year}{2018}
+      \verb{doi}
+      \verb 10.1103/physrevlett.120.110501
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1103/PhysRevLett.120.110501
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1103/PhysRevLett.120.110501
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
