@@ -32,16 +32,16 @@ As one may expect, this operator does the same thing on a qubit computational ba
 We want to find an efficient way to approximately simulate $U_A^{(r)}$. That is, we want to find an operator $\tilde{U}_A^{(r)}$ that applies the specified phase rotation on $\ket{\vec{x}}$ as precisely as possible and with as few gates as possible. As a reminder, the error (and therefore precision) is measured by the operator norm of the difference in the ideal and approximate operators. $\epsilon$ is a parameter that limits the maximum error of this approximation and it affects the cost of $\tilde{U}_A^{(r)}$. A tighter bound requires more gates to achieve that bound.
 
 \begin{equation}
-    \epsilon \geq ||\tilde{U}_A^{(r)} - U_A^{(r)}|| = ||\tilde{U} - e^{-\frac{it}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2}|| \label{eq: error}
+    \epsilon \geq ||U_A^{(r)} - \tilde{U}_A^{(r)}|| = ||e^{-\frac{it}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2} - U_A^{(r)}|| \label{eq: error}
 \end{equation}
 
 \eqref{eq: U_A} presented a method that simulated $U_A^{(r)}$ exactly (no error) but it required $O(n^2)$ gates. We now present a $\tilde{U}_A^{(r)}$ that requires $O(n(\log{\frac{n}{\epsilon}})^2)$ gates. The idea is to coherently calculate the phase of the phase rotation on a separate qubit register and use these qubits representing the phase as controls to apply a phase rotation.
 
-More formally, denote the value of the summation in the phase rotation as $y(\vec{x})$.
+More formally, denote the value of the summation in the phase rotation as $y_r(\vec{x})$.
 
 \begin{equation}
     \begin{split}
-        y(\vec{x}) &= \sum_s \lambda'^{(r)}_s x_s \\
+        y_r(\vec{x}) &= \sum_s \lambda'^{(r)}_s x_s \\
         U_A^{(r)}\ket{\vec{x}} &= e^{-i\frac{t}{2}\lambda_ry_r(\vec{x})^2}\ket{\vec{x}}
     \end{split}
 \end{equation}
@@ -60,7 +60,7 @@ We begin with a register of $n$ qubits in a Fock state $\ket{\vec{x}}$ and intro
 
 \section{Summation}
 
-Because $\lambda'^{(r)}$ can assume any real (including irrational) values, a finite set of qubits will not be able to represent $y(\vec{x}) = \sum_s \lambda'^{(r)}_s x_s$ precisely. Instead, we compute an approximation $\tilde{y}_r(\vec{x})$ that can be expressed in $\frac{m}{2}$ bits. We essentially truncate (or round) each term in the sum and add them together. $m$ can be increased to enhance precision at the cost of ancilla qubits and more gates, and vice versa. In short, we'd like to use the qubits $\ket{\vec{x}}$ to transform $\ket{0^{\frac{m}{2}}}$ to $\ket{\tilde{y}_r(\vec{x})}$.
+Because $\lambda'^{(r)}$ can assume any real (including irrational) values, a finite set of qubits will not be able to represent $y_r(\vec{x}) = \sum_s \lambda'^{(r)}_s x_s$ precisely. Instead, we compute an approximation $\tilde{y}_r(\vec{x})$ that can be expressed in $\frac{m}{2}$ bits. We essentially truncate (or round) each term in the sum and add them together. $m$ can be increased to enhance precision at the cost of ancilla qubits and more gates, and vice versa. In short, we'd like to use the qubits $\ket{\vec{x}}$ to transform $\ket{0^{\frac{m}{2}}}$ to $\ket{\tilde{y}_r(\vec{x})}$.
 
 \begin{equation}
     \ket{\vec{x}}\ket{0^{\frac{m}{2}}} \rightarrow \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})} = \ket{\vec{x}}\ket{\sum_s \tilde{\lambda}'^{(r)}_s x_s}
@@ -76,19 +76,19 @@ The encoding between values $z$ and qubit states must be able to handle negative
     M_r = \lfloor \log_2{Y_r} \rfloor + 2
 \end{equation}
 \begin{equation}
-    \ket{\vec{y}} \leftrightarrow 
+    \ket{\vec{y}} \leftrightarrow \sum_{j = -\infty}^{\frac{m}{2} - 1} (-1)^{\delta_{j, \frac{m}{2} - 1}}y_j2^{M_r - (\frac{m}{2} - 1) + j}
 \end{equation}
 
 Then this register can hold all values between $-2^{M_r}$ and $2^{M_r} - 2^{M_r - (\frac{m}{2} - 1)}$ that are multiples of $2^{M_r - (\frac{m}{2} - 1)}$. By the definition of $M_r$, all possible $\tilde{y}_r(\vec{x})$ lie within this range. We can then define the bits $[\lambda^{(r)}_s]_j$ of each $\lambda^{(r)}_s$ in this signed binary form.
 
 \begin{equation}
-    \lambda^{(r)}_s = \sum_{j = -\infty}^{\frac{m}{2} - 1} (-1)^{\delta_{j, \frac{m}{2} - 1}}[\lambda^r_s]_j2^{M_r - (\frac{m}{2} - 1) + j}
+    \lambda^{(r)}_s = \sum_{j = -\infty}^{\frac{m}{2} - 1} (-1)^{\delta_{j, \frac{m}{2} - 1}}[\lambda^{(r)}_s]_j2^{M_r - (\frac{m}{2} - 1) + j}
 \end{equation}
 
-Since we only care about the bits for the values $2^{M_r - (\frac{m}{2} - 1)}$ to $2^{M_r}$, $\tilde{\lambda}^r_s$ is the accordingly truncated version of $\lambda^{(r)}_s$.
+Since we only care about the bits for the values $2^{M_r - (\frac{m}{2} - 1)}$ to $2^{M_r}$, $\tilde{\lambda}^{(r)}_s$ is the accordingly truncated version of $\lambda^{(r)}_s$.
 
 \begin{equation}
-    \tilde{\lambda}^r_s = \sum_{j = 0}^{\frac{m}{2} - 1} (-1)^{\delta_{j, \frac{m}{2} - 1}}[\lambda^r_s]_j2^{M_r - (\frac{m}{2} - 1) + j}
+    \tilde{\lambda}^{(r)}_s = \sum_{j = 0}^{\frac{m}{2} - 1} (-1)^{\delta_{j, \frac{m}{2} - 1}}[\lambda^{(r)}_s]_j2^{M_r - (\frac{m}{2} - 1) + j}
 \end{equation}
 
 As shown in \ref{fig: U_A}, \eqref{eq: summation} can be achieved by a series of controlled additions. There are many ways to implement such an adder, we chose the most direct way, which simply converts a classical adder into quantum circuits. \ref{fig: add} shows how to implement a controlled addition of an arbitrary $w$ in the described signed form.
@@ -177,9 +177,55 @@ In our implementation of $\tilde{U}_A^{(r)}$, there are $2n$ controlled constant
 
 \section{Error Analysis}
 
-The size of the ancilla registers is determined by $m$ and affects the precision of the applied phase. A larger $m$ means more ancilla registers and a more precise phase, but quadratically increases the gate cost according to \eqref{eq: gates}. If we want to guarantee an error below $\epsilon$ accordingly with \eqref{eq: error}, $m$ must be sufficiently large. We now calculate the relation between $\epsilon$ and $m$.
+The size of the ancilla registers is determined by $m$ and affects the precision of the applied phase. A larger $m$ means more ancilla registers and a more precise phase, but quadratically increases the gate cost according to \eqref{eq: gates}. If we want to guarantee an error below $\epsilon$ accordingly with \eqref{eq: error}, $m$ must be sufficiently large. We now calculate the relation between $\epsilon$ and $m$. This is to say that we upper bound the error $||U_A^{(r)} - \tilde{U}_A^{(r)}||$ in terms of $m$.
 
-\section{Comparison}
+The error originates from the fact that we need to truncate our representation of $\lambda^{(r)}_s$ into $\tilde{\lambda}^{(r)}_s$, and propagates into $\tilde{U}_A^{(r)}$. So we begin by bounding the error in $\tilde{\lambda}^{(r)}_s$.
+
+\begin{equation}
+    \begin{split}
+        |\lambda^{(r)}_s - \tilde{\lambda}^{(r)}_s| = \sum_{j = -\infty}^{-1} [\lambda^{(r)}_s]_j2^{M_r - (\frac{m}{2} - 1) + j} \leq \sum_{j = -\infty}^{-1} 2^{M_r - (\frac{m}{2} - 1) + j} \leq 2^{M_r - (\frac{m}{2} - 1)} \leq \frac{4Y_r}{2^{\frac{m}{2} - 1}}
+    \end{split}
+\end{equation}
+
+We propagate this error to $\tilde{y}(\vec{x})$.
+
+\begin{equation}
+    \begin{split}
+        |y_r(\vec{x}) - \tilde{y}(\vec{x})| = |\sum_s (\lambda^{(r)}_s - \tilde{\lambda^{(r)}_s})x_s| \leq n|\lambda^{(r)}_s - \tilde{\lambda^{(r)}_s}| \leq \frac{Y_r}{2^{\frac{m}{2} - 3}}
+    \end{split}
+\end{equation}
+
+We propagate this error to $\tilde{y}(\vec{x})^2$.
+
+\begin{equation}
+    \begin{split}
+        |y_r(\vec{x})^2 - \tilde{y}(\vec{x})^2| = |2y_r(\vec{x})(y_r(\vec{x}) - \tilde{y}(\vec{x})) - (y_r(\vec{x}) - \tilde{y}(\vec{x}))^2| \leq \max(2|y_r(\vec{x})|n\frac{Y_r}{2^{\frac{m}{2} - 3}}, (n\frac{Y_r}{2^{\frac{m}{2} - 3}})^2)
+    \end{split}
+\end{equation}
+
+\begin{equation}
+    \begin{split}
+        ||U_A^{(r)} - \tilde{U}_A^{(r)}|| &= \max_{\ket{\psi} : ||\ket{\psi}|| = 1} ||(U_A^{(r)} - \tilde{U}_A^{(r)})\ket{\psi}|| \\
+        &= \max_{\vec{x} \in \{0, 1\}^n} ||(U_A^{(r)} - \tilde{U}_A^{(r)})\ket{\vec{x}}|| \\
+        &= \max_{\vec{x} \in \{0, 1\}^n} ||(e^{-i\frac{t}{2}\lambda_ry_r(\vec{x})^2} - e^{-i\frac{t}{2}\lambda_r\tilde{y}_r(\vec{x})^2})\ket{\vec{x}}|| \\
+        &= \max_{\vec{x} \in \{0, 1\}^n} ||(e^{-i\frac{t}{2}|\lambda_r|(y_r(\vec{x})^2 - \tilde{y}_r(\vec{x})^2)} - 1)\ket{\vec{x}}|| \\
+        &\leq \max_{\vec{x} \in \{0, 1\}^n} \frac{t}{2}|\lambda_r||y_r(\vec{x})^2 - \tilde{y}_r(\vec{x})^2| \\
+        &\leq \frac{t}{2}|\lambda_r|\max_{\vec{x} \in \{0, 1\}^n} \max(2|y_r(\vec{x})|n\frac{Y_r}{2^{\frac{m}{2} - 3}}, (n\frac{Y_r}{2^{\frac{m}{2} - 3}})^2) \\
+        &= n\frac{|\lambda_r| Y_r^2t}{2^{\frac{m}{2} - 4}}\max(1, \frac{n}{2^{\frac{m}{2} - 2}})
+    \end{split}
+\end{equation}
+
+We want $m$ to be large enough that this quantity is at most $\epsilon$.
+
+\begin{equation}
+    m \geq \max(2\log_2(n\frac{|\lambda_r|Y_r^2t}{\epsilon}) + 3, \log_2(n^2\frac{|\lambda_r|Y_r^2t}{\epsilon}) + 5)
+\end{equation}
+
+Clearly $m$ is asymptotically logarithmic in $n$, as long as $|\lambda_r|$ and $Y_r$ are not exponential in $n$ (in reality they are sublinear). Referring back to \eqref{eq: gates}, the total asymptotic gate cost of $\tilde{U}_A^{(r)}$ is therefore $O(mn + m^2) = O(n\log{n} + (\log{n})^2) = O(n\log{n})$.
+
+$m$ is also logarithmic in $t$ and in $\frac{1}{\epsilon}$.
+
+\section{Discussion}
 
 This is good when the number of Givens rotations is linear. When is that the case? I don't know.
 

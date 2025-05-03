@@ -419,9 +419,6 @@ INPUT .\MIT-Thesis.lof
 INPUT .\MIT-Thesis.lof
 INPUT MIT-Thesis.lof
 OUTPUT MIT-Thesis.lof
-INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-mathit.enc
-INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-rm.enc
-INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-mathsy.enc
 INPUT .\MIT-Thesis.lot
 INPUT .\MIT-Thesis.lot
 INPUT MIT-Thesis.lot
@@ -432,6 +429,9 @@ OUTPUT chapter1.aux
 INPUT .\chapter1.tex
 INPUT .\chapter1.tex
 INPUT chapter1.tex
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-rm.enc
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-mathit.enc
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-mathsy.enc
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmr6.tfm
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-mathex.enc
 INPUT .\chapter2.tex

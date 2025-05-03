@@ -22,7 +22,7 @@ Operators and states can be thought of as matrices and vectors, but where a vect
 The Hamiltonian $\hat{H}$ depends on many factors, such as the nature of interactions between particles in the system or external forces such as electric or magnetic fields acting in the system. $\hat{H}$, and in turn $U = e^{-i\hat{H}t}$ can be very complex, and usually it's not feasible to simulate $U$ exactly. Instead, we try find a different operator $\tilde{U}$ that is easy to simulate and sufficiently close to $\tilde{U}$. Usually we choose to define the error as the spectral norm (largest singular value) of the difference between $U$ and $\tilde{U}$. The goal is for the error to be below some variable threshold $\epsilon$.
 
 \begin{equation}
-    \epsilon \geq ||\tilde{U} - U|| = ||\tilde{U} - e^{-iHt}||
+    \epsilon \geq ||U - \tilde{U}|| = ||e^{-iHt} - \tilde{U}||
 \end{equation}
 
 This task is accordingly named Hamiltonian simulation.
