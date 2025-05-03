@@ -230,6 +230,8 @@ INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex\generic\xypic\xya
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex\generic\xypic\xyarc.tex
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex\latex\braket\braket.sty
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex\latex\braket\braket.sty
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex\generic\mathdots\mathdots.sty
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex\generic\mathdots\mathdots.sty
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\biblatex.sty
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex\latex\biblatex\biblatex.sty
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex\latex\logreq\logreq.sty
@@ -304,6 +306,9 @@ INPUT chapter3.aux
 INPUT .\chapter4.aux
 INPUT .\chapter4.aux
 INPUT chapter4.aux
+INPUT .\appendixa.aux
+INPUT .\appendixa.aux
+INPUT appendixa.aux
 OUTPUT MIT-Thesis.aux
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
@@ -414,6 +419,9 @@ INPUT .\MIT-Thesis.lof
 INPUT .\MIT-Thesis.lof
 INPUT MIT-Thesis.lof
 OUTPUT MIT-Thesis.lof
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-mathit.enc
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-rm.enc
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-mathsy.enc
 INPUT .\MIT-Thesis.lot
 INPUT .\MIT-Thesis.lot
 INPUT MIT-Thesis.lot
@@ -424,9 +432,6 @@ OUTPUT chapter1.aux
 INPUT .\chapter1.tex
 INPUT .\chapter1.tex
 INPUT chapter1.tex
-INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-rm.enc
-INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-mathit.enc
-INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-mathsy.enc
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmr6.tfm
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-mathex.enc
 INPUT .\chapter2.tex
@@ -447,6 +452,12 @@ OUTPUT chapter4.aux
 INPUT .\chapter4.tex
 INPUT .\chapter4.tex
 INPUT chapter4.tex
+INPUT .\appendixa.tex
+INPUT .\appendixa.tex
+OUTPUT appendixa.aux
+INPUT .\appendixa.tex
+INPUT .\appendixa.tex
+INPUT appendixa.tex
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmcsc10.tfm
 INPUT MIT-Thesis.aux
 INPUT .\acknowledgments.aux
@@ -464,6 +475,9 @@ INPUT chapter3.aux
 INPUT .\chapter4.aux
 INPUT .\chapter4.aux
 INPUT chapter4.aux
+INPUT .\appendixa.aux
+INPUT .\appendixa.aux
+INPUT appendixa.aux
 INPUT MIT-Thesis.run.xml
 OUTPUT MIT-Thesis.run.xml
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmbx12.pfb

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.14)  27 APR 2025 20:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.14)  2 MAY 2025 20:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -621,7 +621,14 @@ Package: xy 2013/10/06 Xy-pic version 3.8.9
 \splinelength@=\dimen300
  circles,
 \L@=\dimen301
- loaded) Xy-pic pdf driver: `curve' extension support (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/generic/xypic\xypdf-cu.tex loaded) loaded) (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/generic/xypic\xyarrow.tex  Xy-pic option: Arrow and Path feature v.3.9 path, \ar, loaded) (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/generic/xypic\xyarc.tex  Xy-pic option: Circle, Ellipse, Arc feature v.3.8 circles, ellipses, elliptical arcs, loaded)) (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/latex/braket\braket.sty) (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.sty
+ loaded) Xy-pic pdf driver: `curve' extension support (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/generic/xypic\xypdf-cu.tex loaded) loaded) (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/generic/xypic\xyarrow.tex  Xy-pic option: Arrow and Path feature v.3.9 path, \ar, loaded) (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/generic/xypic\xyarc.tex  Xy-pic option: Circle, Ellipse, Arc feature v.3.8 circles, ellipses, elliptical arcs, loaded)) (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/latex/braket\braket.sty) (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/generic/mathdots\mathdots.sty
+Package: mathdots 2014/06/11 v0.9 Improve and add various macros for dots in math.
+\MDo@unit=\dimen302
+\MDo@dotsbox=\box75
+\MDoprekern=\muskip19
+\MDopostkern=\muskip20
+\MDodotkern=\muskip21
+) (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.sty
 Package: biblatex 2024/03/21 v3.20 programmable bibliographies (PK/MW)
  (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/latex/logreq\logreq.sty
 Package: logreq 2010/08/04 v1.0 xml request logger
@@ -796,10 +803,10 @@ File: biblatex.def 2024/03/21 v3.20 biblatex compatibility (PK/MW)
 \c@biburlnumpenalty=\count479
 \c@biburlucpenalty=\count480
 \c@biburllcpenalty=\count481
-\biburlbigskip=\muskip19
-\biburlnumskip=\muskip20
-\biburlucskip=\muskip21
-\biburllcskip=\muskip22
+\biburlbigskip=\muskip22
+\biburlnumskip=\muskip23
+\biburlucskip=\muskip24
+\biburllcskip=\muskip25
 \c@smartand=\count482
 )
 Package biblatex Info: Trying to load bibliography style 'ext-numeric-comp'...
@@ -896,30 +903,34 @@ File: bkm-pdftex.def 2023-12-10 v1.31 bookmark driver for pdfTeX and luaTeX (HO)
 ))
 \@quotelevel=\count490
 \@quotereset=\count491
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 184.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 185.
  (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) (MIT-Thesis.aux (acknowledgments.aux) (chapter1.aux) (chapter2.aux) (chapter3.aux) (chapter4.aux))
+) (MIT-Thesis.aux (acknowledgments.aux) (chapter1.aux) (chapter2.aux
+
+LaTeX Warning: Label `eq: summation' multiply defined.
+
+) (chapter3.aux) (chapter4.aux) (appendixa.aux))
 \openout1 = `MIT-Thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 184.
-LaTeX Font Info:    ... okay on input line 184.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 184.
-LaTeX Font Info:    ... okay on input line 184.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 184.
-LaTeX Font Info:    ... okay on input line 184.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 184.
-LaTeX Font Info:    ... okay on input line 184.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 184.
-LaTeX Font Info:    ... okay on input line 184.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 184.
-LaTeX Font Info:    ... okay on input line 184.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 184.
-LaTeX Font Info:    ... okay on input line 184.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 184.
-LaTeX Font Info:    ... okay on input line 184.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 184.
-LaTeX Font Info:    ... okay on input line 184.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 185.
+LaTeX Font Info:    ... okay on input line 185.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 185.
+LaTeX Font Info:    ... okay on input line 185.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 185.
+LaTeX Font Info:    ... okay on input line 185.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 185.
+LaTeX Font Info:    ... okay on input line 185.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 185.
+LaTeX Font Info:    ... okay on input line 185.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 185.
+LaTeX Font Info:    ... okay on input line 185.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 185.
+LaTeX Font Info:    ... okay on input line 185.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 185.
+LaTeX Font Info:    ... okay on input line 185.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 185.
+LaTeX Font Info:    ... okay on input line 185.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -958,13 +969,13 @@ LaTeX Font Info:    ... okay on input line 184.
 (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count492
-\scratchdimen=\dimen302
-\scratchbox=\box75
+\scratchdimen=\dimen303
+\scratchbox=\box76
 \nofMPsegments=\count493
 \nofMParguments=\count494
 \everyMPshowfont=\toks37
 \MPscratchCnt=\count495
-\MPscratchDim=\dimen303
+\MPscratchDim=\dimen304
 \MPnumerator=\count496
 \makeMPintoPDFobject=\count497
 \everyMPtoPDFconversion=\toks38
@@ -982,53 +993,53 @@ Package caption Info: longtable package is loaded.
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 184.
+Package hyperref Info: Link coloring OFF on input line 185.
 \c@lstlisting=\count498
 
-Package chemgreek Info: Activating mapping `default' on line 184.
+Package chemgreek Info: Activating mapping `default' on line 185.
 
-LaTeX Info: Redefining \microtypecontext on input line 184.
-Package microtype Info: Applying patch `item' on input line 184.
-Package microtype Info: Applying patch `toc' on input line 184.
-Package microtype Info: Applying patch `eqnum' on input line 184.
-Package microtype Info: Applying patch `footnote' on input line 184.
-Package microtype Info: Applying patch `verbatim' on input line 184.
+LaTeX Info: Redefining \microtypecontext on input line 185.
+Package microtype Info: Applying patch `item' on input line 185.
+Package microtype Info: Applying patch `toc' on input line 185.
+Package microtype Info: Applying patch `eqnum' on input line 185.
+Package microtype Info: Applying patch `footnote' on input line 185.
+Package microtype Info: Applying patch `verbatim' on input line 185.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 184.
+LaTeX Info: Redefining \showhyphens on input line 185.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
  (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 184.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 185.
  (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 184.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 185.
  (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 184.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 185.
  (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 184.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 185.
  (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 184.
+(Font)              <12> on input line 185.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 184.
+(Font)              <8> on input line 185.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 184.
-Package xypdf Info: Line width: 0.39998pt on input line 184.
+(Font)              <6> on input line 185.
+Package xypdf Info: Line width: 0.39998pt on input line 185.
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
  (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\english.lbx
@@ -1042,11 +1053,11 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'MIT-Thesis.bbl' found.
  (MIT-Thesis.bbl)
-Package biblatex Info: Reference section=0 on input line 184.
-Package biblatex Info: Reference segment=0 on input line 184.
+Package biblatex Info: Reference section=0 on input line 185.
+Package biblatex Info: Reference segment=0 on input line 185.
 <<sRGB.icc>>
 \l__author_authorno_int=\count499
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 266.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 267.
  (C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1108,7 +1119,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 
 
-[9]
+[9{C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}]
 
 [10
 
@@ -1130,7 +1141,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 Chapter 1.
 
 
-[13{C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}]
+[13]
 
 [14{C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}]
 
@@ -1164,14 +1175,22 @@ Package amsmath Warning: Foreign command \atopwithdelims;
 
 ]
 Chapter 2.
-)
+
 
 [23]
+
+[24]
+
+[25]
+
+[26])
+
+[27]
 \openout2 = `chapter3.aux'.
 
  (chapter3.tex
 
-[24
+[28
 
 
 
@@ -1180,12 +1199,12 @@ Chapter 2.
 Chapter 3.
 )
 
-[25]
+[29]
 \openout2 = `chapter4.aux'.
 
  (chapter4.tex
 
-[26
+[30
 
 
 
@@ -1194,9 +1213,35 @@ Chapter 3.
 Chapter 4.
 )
 
-[27]
+[31]
+\openout2 = `appendixa.aux'.
 
-[28
+ (appendixa.tex
+
+[32
+
+
+
+
+]
+Appendix A.
+<xymatrix 9x13 3569> <xymatrix 22x10 8066>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<xymatrix 34x19 21976>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+)
+
+[33]
+
+[34]
+
+[35]
+
+[36
 
 
 
@@ -1206,27 +1251,31 @@ Package microtype Info: Character `029' is missing
 (microtype)             Ignoring protrusion settings for this character.
 
 
-[29] (MIT-Thesis.aux (acknowledgments.aux) (chapter1.aux) (chapter2.aux) (chapter3.aux) (chapter4.aux))
+[37] (MIT-Thesis.aux (acknowledgments.aux) (chapter1.aux) (chapter2.aux) (chapter3.aux) (chapter4.aux) (appendixa.aux))
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-08-16>
  ***********
+
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package logreq Info: Writing requests to 'MIT-Thesis.run.xml'.
 \openout1 = `MIT-Thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 33332 strings out of 473898
- 614251 string characters out of 5722667
- 1948960 words of memory out of 5000000
- 55460 multiletter control sequences out of 15000+600000
- 642010 words of font info for 189 fonts, out of 8000000 for 9000
+ 34244 strings out of 473898
+ 621880 string characters out of 5722667
+ 2187507 words of memory out of 5000000
+ 56304 multiletter control sequences out of 15000+600000
+ 642714 words of font info for 197 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,23n,93p,1505b,1971s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,26n,93p,1505b,1971s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi6.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy6.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb>
-Output written on MIT-Thesis.pdf (29 pages, 365323 bytes).
+Output written on MIT-Thesis.pdf (37 pages, 430144 bytes).
 PDF statistics:
- 440 PDF objects out of 1000 (max. 8388607)
- 95 named destinations out of 1000 (max. 500000)
- 48361 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 556 PDF objects out of 1000 (max. 8388607)
+ 136 named destinations out of 1000 (max. 500000)
+ 48377 words of extra memory for PDF output out of 51595 (max. 10000000)
 

@@ -7,16 +7,18 @@
 \contentsline {section}{\numberline {1.4}Jordan-Wigner Transformation}{16}{section.1.4}%
 \contentsline {section}{\numberline {1.5}Double Factorization of Electronic Structure Hamiltonian}{17}{section.1.5}%
 \contentsline {chapter}{\numberline {2}Quantum Arithmetic Circuit Design for Double-Factorized Electronic Structure Hamiltonian Simulation}{23}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Summation}{23}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Squaring}{23}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Gate Count Analysis}{23}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Error Analysis}{23}{section.2.4}%
-\contentsline {section}{\numberline {2.5}Comparison}{23}{section.2.5}%
-\contentsline {chapter}{\numberline {3}Convex Optimization of Decomposition of Electron-Electron Interaction Hamiltonian Term}{25}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Decomposition of Hamiltonian Term}{25}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Gradient Descent}{25}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Gate Count Analysis}{25}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Numerics}{25}{section.3.4}%
-\contentsline {chapter}{\numberline {4}Conclusion}{27}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Directions for Further Work}{27}{section.4.1}%
-\contentsline {backmatter}{References}{29}{chapter*.7}%
+\contentsline {section}{\numberline {2.1}Summation}{24}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Squaring}{25}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Phase Rotation}{26}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Complexity Analysis}{27}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Error Analysis}{27}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Comparison}{27}{section.2.6}%
+\contentsline {chapter}{\numberline {3}Convex Optimization of Decomposition of Electron-Electron Interaction Hamiltonian Term}{29}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Decomposition of Hamiltonian Term}{29}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Gradient Descent}{29}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Gate Count Analysis}{29}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Numerics}{29}{section.3.4}%
+\contentsline {chapter}{\numberline {4}Conclusion}{31}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Directions for Further Work}{31}{section.4.1}%
+\contentsline {chapter}{\numberline {A}Quantum Circuit Diagrams}{33}{appendix.A}%
+\contentsline {backmatter}{References}{37}{appendix*.10}%

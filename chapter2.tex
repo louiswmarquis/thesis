@@ -5,10 +5,180 @@
 
 \chapter{Quantum Arithmetic Circuit Design for Double-Factorized Electronic Structure Hamiltonian Simulation}
 
+We now propose and analyze a quantum circuit that approximately simulates $U_A^{(r)}$ from \eqref{eq: U_A}.
+
+\begin{equation}
+    U_A^{(r)} = e^{-\frac{it}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2}
+\end{equation}
+
+Observe that because $U_A^{(r)}$ is comprised of number operators $n_s$, its eigenbasis is simply the Fock basis $\{\ket{\vec{f}}\}_{\vec{f}}$. So when it acts on a Fock state $\ket{\vec{f}}$, its effect is simply a phase shift depending on the bits of $\vec{f}$.
+
+\begin{equation}
+    U_A^{(r)}\ket{\vec{f}} = e^{-\frac{it}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2}\ket{\vec{f}} = e^{-\frac{it}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s f_s\right)^2}\ket{\vec{f}}
+\end{equation}
+
+We can substitute the number operator correspondance from \eqref{eq: JWnum} to find the equivalent qubit operator.
+
+\begin{equation}
+    U_A^{(r)} = e^{-\frac{it}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2} \leftrightarrow e^{-\frac{it}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \ket{1}\bra{1}_s\right)^2}
+\end{equation}
+
+As one may expect, this operator does the same thing on a qubit computational basis state $\ket{\vec{x}}$ that $U_A^{(r)}$ does on a Fock state, which is the phase rotation.
+
+\begin{equation}
+    e^{-\frac{it}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \ket{1}\bra{1}_s\right)^2}\ket{\vec{x}} = e^{-\frac{it}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s x_s\right)^2}\ket{\vec{x}}
+\end{equation}
+
+We want to find an efficient way to approximately simulate $U_A^{(r)}$. That is, we want to find an operator $\tilde{U}_A^{(r)}$ that applies the specified phase rotation on $\ket{\vec{x}}$ as precisely as possible and with as few gates as possible. As a reminder, the error (and therefore precision) is measured by the operator norm of the difference in the ideal and approximate operators. $\epsilon$ is a parameter that limits the maximum error of this approximation and it affects the cost of $\tilde{U}_A^{(r)}$. A tighter bound requires more gates to achieve that bound.
+
+\begin{equation}
+    \epsilon \geq ||\tilde{U}_A^{(r)} - U_A^{(r)}|| = ||\tilde{U} - e^{-\frac{it}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2}|| \label{eq: error}
+\end{equation}
+
+\eqref{eq: U_A} presented a method that simulated $U_A^{(r)}$ exactly (no error) but it required $O(n^2)$ gates. We now present a $\tilde{U}_A^{(r)}$ that requires $O(n(\log{\frac{n}{\epsilon}})^2)$ gates. The idea is to coherently calculate the phase of the phase rotation on a separate qubit register and use these qubits representing the phase as controls to apply a phase rotation.
+
+More formally, denote the value of the summation in the phase rotation as $y(\vec{x})$.
+
+\begin{equation}
+    \begin{split}
+        y(\vec{x}) &= \sum_s \lambda'^{(r)}_s x_s \\
+        U_A^{(r)}\ket{\vec{x}} &= e^{-i\frac{t}{2}\lambda_ry_r(\vec{x})^2}\ket{\vec{x}}
+    \end{split}
+\end{equation}
+
+We begin with a register of $n$ qubits in a Fock state $\ket{\vec{x}}$ and introduce an ancilla register of $\frac{m}{2}$ and another of $m$ qubits, both initalized to zeros. We calculate an approximation $\tilde{y}_r(\vec{x})$ onto the smaller ancilla register. We use the value stored in the smaller register to compute an approximation $\tilde{y}_r(\vec{x})^2$ into the larger register. Then we use values of the $m$ ancilla qubits to rotate the phase by $e^{-i\frac{t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}}$. Finally, we uncompute the ancilla register and remove them afterwards. These steps comprise the proposed $\tilde{U}_A^{(r)}$.
+
+\begin{align}
+    \ket{\vec{x}} &\rightarrow \ket{\vec{x}}\ket{0^{\frac{m}{2}}}\ket{0^m} \\
+    &\rightarrow \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\ket{0^m} \label{eq: summation}\\
+    &\rightarrow \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\ket{\tilde{y}_r(\vec{x})^2} \label{eq: squaring} \\
+    &\rightarrow e^{-i\frac{t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\ket{\tilde{y}_r(\vec{x})^2} \label{eq: phase} \\
+    &\rightarrow e^{-i\frac{t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}}\ket{0^{\frac{m}{2}}}\ket{0^m} \\
+    &\rightarrow e^{-i\frac{t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}} \\
+    &= \tilde{U}_A^{(r)}\ket{\vec{x}}
+\end{align}
+
 \section{Summation}
+
+Because $\lambda'^{(r)}$ can assume any real (including irrational) values, a finite set of qubits will not be able to represent $y(\vec{x}) = \sum_s \lambda'^{(r)}_s x_s$ precisely. Instead, we compute an approximation $\tilde{y}_r(\vec{x})$ that can be expressed in $\frac{m}{2}$ bits. We essentially truncate (or round) each term in the sum and add them together. $m$ can be increased to enhance precision at the cost of ancilla qubits and more gates, and vice versa. In short, we'd like to use the qubits $\ket{\vec{x}}$ to transform $\ket{0^{\frac{m}{2}}}$ to $\ket{\tilde{y}_r(\vec{x})}$.
+
+\begin{equation}
+    \ket{\vec{x}}\ket{0^{\frac{m}{2}}} \rightarrow \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})} = \ket{\vec{x}}\ket{\sum_s \tilde{\lambda}'^{(r)}_s x_s}
+    \label{eq: summation}
+\end{equation}
+
+The encoding between values $z$ and qubit states must be able to handle negative numbers and must be able to hold the all possible values of $\tilde{y}_r(\vec{x})$. We define $Y_r$ as the largest number (by absolute value) that the register must hold, and we assign qubit $j$ to represent a value $2^{M_r - (\frac{m}{2} - 1) + j}$, where $M_r$ is defined below. We use a signed method, so qubit $\frac{m}{2} - 1$ represents the sign of the number. 
+
+\begin{equation}
+    Y_r = \max_{\vec{x} \in \{0, 1\}^n} |y_r(\vec{x})| = \max\left(\sum_{s : \lambda^{(r)}_s > 0} |\lambda^{(r)}_s|, \sum_{s : \lambda^{(r)}_s < 0} |\lambda^{(r)}_s|\right)
+\end{equation}
+\begin{equation}
+    M_r = \lfloor \log_2{Y_r} \rfloor + 2
+\end{equation}
+\begin{equation}
+    \ket{\vec{y}} \leftrightarrow 
+\end{equation}
+
+Then this register can hold all values between $-2^{M_r}$ and $2^{M_r} - 2^{M_r - (\frac{m}{2} - 1)}$ that are multiples of $2^{M_r - (\frac{m}{2} - 1)}$. By the definition of $M_r$, all possible $\tilde{y}_r(\vec{x})$ lie within this range. We can then define the bits $[\lambda^{(r)}_s]_j$ of each $\lambda^{(r)}_s$ in this signed binary form.
+
+\begin{equation}
+    \lambda^{(r)}_s = \sum_{j = -\infty}^{\frac{m}{2} - 1} (-1)^{\delta_{j, \frac{m}{2} - 1}}[\lambda^r_s]_j2^{M_r - (\frac{m}{2} - 1) + j}
+\end{equation}
+
+Since we only care about the bits for the values $2^{M_r - (\frac{m}{2} - 1)}$ to $2^{M_r}$, $\tilde{\lambda}^r_s$ is the accordingly truncated version of $\lambda^{(r)}_s$.
+
+\begin{equation}
+    \tilde{\lambda}^r_s = \sum_{j = 0}^{\frac{m}{2} - 1} (-1)^{\delta_{j, \frac{m}{2} - 1}}[\lambda^r_s]_j2^{M_r - (\frac{m}{2} - 1) + j}
+\end{equation}
+
+As shown in \ref{fig: U_A}, \eqref{eq: summation} can be achieved by a series of controlled additions. There are many ways to implement such an adder, we chose the most direct way, which simply converts a classical adder into quantum circuits. \ref{fig: add} shows how to implement a controlled addition of an arbitrary $w$ in the described signed form.
+
+\begin{equation}
+    w = \sum_{j = 0}^{\frac{m}{2} - 1} (-1)^{\delta_{j, \frac{m}{2} - 1}}[w]_j2^{M_r - (\frac{m}{2} - 1) + j}
+\end{equation}
+
 \section{Squaring}
-\section{Gate Count Analysis}
+
+We now have a register of $\frac{m}{2}$ qubits representing the value $\tilde{y}_r(\vec{x})$ and use this to calculate a value of $\tilde{y}_r(\vec{x})^2$ on the register of $m$ qubits.
+
+\begin{equation}
+    \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\ket{0^m} \rightarrow \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\ket{\tilde{y}_r(\vec{x})^2} \label{eq: y^2}
+\end{equation}
+
+We now design a circuit that adds the square of an arbitrary signed $\frac{m}{2}$-qubit $\ket{w}$ to an m-qubit register.
+
+\begin{equation}
+    \ket{w}\ket{z} \rightarrow \ket{w}\ket{z + w^2}
+\end{equation}
+
+Because the smallest value represented by a qubit in the $\ket{w}$ register is $2^{M_r - (\frac{m}{2} - 1)}$, the smallest value represented by a qubit in the $\ket{z}$ register will be $2^{2(M_r - (\frac{m}{2} - 1))}$. So qubit $k$ in the latter register will have value $(-1)^{\delta_{k, m - 1}}2^{2(M_r - (\frac{m}{2} - 1)) + k}$.
+
+We can expand one of the $w$ to turn $w^2$ into a sum.
+
+\begin{equation}
+    w^2 = \sum_{j = 0}^{\frac{m}{2} - 1} (-1)^{\delta_{j, \frac{m}{2} - 1}}[w]_j2^{M_r - (\frac{m}{2} - 1) + j}w \label{eq: w^2}
+\end{equation}
+
+If one is to add $w^2$ to $z$, it's equivalent to adding each of these terms separately. The $j$th term in \eqref{eq: w^2} is only nonzero if $[w]_j = 1$, so it's equivalent to a having a control on the $j$th qubit in $\ket{w}$. Adding $2^{M_r - (\frac{m}{2} - 1) + j}w$ is equivalent to adding $w$ but shifted up $j$ qubits. Note that because $[w]_{\frac{m}{2} - 1}$ is a sign bit, it must continue to be added to all bits in $\ket{z}$ until the end, accordingly with classical signed addition. \ref{fig: squaring} shows a quantum circuit that adds $[w]_j2^{M_r - (\frac{m}{2} - 1) + j}w$.
+We can handle the $(-1)^{\delta_{j, \frac{m}{2} - 1}}$, which flips the sign for $j = \frac{m}{2} - 1$, by performing a controlled subtraction instead of an addition. A controlled subtraction is equivalent to the Hermitian (in this case, a reverse circuit) of the controlled addition.
+
+Performing the circuit described in \ref{eq: w^2} using $w = \tilde{y}_r(\vec{x})$ will successfully accomplish \ref{eq: y^2}.
+
+\section{Phase Rotation}
+
+We now have a register of $m$ qubits in which the $k$th qubit has state $\ket{[\tilde{y}_r(\vec{x})^2]_k}$.
+
+\begin{equation}
+    \tilde{y}_r(\vec{x})^2 = \sum_k (-1)^{\delta_{k, m - 1}}[\tilde{y}_r(\vec{x})^2]_k2^{2(M_r - (\frac{m}{2} - 1)) + k}
+\end{equation}
+
+As described in \eqref{eq: phase}, we'd like to apply a phase of $e^{-i\frac{t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}$.
+
+\begin{equation}
+    \begin{split}
+        \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\ket{\tilde{y}_r(\vec{x})^2} &\rightarrow e^{-i\frac{t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\ket{\tilde{y}_r(\vec{x})^2} \\
+        &= e^{-i\frac{t}{2}\lambda_r\sum_k (-1)^{\delta_{k, m - 1}}[\tilde{y}_r(\vec{x})^2]_k2^{2(M_r - (\frac{m}{2} - 1)) + k}}\ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\ket{\tilde{y}_r(\vec{x})^2}\\
+        &= \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\prod_k e^{-i[\tilde{y}_r(\vec{x})^2]_k(-1)^{\delta_{k, m - 1}}\frac{t}{2}\lambda_r2^{2(M_r - (\frac{m}{2} - 1)) + k}}\ket{\tilde{y}_r(\vec{x})^2}
+    \end{split}
+\end{equation}
+
+The individual phase rotation $e^{-i[\tilde{y}_r(\vec{x})^2]_k(-1)^{\delta_{k, m - 1}}\frac{t}{2}\lambda_r2^{2(M_r - (\frac{m}{2} - 1)) + k}}$ can be applied with a phase gate $P(\varphi)$ on qubit $k$ with $\varphi = -(-1)^{\delta_{k, m - 1}}\frac{t}{2}\lambda_r2^{2(M_r - (\frac{m}{2} - 1)) + k}$. These gates are shown in \eqref{eq: U_A}.
+
+\begin{equation}
+    P(\varphi) = \begin{bmatrix}
+        1 & 0 \\ 0 & e^{i\varphi}
+    \end{bmatrix} = \ket{0}\bra{0} + e^{i\varphi}\ket{1}\bra{1}
+\end{equation}
+
+Once the phase has been applied, it is necessary to uncompute the values $\tilde{y}_r(\vec{x}), \tilde{y}_r(\vec{x})^2$ computed in the ancilla registers and reset the registers to zeros. One can simply do this by applying all the previous gates (in the summation and squaring) in reverse order. Then the empty registers can be safely removed and $\tilde{U}_A^{(r)}$ has successfully been applied.
+
+\section{Complexity Analysis}
+
+The controlled constant addition in \ref{fig: add} requires $\frac{m}{2} - 1$ ancilla qubits (in addition to the target register) and its gate count depends on the values of $[w]_j$. At maximum, the gate count is $5.5m - 19$ Toffolis and $\frac{m}{2} - 1$ CNOTs. The Toffolis are far more expensive than CNOTs and there are far more of them, so the CNOTs can be ignored.
+
+Next, we wish to establish an upper bound on the number of gates in the circuit in \ref{fig: squaring}. Observe that most of the gates have both a control on $\ket{w}_j$ and a control on a different qubit in $\ket{w}$, which is iterated. For some of these gates, the two controls will be the same qubit, and therefore is treated as one control. For simplicity of calculation, we will ignore that special case and treat it as two separate control qubits, since we only need an upper bound.
+
+With this simplification, we observe that for each $\ket{z}_{j + 2}, ..., \ket{z}_{m - 1}$, there are $6$ CCCNOTs and $2$ CCNOTs (Toffolis), which is equivalent to $20$ Toffolis. There are $2$ additional Toffolis at the beginning and end. This is a total of $20(m - j - 2) + 2$ Toffolis in \ref{fig: squaring}.
+
+Since the squaring protocol performs \ref{fig: squaring} for each $j \in [0, \frac{m}{2})$, we can calculate the total number of Toffolis in the squaring protocol.
+
+\begin{equation}
+    \begin{split}
+        \sum_{j = 0}^{\frac{m}{2} - 1} (20(m - j - 2) + 2) &= 20m^2 - \frac{\frac{m}{2}(\frac{m}{2} - 1)}{2} - 40m + 2m \\
+        &= 17.5m^2 - 33m
+    \end{split}
+\end{equation}
+
+In our implementation of $\tilde{U}_A^{(r)}$, there are $2n$ controlled constant additions ($n$ to compute and $n$ to uncompute) and $2$ squaring protocols (once to compute and uncompute). The phase rotations only contribute $n$ single-qubit gates, which are negligible. We can calculate the total number of Toffolis.
+
+\begin{equation}
+    2n(5.5m - 19) + 2(17.5m^2 - 33m) = 11mn - 38n + 35m^2 - 36m = O(mn + m^2) \label{eq: gates}
+\end{equation}
+
 \section{Error Analysis}
+
+The size of the ancilla registers is determined by $m$ and affects the precision of the applied phase. A larger $m$ means more ancilla registers and a more precise phase, but quadratically increases the gate cost according to \eqref{eq: gates}. If we want to guarantee an error below $\epsilon$ accordingly with \eqref{eq: error}, $m$ must be sufficiently large. We now calculate the relation between $\epsilon$ and $m$.
+
 \section{Comparison}
 
 This is good when the number of Givens rotations is linear. When is that the case? I don't know.

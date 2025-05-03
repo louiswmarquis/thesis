@@ -1,0 +1,109 @@
+% From mitthesis package
+% Version: 1.01, 2023/07/04
+% Documentation: https://ctan.org/pkg/mitthesis
+
+
+\chapter{Quantum Circuit Diagrams}
+
+\begin{figure}[h]
+    \centering
+    \Qcircuit @C=1em @R=1.6em {
+        \lstick{} & \ctrl{4} & \qw      & \qw    & \qw      & \qw & \qw & \qw & \\
+        \lstick{} & \qw      & \ctrl{3} & \qw    & \qw      & \qw & \qw & \qw & \\
+        \lstick{} &          &          & \cdots &          &     &     &     & \\
+        \lstick{} & \qw      & \qw      & \qw    & \ctrl{1} & \qw & \qw & \qw
+        \inputgroupv{1}{4}{.8em}{2.4em}{\ket{\psi}}\\
+        \lstick{} & \multigate{3}{+\lambda^{(r)}_0} & \multigate{3}{+\lambda^{(r)}_1} & \qw    & \multigate{3}{+\lambda^{(r)}_{n - 1}} & \multigate{8}{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \qw & \qw \\
+        \lstick{} & \ghost{+\lambda^{(r)}_0}       & \ghost{+\lambda^{(r)}_1}         & \qw    & \ghost{+\lambda^{(r)}_{n - 1}}        &  \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}}         & \qw & \qw \\
+        \lstick{} & \nghost{+\lambda^{(r)}_0}      & \nghost{+\lambda^{(r)}_1}        & \cdots & \nghost{+\lambda^{(r)}_{n - 1}}       & \nghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}}     &     & \\
+        \lstick{} & \ghost{+\lambda^{(r)}_0}       & \ghost{+\lambda^{(r)}_1}         & \qw    & \ghost{+\lambda^{(r)}_{n - 1}}        &  \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \qw & \qw 
+        \inputgroupv{5}{8}{.8em}{2.4em}{\ket{0^{\frac{m}{2}}}}\\
+        \lstick{} & \qw & \qw & \qw & \qw & \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \gate{P(-\frac{t}{2}\lambda_r2^{2(M_r - (\frac{m}{2} - 1))})} & \qw \\
+        \lstick{} & \qw & \qw & \qw & \qw & \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \gate{P(-\frac{t}{2}\lambda_r2^{2(M_r - (\frac{m}{2} - 1)) + 1})} & \qw \\
+        \lstick{} & & & \cdots & & \nghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \cdots & \\
+        \lstick{} & \qw & \qw & \qw & \qw & \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \gate{P(-\frac{t}{2}\lambda_r2^{2M_r - 1})} & \qw \\
+        \lstick{} & \qw & \qw & \qw & \qw & \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \gate{P(\frac{t}{2}\lambda_r2^{2M_r + 1})} & \qw 
+        \inputgroupv{9}{13}{.8em}{2.4em}{\ket{0^m}}
+    }
+    \caption{Quantum circuit diagram for $U_A^{(r)}$ using arithmetic circuits (uncomputing not shown)}
+    \label{fig: U_A}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \Qcircuit @C=1em @R=1.6em {
+        \lstick{\cdots}          & [w]_0 & & \qquad [w]_1 & & & \qquad [w]_2 & & & [w]_3 & \qquad [w]_2 & & & & [w]_2 & \qquad [w]_1 & & & & [w]_1 & [w]_0 \\
+        \lstick{\ket{\vec{x}}_s} & \ctrl{2} & \ctrl{3} & \ctrl{3} & \ctrl{4} & \ctrl{5} & \ctrl{5} & \ctrl{6} & \ctrl{7} & \ctrl{8}
+                                 & \ctrl{6} & \ctrl{5} & \ctrl{5} & \ctrl{5} & \ctrl{6} & \ctrl{4} & \ctrl{3} & \ctrl{3} & \ctrl{3} & \ctrl{4} & \ctrl{2} & \qw \\
+        \lstick{\cdots}          & \\
+        \lstick{\ket{z}_0}       & \ctrl{1} & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \ctrl{1} & \qw \\
+        \lstick{\ket{0}}         & \targ    & \ctrl{1} & \ctrl{2} & \qw      & \qw      & \qw      & \qw      & \qw      & \qw 
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \ctrl{2} & \ctrl{1} & \ctrl{1} & \qw      & \targ    & \qw \\
+        \lstick{\ket{z}_1}       & \qw      & \ctrl{1} & \qw      & \ctrl{1} & \qw      & \qw      & \qw      & \qw      & \qw 
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \ctrl{1} & \qw      & \ctrl{1} & \targ    & \targ    & \qw      & \qw \\
+        \lstick{\ket{0}}         & \qw      & \targ    & \targ    & \targ    & \ctrl{1} & \ctrl{2} & \qw      & \qw      & \qw
+                                 & \qw      & \ctrl{2} & \ctrl{1} & \ctrl{1} & \qw      & \targ    & \targ    & \targ    & \qw      & \qw      & \qw      & \qw \\
+        \lstick{\ket{z}_2}       & \qw      & \qw      & \qw      & \qw      & \ctrl{1} & \qw      & \ctrl{1} & \qw      & \qw
+                                 & \ctrl{1} & \qw      & \ctrl{1} & \targ    & \targ    & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw \\
+        \lstick{\ket{0}}         & \qw      & \qw      & \qw      & \qw      & \targ    & \targ    & \targ    & \ctrl{1} & \qw
+                                 & \targ    & \targ    & \targ    & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw \\
+        \lstick{\ket{z}_3}       & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \targ    & \targ
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw
+        \gategroup{2}{2}{5}{2}{.7em}{--}
+        \gategroup{2}{4}{7}{5}{.7em}{--}
+        \gategroup{2}{7}{9}{8}{.7em}{--}
+        \gategroup{2}{10}{10}{10}{.7em}{--}
+        \gategroup{2}{11}{9}{12}{.7em}{--}
+        \gategroup{2}{15}{8}{15}{.7em}{--}
+        \gategroup{2}{16}{7}{17}{.7em}{--}
+        \gategroup{2}{20}{6}{20}{.7em}{--}
+        \gategroup{2}{21}{5}{21}{.7em}{--}
+    }
+    \caption{Example quantum circuit diagram for a controlled addition of $w$ for $\frac{m}{2} = 4$. The label $[w]_j$ indicates that the correspondingly boxed gates are only applied when $[w]_j = 1$. }
+    \label{fig: add}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \Qcircuit @C=0.5em @R=1.2em {
+        \lstick{\ket{w}_0} & \ctrl{3} & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \ctrl{3} & \qw \\
+        \lstick{\ket{w}_1} & \qw      & \qw      & \ctrl{2} & \ctrl{2} & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \ctrl{2} & \ctrl{2} & \qw      & \qw      & \ctrl{2} & \qw      & \qw \\
+        \lstick{\cdots}          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\
+        \lstick{\ket{w}_j} & \ctrl{3} & \ctrl{4} & \ctrl{4} & \ctrl{5} & \qw      & \ctrl{8} & \ctrl{2} & \ctrl{2} & \qw      & \ctrl{12}& \ctrl{2} & \ctrl{2} & \ctrl{14} & \ctrl{2}
+                                 & \ctrl{2} & \ctrl{2} & \ctrl{12}& \ctrl{12} & \ctrl{2} & \qw      & \ctrl{2} & \ctrl{2} & \ctrl{8} & \ctrl{8}& \ctrl{2} & \qw      & \ctrl{5} & \ctrl{4} & \ctrl{4} & \ctrl{4} & \ctrl{5} & \ctrl{3} & \qw \\
+        \lstick{\cdots}          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\
+        \lstick{\ket{w}_{\frac{m}{2} - 1}}
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \ctrl{6} & \ctrl{7} & \qw      & \qw      & \ctrl{10}& \ctrl{11}& \qw      & \ctrl{13}
+                                 & \ctrl{11}& \ctrl{10}& \qw      & \qw      & \ctrl{11}& \qw      & \ctrl{7} & \ctrl{6} & \qw      & \qw      & \ctrl{7} & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw \\
+        \lstick{\ket{z}_j}       & \ctrl{1} & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \ctrl{1} & \qw \\
+        \lstick{\ket{0}}         & \targ    & \ctrl{1} & \ctrl{2} & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw 
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \ctrl{2} & \ctrl{1} & \ctrl{1} & \qw      & \targ    & \qw \\
+        \lstick{\ket{z}_{j + 1}} & \qw      & \ctrl{1} & \qw      & \ctrl{1} & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw 
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \ctrl{1} & \qw      & \ctrl{1} & \targ    & \targ    & \qw      & \qw \\
+        \lstick{\ket{0}}         & \qw      & \targ    & \targ    & \targ    & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \targ    & \targ    & \targ    & \qw      & \qw      & \qw      & \qw \\
+        \lstick{\cdots}          & & & & & \ddots & & & & & & & & & & & & & & & & & & & & & \iddots & & & & & \\
+        \lstick{\ket{0}}         & \qw      & \qw      & \qw      & \qw      & \qw      & \ctrl{1} & \ctrl{2} & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw 
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \ctrl{2} & \ctrl{1} & \ctrl{1} & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw \\
+        \lstick{\ket{z}_{j + \frac{m}{2} - 1}}
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \ctrl{1} & \qw      & \ctrl{1} & \qw      & \qw      & \qw      & \qw      & \qw      & \qw 
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \ctrl{1} & \qw      & \ctrl{1} & \targ    & \targ    & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw \\
+        \lstick{\ket{0}}         & \qw      & \qw      & \qw      & \qw      & \qw      & \targ    & \targ    & \targ    & \qw      & \qw      & \qw      & \qw      & \qw      & \qw
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \targ    & \targ    & \targ    & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw \\
+        \lstick{\cdots}          & & & & & & & & & \ddots & & & & & & & & & & & \iddots & & & & & & & & & & & \\
+        \lstick{\ket{0}}         & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \ctrl{1} & \ctrl{2} & \qw      & \qw      & \qw
+                                 & \qw      & \ctrl{2} & \ctrl{1} & \ctrl{1} & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw \\
+        \lstick{\ket{z}_{m - 2}} & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \ctrl{1} & \qw      & \ctrl{1} & \qw      & \qw
+                                 & \ctrl{1} & \qw      & \ctrl{1} & \targ    & \targ    & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw \\
+        \lstick{\ket{0}}         & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \targ    & \targ    & \targ    & \ctrl{1} & \qw
+                                 & \targ    & \targ    & \targ    & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw \\
+        \lstick{\ket{z}_{m - 1}} & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \targ    & \targ
+                                 & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw      & \qw
+    }
+    \caption{Quantum circuit diagram for $\ket{w}\ket{z} \rightarrow \ket{w}\ket{z + [w]_j2^{M_r - (\frac{m}{2} - 1) + j}w}$. This is essentially the equivalent of \ref{fig: add} if the added input were quantum, and if the controlling qubit $\ket{\vec{x}}_s$ were instead a qubit in $w$, and if the . Qubits $0$ to $j - 1$ of the $\ket{z}$ register are not shown. }
+    \label{fig: squaring}
+\end{figure}
