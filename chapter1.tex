@@ -48,12 +48,12 @@ The Hamiltonian $H$ of a system may often be a sum of many terms $\hat{h}_j$, as
 We can use the Lie-Trotter formula to approximate the target operator $U = e^{-i\hat{H}t}$ as the product of many smaller rotations.
 
 \begin{equation}
-    U = e^{-i\hat{H}t} = e^{-i\sum_j \hat{h}_jt} = \lim_{r \rightarrow \infty} \prod_j e^{-i\hat{h}_j\frac{t}{r}}
+    U = e^{-i\hat{H}t} = e^{-i\sum_j \hat{h}_jt} = \lim_{M \rightarrow \infty} (\prod_j e^{-i\hat{h}_j\frac{t}{M}})^M
 \end{equation}
 
-In other words, for sufficiently large $r$, $U$ is essentially equivalent to a series of much smaller evolutions with Hamiltonian $\hat{h}_j$. This is the first-order Trotter-Suzuki Algorithm. This is very convenient because it means that if we can simulate a Hamiltonian evolution with $\hat{h}_j$, we can also approximately simulate $U$. This will be the case most of the time in this paper.
+In other words, for sufficiently large $M$, $U$ is essentially equivalent to iterating $M$ times through smaller evolutions $e^{-i\hat{h}_j\frac{t}{M}}$. We can denote $\Delta t = \frac{t}{M}$ the step size. This is the first-order Trotter-Suzuki Algorithm. This is very convenient because it means that if we can simulate a Hamiltonian evolution with $\hat{h}_j$, we can also approximately simulate $U$. This will be the case most of the time in this paper.
 
-However, it should be noted that $r$ must be sufficiently large to make the approximation sufficiently precise. At the same time, the computation cost of the algorithm scales linearly with the number of individual evolutions and therefore with $r$. It turns out that, to achieve an error threshold of $\epsilon$, a cost of $\frac{L^3\Lambda^2t^2}{\epsilon}$ is necessary, in which $L$ is the number of terms $h_j$, and $\Lambda = \max_j ||h_j||$.
+However, $M$ must be sufficiently large to make the approximation sufficiently precise. At the same time, the computation cost of the algorithm scales linearly with the number of individual evolutions and therefore with $M$. It turns out that, to achieve an error threshold of $\epsilon$, a cost of $\frac{L^3\Lambda^2t^2}{\epsilon}$ is necessary, in which $L$ is the number of terms $h_j$, and $\Lambda = \max_j ||h_j||$.
 
 First-order Trotterization as described is the most basic of such Hamiltonian simulation algorithms, and there is a rich field of literature finding improved methods to decrease error and computation cost for this problem.
 
@@ -228,7 +228,7 @@ Because $h'_{iljk}$ is symmetric between $i$ and $l$ and between $j$ and $k$, $Q
 \begin{equation}
     \begin{split}
         Q^{(r)} &= R^{(r)}\begin{bmatrix}
-            \lambda'_0 & & \\ & \ddots & \\ & & \lambda'_{n - 1}
+            \lambda'^{(r)}_0 & & \\ & \ddots & \\ & & \lambda'^{(r)}_{n - 1}
           \end{bmatrix}R^{(r)T} \\
         Q^{(r)}_{i, j} &= \sum_s \lambda'^{(r)}_s R^{(r)}_{is}R^{(r)}_{js}
     \end{split}
@@ -258,17 +258,17 @@ We can rewrite $\hat{H}_2$ in terms of $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s
 
 We would like to simulate $U_2 = e^{-i\hat{H}_2}$; that is, implement efficiently its corresponding qubit operator. Since it's a summation over $r$, Trotterization again allows us to look at each term individually.
 
-We would like to simulate $U_2^{(r)} = e^{-\frac{it}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s\right)^2}$. If the operator's eigenbasis were the same as the qubits' computational basis, it would be very simple. However, its eigenbasis is the Fock basis constructed from the rotated basis $\{\tilde{\phi}_s\}$. Meanwhile, the qubit computational basis $\{\ket{\vec{x}}\}$ corresponds to the original physical Fock basis $\{\ket{\vec{f}}\}$ constructed from $\{\phi_i\}$. To deal with this, we have to essentially rotate the operator $U_r$ into the computational basis. \cite{FSN} uses the Thouless Theorem to show that such a rotation operator $U(R^{(r)})$ necessary can be calculated from $R^{(r)}$ and and corresponds to a maximum of ${n \choose 2} = O(n^2)$ gates on the quantum computer. 
+We would like to simulate $U_2^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s\right)^2}$ for an arbitrary $\Delta t$. If the operator's eigenbasis were the same as the qubits' computational basis, it would be very simple. However, its eigenbasis is the Fock basis constructed from the rotated basis $\{\tilde{\phi}_s\}$. Meanwhile, the qubit computational basis $\{\ket{\vec{x}}\}$ corresponds to the original physical Fock basis $\{\ket{\vec{f}}\}$ constructed from $\{\phi_i\}$. To deal with this, we have to essentially rotate the operator $U_r$ into the computational basis. \cite{FSN} uses the Thouless Theorem to show that such a rotation operator $U(R^{(r)})$ necessary can be calculated from $R^{(r)}$ and and corresponds to a maximum of ${n \choose 2} = O(n^2)$ gates on the quantum computer. 
 
 \begin{equation}
-    U_2^{(r)} = e^{-\frac{it}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s\right)^2} = U(R^{(r)})^\dag e^{-\frac{it}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2}U(R^{(r)}) = U(R^{(r)})^\dag U_A^{(r)}U(R^{(r)})
+    U_2^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s\right)^2} = U(R^{(r)})^\dag e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2}U(R^{(r)}) = U(R^{(r)})^\dag U_A^{(r)}U(R^{(r)})
 \end{equation}
 
 We also need to find a qubit analog to $U_A^{(r)}$. One way is to expand the square $U_A^{(r)}$ and factor it into $O(n^2)$ individual operators, since the terms all commute.
 
 \begin{equation}
-    U_A^{(r)} = e^{-\frac{it}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2} = e^{-\frac{it}{2}\lambda_r\sum_{s, s'} \lambda'^{(r)}_s\lambda'^{(r)}_{s'} n_sn_{s'}} = \prod_{s, s'} e^{-\frac{it}{2}\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'} n_sn_{s'}}
-    \label{eq: U_A}
+    U_A^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2} = e^{-\frac{i\Delta t}{2}\lambda_r\sum_{s, s'} \lambda'^{(r)}_s\lambda'^{(r)}_{s'} n_sn_{s'}} = \prod_{s, s'} e^{-\frac{i\Delta t}{2}\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'} n_sn_{s'}}
+    \label{eq: brute}
 \end{equation}
 
 Each operator is the exponent of a product of two number operators $n_s, n_{s'}$. If $s = s'$, then that operator corresponds to a Z-rotation on a qubit. If $s \neq s'$, that operator corresponds to a controlled Z-rotation. In total this would comprise $O(n^2)$ gates.

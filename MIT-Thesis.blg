@@ -1,15 +1,18 @@
 [0] Config.pm:308> INFO - This is Biber 2.20
-[0] Config.pm:311> INFO - Logfile is 'MIT-Thesis.blg'
-[210] biber-MSWIN64:340> INFO - === 
-[282] Biber.pm:420> INFO - Reading 'MIT-Thesis.bcf'
-[503] Biber.pm:994> INFO - Found 2 citekeys in bib section 0
-[525] Biber.pm:4463> INFO - Processing section 0
-[575] Biber.pm:4654> INFO - Looking for bibtex file 'main.bib' for section 0
-[669] bibtex.pm:1713> INFO - LaTeX decoding ...
-[710] bibtex.pm:1519> INFO - Found BibTeX data source 'main.bib'
-[859] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[859] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[859] Biber.pm:4283> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'en-US'
-[859] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
-[886] bbl.pm:676> INFO - Writing 'MIT-Thesis.bbl' with encoding 'UTF-8'
-[890] bbl.pm:779> INFO - Output to MIT-Thesis.bbl
+[1] Config.pm:311> INFO - Logfile is 'MIT-Thesis.blg'
+[188] biber-MSWIN64:340> INFO - === 
+[245] Biber.pm:420> INFO - Reading 'MIT-Thesis.bcf'
+[448] Biber.pm:994> INFO - Found 4 citekeys in bib section 0
+[481] Biber.pm:4463> INFO - Processing section 0
+[502] Biber.pm:4654> INFO - Looking for bibtex file 'main.bib' for section 0
+[593] bibtex.pm:1713> INFO - LaTeX decoding ...
+[627] bibtex.pm:1519> INFO - Found BibTeX data source 'main.bib'
+[749] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[749] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[749] Biber.pm:4283> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'en-US'
+[749] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[764] bbl.pm:676> INFO - Writing 'MIT-Thesis.bbl' with encoding 'UTF-8'
+[774] bbl.pm:779> INFO - Output to MIT-Thesis.bbl
+[774] Biber.pm:131> WARN - legacy month field 'Aug' in entry 'Gate_Count' is not an integer - this will probably not sort properly.
+[775] Biber.pm:131> WARN - legacy month field 'Nov' in entry 'gates' is not an integer - this will probably not sort properly.
+[775] Biber.pm:133> INFO - WARNINGS: 2

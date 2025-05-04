@@ -149,6 +149,148 @@
       \verb http://dx.doi.org/10.1103/PhysRevLett.120.110501
       \endverb
     \endentry
+    \entry{Gate_Count}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=efcf6e85ae6db8576299902ff937b539}{%
+           family={Wecker},
+           familyi={W\bibinitperiod},
+           given={Dave},
+           giveni={D\bibinitperiod}}}%
+        {{hash=068222b65b72f8fc41261b1a56b40002}{%
+           family={Bauer},
+           familyi={B\bibinitperiod},
+           given={Bela},
+           giveni={B\bibinitperiod}}}%
+        {{hash=246f47cae28966a1cd22e6e9f734b474}{%
+           family={Clark},
+           familyi={C\bibinitperiod},
+           given={Bryan\bibnamedelima K.},
+           giveni={B\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=2b6ced7ad9a68118cdd8e4199aabebae}{%
+           family={Hastings},
+           familyi={H\bibinitperiod},
+           given={Matthew\bibnamedelima B.},
+           giveni={M\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=8c95c0b716ad4a10a2ab4370aca0d0ca}{%
+           family={Troyer},
+           familyi={T\bibinitperiod},
+           given={Matthias},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society}%
+      }
+      \strng{namehash}{39120a596902d09c0cf9d429495f0249}
+      \strng{fullhash}{4c30a9264f7ebe91dd57dbd187322276}
+      \strng{fullhashraw}{4c30a9264f7ebe91dd57dbd187322276}
+      \strng{bibnamehash}{4c30a9264f7ebe91dd57dbd187322276}
+      \strng{authorbibnamehash}{4c30a9264f7ebe91dd57dbd187322276}
+      \strng{authornamehash}{39120a596902d09c0cf9d429495f0249}
+      \strng{authorfullhash}{4c30a9264f7ebe91dd57dbd187322276}
+      \strng{authorfullhashraw}{4c30a9264f7ebe91dd57dbd187322276}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issue}{2}
+      \field{journaltitle}{Phys. Rev. A}
+      \field{month}{8}
+      \field{title}{Gate-count estimates for performing quantum chemistry on small quantum computers}
+      \field{volume}{90}
+      \field{year}{2014}
+      \field{pages}{022305}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PhysRevA.90.022305
+      \endverb
+      \verb{urlraw}
+      \verb https://link.aps.org/doi/10.1103/PhysRevA.90.022305
+      \endverb
+      \verb{url}
+      \verb https://link.aps.org/doi/10.1103/PhysRevA.90.022305
+      \endverb
+    \endentry
+    \entry{gates}{article}{}{}
+      \name{author}{9}{}{%
+        {{hash=e3e201649629042ff492419e0964751f}{%
+           family={Barenco},
+           familyi={B\bibinitperiod},
+           given={Adriano},
+           giveni={A\bibinitperiod}}}%
+        {{hash=9e07e222475916c813dd37c28db7c325}{%
+           family={Bennett},
+           familyi={B\bibinitperiod},
+           given={Charles\bibnamedelima H.},
+           giveni={C\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=bcc1d99f54046308388d253fdacfe211}{%
+           family={Cleve},
+           familyi={C\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod}}}%
+        {{hash=eb086f2913454eb2d88cdec4631aeb3e}{%
+           family={DiVincenzo},
+           familyi={D\bibinitperiod},
+           given={David\bibnamedelima P.},
+           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=11dbdbe4f34b5ff267ac25a128c070f6}{%
+           family={Margolus},
+           familyi={M\bibinitperiod},
+           given={Norman},
+           giveni={N\bibinitperiod}}}%
+        {{hash=3ad573118bab03bfc277b1e4925528ab}{%
+           family={Shor},
+           familyi={S\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=f5744732128174bb29d3982413773787}{%
+           family={Sleator},
+           familyi={S\bibinitperiod},
+           given={Tycho},
+           giveni={T\bibinitperiod}}}%
+        {{hash=5509489ab50cd678d68437275b870be5}{%
+           family={Smolin},
+           familyi={S\bibinitperiod},
+           given={John\bibnamedelima A.},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=ebdf6a8a3edc28cc9c608fabbd805369}{%
+           family={Weinfurter},
+           familyi={W\bibinitperiod},
+           given={Harald},
+           giveni={H\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society}%
+      }
+      \strng{namehash}{063222b8f933928fb89de94e22677c8b}
+      \strng{fullhash}{d88cbb1002350bf2344fb9ab8d1f03a2}
+      \strng{fullhashraw}{d88cbb1002350bf2344fb9ab8d1f03a2}
+      \strng{bibnamehash}{d88cbb1002350bf2344fb9ab8d1f03a2}
+      \strng{authorbibnamehash}{d88cbb1002350bf2344fb9ab8d1f03a2}
+      \strng{authornamehash}{063222b8f933928fb89de94e22677c8b}
+      \strng{authorfullhash}{d88cbb1002350bf2344fb9ab8d1f03a2}
+      \strng{authorfullhashraw}{d88cbb1002350bf2344fb9ab8d1f03a2}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issue}{5}
+      \field{journaltitle}{Phys. Rev. A}
+      \field{month}{11}
+      \field{title}{Elementary gates for quantum computation}
+      \field{volume}{52}
+      \field{year}{1995}
+      \field{pages}{3457\bibrangedash 3467}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1103/PhysRevA.52.3457
+      \endverb
+      \verb{urlraw}
+      \verb https://link.aps.org/doi/10.1103/PhysRevA.52.3457
+      \endverb
+      \verb{url}
+      \verb https://link.aps.org/doi/10.1103/PhysRevA.52.3457
+      \endverb
+    \endentry
   \enddatalist
 \endrefsection
 \endinput
