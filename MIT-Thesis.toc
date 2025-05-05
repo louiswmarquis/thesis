@@ -14,11 +14,12 @@
 \contentsline {section}{\numberline {2.5}Error Analysis}{28}{section.2.5}%
 \contentsline {section}{\numberline {2.6}Numerics}{29}{section.2.6}%
 \contentsline {section}{\numberline {2.7}Discussion}{30}{section.2.7}%
-\contentsline {chapter}{\numberline {3}Convex Optimization of Decomposition of Electron-Electron Interaction Hamiltonian Term}{33}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Decomposition of Hamiltonian Term}{33}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Gradient Descent}{33}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Gate Count Analysis}{33}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Numerics}{33}{section.3.4}%
+\contentsline {chapter}{\numberline {3}Convex Optimization of Decomposition of Electron-Electron Interaction Hamiltonian Term}{31}{chapter.3}%
+\contentsline {section}{\numberline {3.1}K-Quasi-Local Hamiltonian}{31}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Decomposition of Hamiltonian Term}{32}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Gradient Descent}{33}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Gate Count Analysis}{33}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Numerics}{33}{section.3.5}%
 \contentsline {chapter}{\numberline {4}Conclusion}{35}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Directions for Further Work}{35}{section.4.1}%
 \contentsline {chapter}{\numberline {A}Quantum Circuit Diagrams}{37}{appendix.A}%

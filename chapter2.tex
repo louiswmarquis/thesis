@@ -156,9 +156,7 @@ Once the phase has been applied, it is necessary to uncompute the values $\tilde
 
 The controlled constant addition in \ref{fig: add} requires $\frac{m}{2} - 1$ ancilla qubits (in addition to the target register) and its gate count depends on the values of $[w]_j$. At maximum, the gate count is $1.5m - 5$ Toffolis and $2.5m - 7$ CNOTs.
 
-Next, we wish to establish an upper bound on the number of gates in the circuit in \ref{fig: squaring}. Observe that most of the gates have both a control on $\ket{w}_j$ and a control on a different qubit in $\ket{w}$, which is iterated. For some of these gates, the two controls will be the same qubit, and therefore is treated as one control. For simplicity of calculation, we will ignore that special case and treat it as two separate control qubits, since we only need an upper bound.
-
-With this simplification, we observe that for each $\ket{z}_{j + 2}, ..., \ket{z}_{m - 1}$, there are $8$ Toffolis. There are $4$ additional Toffolis ($2$ for the highest bit and $2$ at the beginning and end). This is a total of $8(m - j - 2) + 4$ Toffolis in \ref{fig: squaring}.
+Next, we wish to establish an upper bound on the number of gates in the circuit in \ref{fig: squaring}. Observe that for each $\ket{z}_{j + 2}, ..., \ket{z}_{m - 1}$, there are $8$ Toffolis \footnote{When iterating through each of the qubits in $\ket{w}$, inevitably one or more of these qubits will be $\ket{w}_j$. One of the gates in an iteration is a Toffoli controlled by $\ket{w}_j$ and the iterated qubit, which in this case is itself. Then that Toffoli will actually be a CNOT with a lower cost. We ignore this edge case because we only need an upper bound}. There are $4$ additional Toffolis ($2$ for the highest bit and $2$ at the beginning and end). This is a total of $8(m - j - 2) + 4$ Toffolis in \ref{fig: squaring}.
 
 Since the squaring protocol performs \ref{fig: squaring} for each $j \in [0, \frac{m}{2})$, we can calculate the total number of Toffolis in the squaring protocol.
 
@@ -288,33 +286,32 @@ In fault-tolerant computing, the bottleneck is the number of T-gates. In this fr
 
 The asymptotic advantage of the coherent method ($O(n^3\log_2{n})$) over the naive method ($O(n^4)$) only results in an overall asymptotic advantage if $U(R^{(r)})$ can also be implemented in with sub-quadratic gate complexity. \cite{FSN} decomposed $U(R^{(r)})$ into a series of at most ${n \choose 2}$ two-orbital basis rotations, each implementable in a constant number of quantum gates. However, for certain types of Hamiltonians, the necessary number of such rotations is often much smaller.
 
-The minimum number of rotation is $0$, which occurs when $R^{(r)} = I$; that is, when $Q^{(r)}$ is already diagonal. However, if this is the case for all $r \in [0, n^2)$ in $\hat{H}_2$, then all of the terms in $\hat{H}_2$ can be combined into $n^2$ terms as shown in \eqref{eq: collapse}, resulting in a $O(n^2)$ complexity for $\hat{H}_2$, in which case the coherent method would not be useful.
+The minimum number of rotation is $0$, which occurs when $R^{(r)} = I$; that is, when $Q^{(r)}$ is already diagonal. However, if this is the case for all $r \in [0, n^2)$ in $\hat{H}_{2e}$, then all of the terms in $\hat{H}_{2e}$ can be combined into $n^2$ terms as shown in \eqref{eq: collapse}, resulting in a $O(n^2)$ complexity for $\hat{H}_{2e}$, in which case the coherent method would not be useful.
 
 \begin{equation}
     \begin{split}
-        \hat{H}_2 &= \frac{1}{2}\sum_r\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
+        \hat{H}_{2e} &= \frac{1}{2}\sum_r\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
         &= \frac{1}{2}\sum_r\lambda_r(\sum_{s} \lambda'^{(r)}_sn_s)^2 \\
         &= \frac{1}{2}\sum_{s, s'} n_sn_{s'}\sum_r\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'}
     \end{split}
     \label{eq: collapse}
 \end{equation}
 
-In fact, more generally, if $R^{(r)}$ is invariant across $r$, all of the different $\tilde{n}^{(r)}_s$ are in the same basis across $r$. Then the basis rotations $U(R^{(r)})$ and $U(R^{(r)})^\dag$ can be performed at the beginning and end without the need to switch bases between $r$. Then $\hat{H}_2$ combines into $O(n^2)$ terms in \eqref{eq: collapse2}, just like in \eqref{eq: collapse}. Since $U(R^{(r)})$ uses $O(n^2)$ but is only performed twice, the total complexity is $O(n^2)$ for $\hat{H}_2$, and the coherent would not be useful in this case either.
+In fact, more generally, if $R^{(r)}$ is invariant across $r$, all of the different $\tilde{n}^{(r)}_s$ are in the same basis across $r$. Then the basis rotations $U(R^{(r)})$ and $U(R^{(r)})^\dag$ can be performed at the beginning and end without the need to switch bases between $r$. Then $\hat{H}_{2e}$ combines into $O(n^2)$ terms in \eqref{eq: collapse2}, just like in \eqref{eq: collapse}. Since $U(R^{(r)})$ uses $O(n^2)$ but is only performed twice, the total complexity is $O(n^2)$ for $\hat{H}_{2e}$, and the coherent would not be useful in this case either.
 
 \begin{equation}
     \begin{split}
-        \hat{H}_2 &= \frac{1}{2}\sum_r\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}_s\right)^2 \\
+        \hat{H}_{2e} &= \frac{1}{2}\sum_r\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}_s\right)^2 \\
         &= \frac{1}{2}\sum_{s, s'} \tilde{n}_s\tilde{n}_{s'}\sum_r\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'}
     \end{split}
     \label{eq: collapse2}
 \end{equation}
 
-Moreover, if all the $Q^{(r)}$ are diagonally dominated (the magnitude of the terms on its diagonal dominates over the non-diagonal terms) or if they have very few ($O(\sqrt{n})$) nonzero off-diagonal elements, then the expansion of $\hat{H}_2$ also contains a reduced number of terms that make the coherent method unnecessary.
+Moreover, if all the $Q^{(r)}$ are diagonally dominated (the magnitude of the terms on its diagonal dominates over the non-diagonal terms) or if they have very few ($O(\sqrt{n})$) nonzero off-diagonal elements, then the expansion of $\hat{H}_{2e}$ also contains a reduced number of terms that make the coherent method unnecessary.
 
-For the coherent method to be useful, all of the $U(R^{(r)})$ should decompose to $o(n^2)$ rotations, but $Q^{(r)}$ should have $\Omega(\sqrt{n})$ non-zero terms. This opens an area for future work to address: identifying useful Hamiltonians that satisfy these conditions.
+For the coherent method to be useful, all of the $U(R^{(r)})$ should decompose to $o(n^2)$ rotations, but $Q^{(r)}$ should have $\omega(\sqrt{n})$ non-zero terms (not a tight bound). This opens an area for future work to address: identifying useful Hamiltonians that satisfy these conditions.
 
-One example we will focus on is the case where $h_{ijkl}$ is nonzero only if $|i - l|, |j - k| \leq K$ for some positive integer $K$. In such a Hamiltonian, all $Q^{(r)}$ are band matrices with bandwidth $K$, so it has $\Theta(Kn)$ nonzero elements. Meanwhile, its bandwidth $K$ guarantees that $U(R^{(r)})$ can be decomposed into $O(Kn)$ rotations. This is an ideal example of a class of Hamiltonians for which the coherent method is useful.
-\textcolor{red}{This is not the exact same as a k-local Hamiltonian. I think Aram and I were thinking of different things. I need to clarify with him.}
+In the next section, we will focus on one family of Hamiltonians that satisfy these conditions.
 
 %We need it to be O(n) rotations but O(n^2) nonzeros in R.
 

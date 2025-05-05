@@ -5,7 +5,63 @@
 
 \chapter{Convex Optimization of Decomposition of Electron-Electron Interaction Hamiltonian Term}
 
+\section{K-Quasi-Local Hamiltonian}
+
+\textcolor{red}{This is not the exact same as a k-local Hamiltonian. I think Aram and I were thinking of different things. I need to clarify with him.}
+
+Define an electronic structure Hamiltonian from qeqref{eq: H3} as $K$-quasi-local if it can be expressed in the following form.
+
+\begin{equation}
+    \begin{split}
+        \hat{H} &= \sum_{i, j} h_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia^\dag_ja_ka_l  \\
+        \text{such that } h_{ijkl} &= 0 \text{ if } \min(\max(|i - l|, |j - k|), \max(|i - k|, |j - l|)) > K
+    \end{split}
+\end{equation}
+
+Any $K$-quasi-local Hamiltonian can be rewritten in the following more restrictive form. This is because, for an index $(i, j, k, l)$ such that $\max(|i - k|, |j - l|) > K$ but $\max(|i - l|, |j - k|) \leq K$, $h_{ijkl}a^\dag_ia^\dag_ja_la_k = -h_{ijkl}a^\dag_ia^\dag_ja_ka_l$, which can be combined with the term indexed $(i, j, l, k)$, which satisfies the more restrictive condition.
+
+\begin{equation}
+    \begin{split}
+        \hat{H} &= \sum_{i, j} h_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} \bar{h}_{ijkl}a^\dag_ia^\dag_ja_ka_l \\
+        \text{such that } \bar{h}_{ijkl} &= 0 \text{ if } \max(|i - l|, |j - k|) > K
+    \end{split}
+\end{equation}
+
+Then, accordingly with \eqref{eq: H3}, this Hamiltonian can be rearranged, and accordingly with \eqref{eq: DF}, the second term can be factored. The condition does not change.
+
+\begin{equation}
+    \begin{split}
+        \hat{H} &= \sum_{i, j} h'_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h'_{iljk}a^\dag_ia_la^\dag_ja_k \\
+        &= \sum_{i, j} h'_{ij}a^\dag_ia_j + \frac{1}{2}\sum_r\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
+        \text{such that } h'_{iljk} &= 0 \text{ if } \max(|i - l|, |j - k|) > K
+    \end{split}
+\end{equation}
+
+Observe that the condition implies that, for all $r$, $Q^{(r)}_{i, j} = 0$ if $|i - j| > K$. This means that all $Q^{(r)}$ are band matrices with bandwidth $K$.
+
+\begin{equation}
+    Q^{(r)} = \begin{bmatrix}
+        Q^{(r)}_{0, 0} & \cdots & Q^{(r)}_{0, K} & 0 & \cdots & \cdots & \cdots & \cdots & 0 \\
+        \vdots & \ddots & \vdots & Q^{(r)}_{1, K + 1} & \ddots & & & & \vdots \\
+        Q^{(r)}_{K, 0} & \cdots & \ddots & \ddots & \ddots & \ddots & & & 0 \\
+        0 & Q^{(r)}_{K + 1, 1} & \ddots & \ddots & \ddots & \ddots & \ddots & & 0 \\
+        \vdots & \ddots & \ddots & \ddots & \ddots & \ddots & \ddots & \ddots & \vdots \\
+        \vdots & & \ddots & \ddots & \ddots & \ddots & \ddots & Q^{(r)}_{n - K - 2, n - 2} & 0 \\
+        \vdots & & & \ddots & \ddots & \ddots & \ddots & \cdots & Q^{(r)}_{n - K - 1, n - 1} \\
+        \vdots & & & & \ddots & Q^{(r)}_{n - 2, n - K - 2} & \vdots & \ddots & \vdots \\
+        0 & \cdots & \cdots & \cdots & \cdots & 0 & Q^{(r)}_{n - 1, n - K - 1} & \cdots & Q^{(r)}_{n - 1, n - 1}
+    \end{bmatrix}
+\end{equation}
+
+If $Q^{(r)}$ has bandwidth $K$, this guarantees $R^{(r)}$ can be decomposed into at most $Kn$ Givens rotations, corresponding to at most $O(Kn)$ two-qubit basis rotations comprising $U(R^{(r)})$. \textcolor{red}{PROOF?} Meanwhile, $Q^{(r)}$ has $\Omega(Kn)$ nonzero terms, so the terms cannot combine in the way of \eqref{eq: collapse} and \eqref{eq: collapse2}. Therefore, a $K$-quasi-local Hamiltonian can be expressed as a sum of $n^2$ terms, each simulable with $O(n(\log{n} + K))$ gates using the coherent method. If $K = O(\log{n})$, the total number of gates in a single Trotter iteration over these terms is $O(n^3\log{n})$, beating the $O(n^4)$ complexity of a brute force method.
+
 \section{Decomposition of Hamiltonian Term}
+
+We can expand our usage of this coherent method to electronic structure Hamiltonians that are $K$-quasi-locally dominant. These are Hamiltonians that are not necessarily $K$-quasi-local but can be expressed as a sum of a $K$-quasi-local term and a relatively small non-$K$-quasi-local term.
+
+
+
+
 \section{Gradient Descent}
 \section{Gate Count Analysis}
 \section{Numerics}
