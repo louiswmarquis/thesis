@@ -2406,8 +2406,7 @@
     <bcf:citekey order="8" intorder="1">Rz</bcf:citekey>
     <bcf:citekey order="9" intorder="1">Gate_Count</bcf:citekey>
     <bcf:citekey order="10" intorder="1">Gate_Count</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">gates</bcf:citekey>
-    <bcf:citekey order="12" intorder="1">FSN</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">FSN</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

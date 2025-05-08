@@ -5,6 +5,41 @@
 
 \chapter{Convex Optimization of Decomposition of Electron-Electron Interaction Hamiltonian Term}
 
+\section{Lower Bounds on Rotation Complexity}
+
+only results in an overall asymptotic advantage if $U(R^{(r)})$ can also be implemented in with sub-quadratic gate complexity. \cite{FSN} decomposed $U(R^{(r)})$ into a series of at most ${n \choose 2}$ two-orbital basis rotations, each implementable in a constant number of quantum gates. However, for certain types of Hamiltonians, the necessary number of such rotations is often much smaller.
+
+The minimum number of rotation is $0$, which occurs when $R^{(r)} = I$; that is, when $Q^{(r)}$ is already diagonal. However, if this is the case for all $r \in [0, n^2)$ in $\hat{H}_{2e}$, then all of the terms in $\hat{H}_{2e}$ can be combined into $n^2$ terms as shown in \eqref{eq: collapse}, resulting in a $O(n^2)$ complexity for $\hat{H}_{2e}$, in which case the coherent method would not be useful.
+
+\begin{equation}
+    \begin{split}
+        \hat{H}_{2e} &= \frac{1}{2}\sum_r\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
+        &= \frac{1}{2}\sum_r\lambda_r(\sum_{s} \lambda'^{(r)}_sn_s)^2 \\
+        &= \frac{1}{2}\sum_{s, s'} n_sn_{s'}\sum_r\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'}
+    \end{split}
+    \label{eq: collapse}
+\end{equation}
+
+In fact, more generally, if $R^{(r)}$ is invariant across $r$, all of the different $\tilde{n}^{(r)}_s$ are in the same basis across $r$. Then the basis rotations $U(R^{(r)})$ and $U(R^{(r)})^\dag$ can be performed at the beginning and end without the need to switch bases between $r$. Then $\hat{H}_{2e}$ combines into $O(n^2)$ terms in \eqref{eq: collapse2}, just like in \eqref{eq: collapse}. Since $U(R^{(r)})$ uses $O(n^2)$ but is only performed twice, the total complexity is $O(n^2)$ for $\hat{H}_{2e}$, and the coherent would not be useful in this case either.
+
+\begin{equation}
+    \begin{split}
+        \hat{H}_{2e} &= \frac{1}{2}\sum_r\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}_s\right)^2 \\
+        &= \frac{1}{2}\sum_{s, s'} \tilde{n}_s\tilde{n}_{s'}\sum_r\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'}
+    \end{split}
+    \label{eq: collapse2}
+\end{equation}
+
+Moreover, if all the $Q^{(r)}$ are diagonally dominated (the magnitude of the terms on its diagonal dominates over the non-diagonal terms) or if they have very few ($O(\sqrt{n})$) nonzero off-diagonal elements, then the expansion of $\hat{H}_{2e}$ also contains a reduced number of terms that make the coherent method unnecessary.
+
+For the coherent method to be useful, all of the $U(R^{(r)})$ should decompose to $o(n^2)$ rotations, but $Q^{(r)}$ should have $\omega(\sqrt{n})$ non-zero terms (not a tight bound). This opens an area for future work to address: identifying useful Hamiltonians that satisfy these conditions.
+
+In the next section, we will focus on one family of Hamiltonians that satisfy these conditions.
+
+%We need it to be O(n) rotations but O(n^2) nonzeros in R.
+
+%Example? k-local.
+
 \section{K-Range Hamiltonian}
 
 Define an electronic structure Hamiltonian from \eqref{eq: H3} as $K$-range if its values $h_{ijkl}$ satisfy the following condition.

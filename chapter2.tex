@@ -225,28 +225,28 @@ We can propagate both errors into the overall error $||U_A^{(r)} - \tilde{U}_A^{
     \end{split}
 \end{equation}
 
-We want $m$ to be large enough and $\epsilon_z$ small enough that this quantity is at most $\epsilon$. To make the calculations simpler, we can restrict both terms to at most $\frac{\epsilon}{2}$.
+We want $m$ to be large enough and $\epsilon_z$ small enough that this quantity is at most $\epsilon$. We can calculate the thresholds $m^*$ and $\epsilon_z^*$ above which this is the case. To make the calculations simpler, we can restrict both terms to at most $\frac{\epsilon}{2}$.
 
 \begin{equation}
     \begin{split}
         \frac{\epsilon}{2} &\geq n\frac{|\lambda_r| Y_r^2\Delta t}{2^{\frac{m}{2} - 4}}\max\left(1, \frac{n}{2^{\frac{m}{2} - 2}}\right) \\
-        \implies m_{min} &\geq \max(2\log_2\left(n\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) + 4, \log_2\left(n^2\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) + 6) \\
+        \implies m^* &\approx \max(2\log_2\left(n\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) + 4, \log_2\left(n^2\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) + 6) \\
         &= 2\log_2(n) + 2\log_2\left(\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) + 4 \label{eq: m_min}
     \end{split}
 \end{equation}
 
-We choose the first input of the $\max$. Both options are asymptotically the same, so we choose the one with the larger constant factor to establish an upper bound on the threshold. If it turns out that $\log_2\left(n^2\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) < 2$, then $m_{min}$ won't be much larger than $2\log_2(n)$ anyway.
+We choose the first input of the $\max$. Both options are asymptotically the same, so we choose the one with the larger constant factor to establish an upper bound on the threshold. If it turns out that $\log_2\left(n^2\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) < 2$, then $m^*$ won't be much larger than (and may be less than) $2\log_2(n)$ anyway.
 
-Clearly the minimum value of $m$ is asymptotically logarithmic in $n$, as long as $|\lambda_r|$ and $Y_r$ are not exponential in $n$ (in reality they are sublinear). Referring back to \eqref{eq: toffolis}, the total asymptotic gate cost of $\tilde{U}_A^{(r)}$ is therefore $O(mn + m^2) = O(n\log{n} + (\log{n})^2) = O(n\log{n})$.
+Clearly $m^*$ is asymptotically logarithmic in $n$, as long as $|\lambda_r|$ and $Y_r$ are not exponential in $n$ (in reality they are sublinear). Referring back to \eqref{eq: toffolis}, the total asymptotic gate cost of $\tilde{U}_A^{(r)}$ is therefore $O(mn + m^2) = O(n\log{n} + (\log{n})^2) = O(n\log{n})$.
 
-$m$ is also logarithmic in $\Delta t$ and in $\frac{1}{\epsilon}$.
+$m^*$ is also logarithmic in $\Delta t$ and in $\frac{1}{\epsilon}$.
 
-Meanwhile, the restriction on $m\epsilon_z$ allows for lower bound on $\epsilon_z$.
+Meanwhile, the restriction on $m\epsilon_z$ leads to a threshold $\epsilon_z^*$.
 
 \begin{equation}
     \begin{split}
         \frac{\epsilon}{2} &\geq m\epsilon_z \\
-        \implies \epsilon_z &\geq \frac{\epsilon}{2m} \label{eq: e_z}
+        \implies \epsilon_z^* &= \frac{\epsilon}{2m} \label{eq: e_z}
     \end{split}
 \end{equation}
 
@@ -277,7 +277,7 @@ In our implementation of $\tilde{U}_A^{(r)}$, there are $2n$ controlled constant
     \end{split}
 \end{equation}
 
-Given $\epsilon_z$, each $R_z$ gate requires $10 + 4\log_2(\frac{1}{\epsilon_z})$ T-gates using the implementation in \cite{Rz}. There are $m$ $R_z$ gates in $\tilde{U}_A^{(r)}$. We can use the minimum $\epsilon_z$ calculated in \eqref{eq: e_z} to upper-bound this number of $T$s in terms of $m$ and $\epsilon$.
+Given $\epsilon_z$, each $R_z$ gate requires $10 + 4\log_2(\frac{1}{\epsilon_z})$ T-gates using the implementation in \cite{Rz}. There are $m$ $R_z$ gates in $\tilde{U}_A^{(r)}$. We can use the threshold $\epsilon_z^*$ calculated in \eqref{eq: e_z} to upper-bound this $T$-count in terms of $m$ and $\epsilon$.
 
 \begin{equation}
     \begin{split}
@@ -297,7 +297,7 @@ A Toffoli gate can be constructed from $2$ Hadamard gates, $6$ CNOT gates, and $
     \end{split}
 \end{equation}
 
-We can substitute the asymptotic threshold $m = O(\log_2(\frac{n}{\epsilon}))$ from \eqref{eq: m_min} to obtain an asymptotic $\tilde{N}_{T}$ in terms of $n$ and $\frac{1}{\epsilon}$.
+We can substitute the asymptotic threshold $m^* = O(\log_2(\frac{n}{\epsilon}))$ from \eqref{eq: m_min} to obtain an asymptotic $\tilde{N}_{T}$ in terms of $n$ and $\frac{1}{\epsilon}$.
 
 \begin{equation}
     \begin{split}
@@ -310,30 +310,33 @@ We can substitute the asymptotic threshold $m = O(\log_2(\frac{n}{\epsilon}))$ f
 
 The gate cost of this $\tilde{U}_A^{(r)}$ is asympotically lower in $n$ than the $O(n^2\log_2(\frac{n}{\epsilon}))$ cost of the expansion method in \eqref{eq: expansionTs}, which is a significant advantage. It's useful to get a (very rough) numerical estimate of the gate counts to understand the scale ($n$) at which the advantage appears.
 
-The value of $\Delta t$ depends on the particular Trotter-like algorithm used. A very loose upper bound for $\Delta t$ is $t$ itself. \cite{Gate_Count} uses $t = 6000 \frac{1}{E_h}$ and $\epsilon = 10^{-6}$. We decomposed Hamiltonians of hydrogen chain systems for various $n$ ($n$ is the number of $H$s and the number of orbitals) to obtain values of $|\lambda_r|$ and $Y_r$. It turns out for these systems that $|\lambda_r|Y_r^2 \approx n\log_2{n} E_h$.
+The value of $\Delta t$ depends on the particular Trotter-like algorithm used. An obvious but very loose upper bound for $\Delta t$ is $t$ itself. \cite{Gate_Count} establishes $t = 6000 \frac{1}{E_h}$ and $\epsilon = 10^{-6}$ as typical values. For estimates of $|\lambda_r|Y_r^2$, we decomposed Hamiltonians of hydrogen chain systems for various $n$ ($n$ is the number of $H$s and the number of orbitals) to obtain values of $|\lambda_r|$ and $Y_r$. It turns out for these systems that $|\lambda_r|Y_r^2 \approx n\log_2{n} E_h$.
 
 \begin{equation}
     \begin{split}
-        m_{min} &\leq 2\log_2(n) + 2\log_2\left(\frac{|\lambda_r|Y_r^2 t}{\epsilon}\right) + 3 \\
-        &\leq 2\log_2(n) + 2\log_2\left(\frac{n\log_2{n}\times 6000}{10^{-6}}\right) + 3 \\
-        &\approx 4\log_2(n) + 2\log_2(\log_2(n)) + 68
+        m^*_{H} &\approx 2\log_2(n) + 2\log_2\left(\frac{|\lambda_r|Y_r^2 t}{\epsilon}\right) + 4 \\
+        &\approx 2\log_2(n) + 2\log_2\left(\frac{n\log_2{n}\times 6000}{10^{-6}}\right) + 4 \\
+        &\approx 4\log_2(n) + 2\log_2(\log_2(n)) + 69
     \end{split}
 \end{equation}
 
-In practice, $\Delta << t$, so $t$ is not a useful order of magnitude for $\Delta t$. \cite{Gate_Count} also mentions a value $\Delta t = 0.01 \frac{1}{E_h}$ which may give a more accurate sense of the scale of $\Delta t$.
+In practice, $\Delta << t$, so $t$ is not a useful order of magnitude for $\Delta t$. \cite{Gate_Count} also mentions a value $\Delta t = 0.01 \frac{1}{E_h}$ which is probably closer to the actual of $\Delta t$.
 
 \begin{equation}
     \begin{split}
-        m_{min} \leq 2\log_2(n) + 2\log_2\left(\frac{n\log_2{n}\times 0.01}{10^{-6}}\right) + 3 \approx 4\log_2(n) + 2\log_2(\log_2(n)) + 17
+        m^*_{H} \approx 2\log_2(n) + 2\log_2\left(\frac{n\log_2{n}\times 0.01}{10^{-6}}\right) + 4 \approx 4\log_2(n) + 2\log_2(\log_2(n)) + 18
     \end{split}
 \end{equation}
 
-In non-fault-tolerant computing, quantum gate cost is often measured by the number of two-qubit gates (in our case, CNOTs). So we can substitute this function $m(n)$ back into \eqref{eq: cnots} and plot $\tilde{N}_{CNOT}$ as a function of $n$. We can then compare $\tilde{N}_{CNOT}$ with $N_{CNOT} = 2{n \choose 2}$, the number of CNOTs necessary to implement \eqref{eq: expansion} (a controlled Z-rotation can be done with $2$ CNOTs and two $P$ gates) \cite{gates}. It turns out that $\tilde{N}_{CNOT} = N_{CNOT}$ when $n = 3023.3$, above which $\tilde{N}_{CNOT} < N_{CNOT}$.
+\begin{equation}
+    \begin{split}
+        \tilde{N}_{T} &= 21m(n)n - 70n + 98m(n)^2 - 18m(n) + 4m(n)\log_2(\frac{2m(n)}{\epsilon})
+    \end{split}
+\end{equation}
 
-\textcolor{red}{I will add this plot later}
+We plot this $T$-count of the ``coherent method'' as well as that of the ``expansion method'' in \eqref{eq: expansionTs} as functions of $n$. It turns out that the expansion method surpasses the coherent method in $T$-count at approxmiately $n \approx 122$. At $n = 122$, the coherent method requires about $3.94 * 10^5$ $T$-gates and has $m = 52$, while the expansion method requires about $4.00 * 10^5$ $T$-gates.
 
-In fault-tolerant computing, the bottleneck is the number of T-gates. In this framework, only Clifford gates and T gates are allowed, and gates not in this category, such as $P$ gates, must be approximated by decomposing it into Clifford and T gates. \textcolor{red}{I need to ask Aram how exactly this happens and how I should calculate this. Because there are P gates in both methods. Also there was that thing about the log(1/eps) error which I didn't exactly catch.}
-
+\textcolor{red}{INSERT PLOT}
 
 %When is O(n log n) really better than n^2/2?
 
@@ -341,38 +344,9 @@ In fault-tolerant computing, the bottleneck is the number of T-gates. In this fr
 
 \section{Discussion}
 
-The asymptotic advantage of the coherent method ($O(n^3\log_2{n})$) over the naive method ($O(n^4)$) only results in an overall asymptotic advantage if $U(R^{(r)})$ can also be implemented in with sub-quadratic gate complexity. \cite{FSN} decomposed $U(R^{(r)})$ into a series of at most ${n \choose 2}$ two-orbital basis rotations, each implementable in a constant number of quantum gates. However, for certain types of Hamiltonians, the necessary number of such rotations is often much smaller.
+The asymptotic advantage of the coherent method ($O(n^3\log_2{n})$) over the expansion method ($O(n^4)$) is only useful in $U_A^{(r)}$ if the number of $T$ gates in $U_R(R^{(r)})$ can also be reduced from $O(n^2\log_2(\frac{n}{\epsilon}))$. Otherwise, the latter complexity dominates and maintains the overall complexity unchanged.
 
-The minimum number of rotation is $0$, which occurs when $R^{(r)} = I$; that is, when $Q^{(r)}$ is already diagonal. However, if this is the case for all $r \in [0, n^2)$ in $\hat{H}_{2e}$, then all of the terms in $\hat{H}_{2e}$ can be combined into $n^2$ terms as shown in \eqref{eq: collapse}, resulting in a $O(n^2)$ complexity for $\hat{H}_{2e}$, in which case the coherent method would not be useful.
-
-\begin{equation}
-    \begin{split}
-        \hat{H}_{2e} &= \frac{1}{2}\sum_r\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
-        &= \frac{1}{2}\sum_r\lambda_r(\sum_{s} \lambda'^{(r)}_sn_s)^2 \\
-        &= \frac{1}{2}\sum_{s, s'} n_sn_{s'}\sum_r\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'}
-    \end{split}
-    \label{eq: collapse}
-\end{equation}
-
-In fact, more generally, if $R^{(r)}$ is invariant across $r$, all of the different $\tilde{n}^{(r)}_s$ are in the same basis across $r$. Then the basis rotations $U(R^{(r)})$ and $U(R^{(r)})^\dag$ can be performed at the beginning and end without the need to switch bases between $r$. Then $\hat{H}_{2e}$ combines into $O(n^2)$ terms in \eqref{eq: collapse2}, just like in \eqref{eq: collapse}. Since $U(R^{(r)})$ uses $O(n^2)$ but is only performed twice, the total complexity is $O(n^2)$ for $\hat{H}_{2e}$, and the coherent would not be useful in this case either.
-
-\begin{equation}
-    \begin{split}
-        \hat{H}_{2e} &= \frac{1}{2}\sum_r\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}_s\right)^2 \\
-        &= \frac{1}{2}\sum_{s, s'} \tilde{n}_s\tilde{n}_{s'}\sum_r\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'}
-    \end{split}
-    \label{eq: collapse2}
-\end{equation}
-
-Moreover, if all the $Q^{(r)}$ are diagonally dominated (the magnitude of the terms on its diagonal dominates over the non-diagonal terms) or if they have very few ($O(\sqrt{n})$) nonzero off-diagonal elements, then the expansion of $\hat{H}_{2e}$ also contains a reduced number of terms that make the coherent method unnecessary.
-
-For the coherent method to be useful, all of the $U(R^{(r)})$ should decompose to $o(n^2)$ rotations, but $Q^{(r)}$ should have $\omega(\sqrt{n})$ non-zero terms (not a tight bound). This opens an area for future work to address: identifying useful Hamiltonians that satisfy these conditions.
-
-In the next section, we will focus on one family of Hamiltonians that satisfy these conditions.
-
-%We need it to be O(n) rotations but O(n^2) nonzeros in R.
-
-%Example? k-local.
+In Chapter 3, we explore chemical systems and Hamiltonians for which it is the case that $U_R(R^{(r)})$ can be decomposed ``easily'' as such.
 
 
 %%%%%%%%%%%%%%%% end table %%%%%%%%%%%%%%%%%%% 
