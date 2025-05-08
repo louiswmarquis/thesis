@@ -5,11 +5,9 @@
 
 \chapter{Convex Optimization of Decomposition of Electron-Electron Interaction Hamiltonian Term}
 
-\section{K-Quasi-Local Hamiltonian}
+\section{K-Range Hamiltonian}
 
-\textcolor{red}{This is not the exact same as a k-local Hamiltonian. I think Aram and I were thinking of different things. I need to clarify with him.}
-
-Define an electronic structure Hamiltonian from qeqref{eq: H3} as $K$-quasi-local if it can be expressed in the following form.
+Define an electronic structure Hamiltonian from \eqref{eq: H3} as $K$-range if its values $h_{ijkl}$ satisfy the following condition.
 
 \begin{equation}
     \begin{split}
@@ -18,7 +16,7 @@ Define an electronic structure Hamiltonian from qeqref{eq: H3} as $K$-quasi-loca
     \end{split}
 \end{equation}
 
-Any $K$-quasi-local Hamiltonian can be rewritten in the following more restrictive form. This is because, for an index $(i, j, k, l)$ such that $\max(|i - k|, |j - l|) > K$ but $\max(|i - l|, |j - k|) \leq K$, $h_{ijkl}a^\dag_ia^\dag_ja_la_k = -h_{ijkl}a^\dag_ia^\dag_ja_ka_l$, which can be combined with the term indexed $(i, j, l, k)$, which satisfies the more restrictive condition.
+Any $K$-range Hamiltonian can be rewritten in the following more restrictive form. This is because, for an index $(i, j, k, l)$ such that $\max(|i - k|, |j - l|) > K$ but $\max(|i - l|, |j - k|) \leq K$, we can substitute $h_{ijkl}a^\dag_ia^\dag_ja_la_k = -h_{ijkl}a^\dag_ia^\dag_ja_ka_l$. This term satisfies the more restrictive condition and can be combined with the original term indexed $(i, j, l, k)$. From this process of substitutions and combination we get new terms $\bar{h}_{ijkl}$.
 
 \begin{equation}
     \begin{split}
@@ -33,7 +31,7 @@ Then, accordingly with \eqref{eq: H3}, this Hamiltonian can be rearranged, and a
     \begin{split}
         \hat{H} &= \sum_{i, j} h'_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h'_{iljk}a^\dag_ia_la^\dag_ja_k \\
         &= \sum_{i, j} h'_{ij}a^\dag_ia_j + \frac{1}{2}\sum_r\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
-        \text{such that } h'_{iljk} &= 0 \text{ if } \max(|i - l|, |j - k|) > K
+        \text{such that } h'_{iljk} &= \bar{h}_{ijkl} = 0 \text{ if } \max(|i - l|, |j - k|) > K
     \end{split}
 \end{equation}
 
@@ -53,13 +51,21 @@ Observe that the condition implies that, for all $r$, $Q^{(r)}_{i, j} = 0$ if $|
     \end{bmatrix}
 \end{equation}
 
-If $Q^{(r)}$ has bandwidth $K$, this guarantees $R^{(r)}$ can be decomposed into at most $Kn$ Givens rotations, corresponding to at most $O(Kn)$ two-qubit basis rotations comprising $U(R^{(r)})$. \textcolor{red}{PROOF?} Meanwhile, $Q^{(r)}$ has $\Omega(Kn)$ nonzero terms, so the terms cannot combine in the way of \eqref{eq: collapse} and \eqref{eq: collapse2}. Therefore, a $K$-quasi-local Hamiltonian can be expressed as a sum of $n^2$ terms, each simulable with $O(n(\log{n} + K))$ gates using the coherent method. If $K = O(\log{n})$, the total number of gates in a single Trotter iteration over these terms is $O(n^3\log{n})$, beating the $O(n^4)$ complexity of a brute force method.
+If $Q^{(r)}$ has bandwidth $K$, this guarantees $R^{(r)}$ can be decomposed into at most $Kn$ Givens rotations, corresponding to at most $O(Kn)$ two-qubit basis rotations comprising $U(R^{(r)})$. \textcolor{red}{PROOF?} Meanwhile, $Q^{(r)}$ has $\Omega(Kn)$ nonzero terms, so the terms cannot combine in the way of \eqref{eq: collapse} and \eqref{eq: collapse2}. Therefore, a $K$-range Hamiltonian can be expressed as a sum of $n^2$ terms, each simulable with $O(n(\log{n} + K))$ gates using the coherent method. We see that the coherent method is therefore particularly useful on such low-range Hamiltonians. For example, if $K = O(\log{n})$, the total number of gates in a single Trotter iteration over these terms is $O(n^3\log{n})$, beating the $O(n^4)$ complexity of a brute force method.
 
 \section{Decomposition of Hamiltonian Term}
 
-We can expand our usage of this coherent method to electronic structure Hamiltonians that are $K$-quasi-locally dominant. These are Hamiltonians that are not necessarily $K$-quasi-local but can be expressed as a sum of a $K$-quasi-local term and a relatively small non-$K$-quasi-local term.
+We can expand our usage of this coherent method to electronic structure Hamiltonians that are ``low-rangedly dominant''. These are Hamiltonians that are not themselves low-range but can be expressed as a sum of a low-range term $\hat{H}_0$ and a relatively small arbitrary-range term $\Delta \hat{H}$.
 
+\begin{equation}
+    \begin{split}
+        \hat{H} &= \hat{H}_0 + \Delta \hat{H} \\
+        ||\Delta \hat{H}|| &\ll ||\hat{H}_0|| \\
+    \end{split}
+    \label{eq: LRD}
+\end{equation}
 
+$e^{-i\hat{H}_0t}$ is (asymptotically) cheaper, while $e^{-i\Delta \hat{H}t}$ is asymptotically more expensive but it affects the output to a lesser extent (since it's smaller). The idea, then, is to use a randomized Hamiltonian simulation algorithm such as qDRIFT, which samples terms more if they have a higher weight (operator norm). In simulating \eqref{eq: LRD}, the algorithm would perform $e^{-i\hat{H}_0t}$ much more frequently (asymptotically) than $e^{-i\Delta \hat{H}t}$, which is good because the former is cheaper. If the operator norm discrepancy $||\Delta \hat{H}|| \ll ||\hat{H}_0||$ is large enough, $\Delta \hat{H}$ will not contribute too much to the overall cost, while still being performed enough times to simulate $\hat{H}$ precisely.
 
 
 \section{Gradient Descent}

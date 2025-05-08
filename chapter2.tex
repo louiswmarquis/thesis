@@ -5,16 +5,10 @@
 
 \chapter{Quantum Arithmetic Circuit Design for Double-Factorized Electronic Structure Hamiltonian Simulation}
 
-We now propose and analyze a quantum circuit that approximately simulates $U_A^{(r)}$ from \eqref{eq: brute}.
+We now propose and analyze a quantum circuit that approximately simulates $U_A^{(r)}$ from \eqref{eq: expansion}.
 
 \begin{equation}
     U_A^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2} \label{eq: U_A}
-\end{equation}
-
-Observe that because $U_A^{(r)}$ is comprised of number operators $n_s$, its eigenbasis is simply the Fock basis $\{\ket{\vec{f}}\}_{\vec{f}}$. So when it acts on a Fock state $\ket{\vec{f}}$, its effect is simply a phase shift depending on the bits of $\vec{f}$.
-
-\begin{equation}
-    U_A^{(r)}\ket{\vec{f}} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2}\ket{\vec{f}} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s f_s\right)^2}\ket{\vec{f}}
 \end{equation}
 
 We can substitute the number operator correspondance from \eqref{eq: JWnum} to find the equivalent qubit operator.
@@ -23,7 +17,7 @@ We can substitute the number operator correspondance from \eqref{eq: JWnum} to f
     U_A^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2} \leftrightarrow e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \ket{1}\bra{1}_s\right)^2}
 \end{equation}
 
-As one may expect, this operator does the same thing on a qubit computational basis state $\ket{\vec{x}}$ that $U_A^{(r)}$ does on a Fock state, which is the phase rotation.
+This qubit operator, when acting on a qubit computational basis state $\ket{\vec{x}}$, it simply applies a phase shift that is a function of $\vec{x}$.
 
 \begin{equation}
     e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \ket{1}\bra{1}_s\right)^2}\ket{\vec{x}} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s x_s\right)^2}\ket{\vec{x}}
@@ -32,10 +26,10 @@ As one may expect, this operator does the same thing on a qubit computational ba
 We want to find an efficient way to approximately simulate $U_A^{(r)}$. That is, we want to find an operator $\tilde{U}_A^{(r)}$ that applies the specified phase rotation on $\ket{\vec{x}}$ as precisely as possible and with as few gates as possible. As a reminder, the error (and therefore precision) is measured by the operator norm of the difference in the ideal and approximate operators. $\epsilon$ is a parameter that limits the maximum error of this approximation and it affects the cost of $\tilde{U}_A^{(r)}$. A tighter bound requires more gates to achieve that bound.
 
 \begin{equation}
-    \epsilon \geq ||U_A^{(r)} - \tilde{U}_A^{(r)}|| = ||e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2} - U_A^{(r)}|| \label{eq: error}
+    \epsilon \geq ||U_A^{(r)} - \tilde{U}_A^{(r)}|| = ||e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2} - \tilde{U}_A^{(r)}|| \label{eq: error}
 \end{equation}
 
-\eqref{eq: brute} presented a method that simulated $U_A^{(r)}$ exactly (no error) but it required $O(n^2)$ gates. We now present a $\tilde{U}_A^{(r)}$ that requires $O(n(\log{\frac{n}{\epsilon}})^2)$ gates. The idea is to coherently calculate the phase of the phase rotation on a separate qubit register and use these qubits representing the phase as controls to apply a phase rotation.
+\eqref{eq: expansion} presented a method that simulated $U_A^{(r)}$ exactly (no error) but it required $O(n^2)$ gates. We now present a $\tilde{U}_A^{(r)}$ that requires $O(n\log_2(\frac{n}{\epsilon}) + \log_2(\frac{1}{\epsilon})^2)$ gates. The idea is to coherently calculate the phase of the phase rotation on a separate qubit register and use these qubits representing the phase as controls to apply a phase rotation.
 
 More formally, denote the value of the summation in the phase rotation as $y_r(\vec{x})$.
 
@@ -46,7 +40,7 @@ More formally, denote the value of the summation in the phase rotation as $y_r(\
     \end{split}
 \end{equation}
 
-We begin with a register of $n$ qubits in a Fock state $\ket{\vec{x}}$ and introduce an ancilla register of $\frac{m}{2}$ and another of $m$ qubits, both initalized to zeros. We calculate an approximation $\tilde{y}_r(\vec{x})$ onto the smaller ancilla register. We use the value stored in the smaller register to compute an approximation $\tilde{y}_r(\vec{x})^2$ into the larger register. Then we use values of the $m$ ancilla qubits to rotate the phase by $e^{-i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}}$. Finally, we uncompute the ancilla register and remove them afterwards. These steps comprise the proposed $\tilde{U}_A^{(r)}$.
+We begin with a register of $n$ qubits in a Fock state $\ket{\vec{x}}$ and introduce an ancilla register of $\frac{m}{2}$ and another of $m$ qubits, both initalized to zeros. We calculate an approximation $\tilde{y}_r(\vec{x})$ onto the smaller ancilla register. We use the value stored in the smaller register to compute an approximation $\tilde{y}_r(\vec{x})^2$ into the larger register. Then we use values of the $m$ ancilla qubits to rotate the phase by $e^{-i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}}$. Finally, we uncompute the ancilla register and remove them afterwards. These steps comprise the proposed $\tilde{U}_A^{(r)}$. If we wish to construct this circuit fault-tolerantly (i.e. with Clifford gates and T gates), the \eqref{eq: phase} step (and therefore $\tilde{U}_A^{(r)}$ as a whole) will be an approximation. 
 
 \begin{align}
     \ket{\vec{x}} &\rightarrow \ket{\vec{x}}\ket{0^{\frac{m}{2}}}\ket{0^m} \\
@@ -55,7 +49,8 @@ We begin with a register of $n$ qubits in a Fock state $\ket{\vec{x}}$ and intro
     &\rightarrow e^{-i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\ket{\tilde{y}_r(\vec{x})^2} \label{eq: phase} \\
     &\rightarrow e^{-i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}}\ket{0^{\frac{m}{2}}}\ket{0^m} \\
     &\rightarrow e^{-i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}} \\
-    &= \tilde{U}_A^{(r)}\ket{\vec{x}}
+    &\rightarrow e^{-i\frac{\Delta t}{2}\lambda_r(\sum_s \tilde{\lambda}'^{(r)}_s \ket{1}\bra{1}_s)^2}\ket{\vec{x}} \\
+    &\approx \tilde{U}_A^{(r)}\ket{\vec{x}}
 \end{align}
 
 \section{Summation}
@@ -132,74 +127,58 @@ We now have a register of $m$ qubits in which the $k$th qubit has state $\ket{[\
     \tilde{y}_r(\vec{x})^2 = \sum_k (-1)^{\delta_{k, m - 1}}[\tilde{y}_r(\vec{x})^2]_k2^{2(M_r - (\frac{m}{2} - 1)) + k}
 \end{equation}
 
-As described in \eqref{eq: phase}, we'd like to apply a phase of $e^{-i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}$.
+As described in \eqref{eq: phase}, we'd like to apply a phase of $e^{-i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}$. We can rewrite this phase in the form $e^{i\sum_k [\tilde{y}_r(\vec{x})^2]_k\varphi_k}$.
+
 
 \begin{equation}
     \begin{split}
-        \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\ket{\tilde{y}_r(\vec{x})^2} &\rightarrow e^{-i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\ket{\tilde{y}_r(\vec{x})^2} \\
-        &= e^{-i\frac{\Delta t}{2}\lambda_r\sum_k (-1)^{\delta_{k, m - 1}}[\tilde{y}_r(\vec{x})^2]_k2^{2(M_r - (\frac{m}{2} - 1)) + k}}\ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\ket{\tilde{y}_r(\vec{x})^2}\\
-        &= \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\prod_k e^{-i[\tilde{y}_r(\vec{x})^2]_k(-1)^{\delta_{k, m - 1}}\frac{\Delta t}{2}\lambda_r2^{2(M_r - (\frac{m}{2} - 1)) + k}}\ket{\tilde{y}_r(\vec{x})^2}
+        -\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2 &= \frac{\Delta t}{2}\lambda_r\sum_k (-1)^{\delta_{k, m - 1}}[\tilde{y}_r(\vec{x})^2]_k2^{2(M_r - (\frac{m}{2} - 1)) + k} \\
+        &= \sum_k [\tilde{y}_r(\vec{x})^2]_k\varphi_k
     \end{split}
 \end{equation}
 
-The individual phase rotation $e^{-i[\tilde{y}_r(\vec{x})^2]_k(-1)^{\delta_{k, m - 1}}\frac{\Delta t}{2}\lambda_r2^{2(M_r - (\frac{m}{2} - 1)) + k}}$ can be applied with a phase gate $P(\varphi)$ on qubit $k$ with $\varphi = -(-1)^{\delta_{k, m - 1}}\frac{\Delta t}{2}\lambda_r2^{2(M_r - (\frac{m}{2} - 1)) + k}$. These gates are shown in \ref{fig: U_A}.
+\begin{equation}
+    \varphi_k = -(-1)^{\delta_{k, m - 1}}\frac{\Delta t}{2}\lambda_r2^{2(M_r - (\frac{m}{2} - 1)) + k}
+\end{equation}
 
 \begin{equation}
-    P(\varphi) = \begin{bmatrix}
-        1 & 0 \\ 0 & e^{i\varphi}
-    \end{bmatrix} = \ket{0}\bra{0} + e^{i\varphi}\ket{1}\bra{1}
+    \begin{split}
+        -\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2 &= \frac{\Delta t}{2}\lambda_r\sum_k (-1)^{\delta_{k, m - 1}}[\tilde{y}_r(\vec{x})^2]_k2^{2(M_r - (\frac{m}{2} - 1)) + k} \\
+        &= \sum_k [\tilde{y}_r(\vec{x})^2]_k\varphi_k
+    \end{split}
 \end{equation}
+
+We can then decompose the phase operation into several $R_z$ gates. These gates are shown in \ref{fig: U_A}.
+
+\begin{equation}
+    \begin{split}
+        \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\ket{\tilde{y}_r(\vec{x})^2} &\rightarrow e^{i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\ket{\tilde{y}_r(\vec{x})^2} \\
+        &= \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}e^{i\sum_k [\tilde{y}_r(\vec{x})^2]_k\varphi_k}\ket{\tilde{y}_r(\vec{x})^2} \\
+        &= \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\prod_k e^{i[\tilde{y}_r(\vec{x})^2]_k\varphi_k}\ket{\tilde{y}_r(\vec{x})^2} \\
+        &= \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\prod_k (\ket{0}\bra{0} + e^{i\varphi_k}\ket{1}\bra{1})_k \ket{\tilde{y}_r(\vec{x})^2} \\
+        &= \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}e^{i\sum_k \varphi_k}\prod_k R_z(\varphi_k)_k \ket{\tilde{y}_r(\vec{x})^2}
+    \end{split}
+\end{equation}
+
+\begin{equation}
+    R_z(\varphi) = \begin{bmatrix}
+        e^{-i\frac{\varphi}{2}} & 0 \\ 0 & e^{i\frac{\varphi}{2}}
+    \end{bmatrix} = e^{-i\frac{\varphi}{2}}\begin{bmatrix}
+        1 & 0 \\ 0 & e^{i\varphi}
+    \end{bmatrix} = e^{-i\frac{\varphi}{2}}(\ket{0}\bra{0} + e^{i\varphi}\ket{1}\bra{1})
+\end{equation}
+
+We observe that factoring the phase into $R_z$ rotations results in a global phase factor $e^{i\sum_k \varphi_k}$. However, such a phase can be ignored as long as it is independent of $\vec{x}$ (which it is).
+
+Because the $R_z$ gate is not a Clifford gate, it cannot be directly implemented in a fault-tolerant way. Instead, it must be approximated using Clifford and $T$ gates. The number of such gates scales with $O(\log_2(\frac{1}{\epsilon_z}))$, where $\epsilon_z$ is the desired precision of the $R_z$ operator. An implementation by \cite{Rz} achieves a T-count of $10 + 4\log_2(\frac{1}{\epsilon_z})$. 
 
 Once the phase has been applied, it is necessary to uncompute the values $\tilde{y}_r(\vec{x}), \tilde{y}_r(\vec{x})^2$ computed in the ancilla registers and reset the registers to zeros. One can simply do this by applying all the previous gates (in the summation and squaring) in reverse order. Then the empty registers can be safely removed and $\tilde{U}_A^{(r)}$ has successfully been applied.
 
-\section{Complexity Analysis}
-
-The controlled constant addition in \ref{fig: add} requires $\frac{m}{2} - 1$ ancilla qubits (in addition to the target register) and its gate count depends on the values of $[w]_j$. At maximum, the gate count is $1.5m - 5$ Toffolis and $2.5m - 7$ CNOTs.
-
-Next, we wish to establish an upper bound on the number of gates in the circuit in \ref{fig: squaring}. Observe that for each $\ket{z}_{j + 2}, ..., \ket{z}_{m - 1}$, there are $8$ Toffolis \footnote{When iterating through each of the qubits in $\ket{w}$, inevitably one or more of these qubits will be $\ket{w}_j$. One of the gates in an iteration is a Toffoli controlled by $\ket{w}_j$ and the iterated qubit, which in this case is itself. Then that Toffoli will actually be a CNOT with a lower cost. We ignore this edge case because we only need an upper bound}. There are $4$ additional Toffolis ($2$ for the highest bit and $2$ at the beginning and end). This is a total of $8(m - j - 2) + 4$ Toffolis in \ref{fig: squaring}.
-
-Since the squaring protocol performs \ref{fig: squaring} for each $j \in [0, \frac{m}{2})$, we can calculate the total number of Toffolis in the squaring protocol.
-
-\begin{equation}
-    \begin{split}
-        \sum_{j = 0}^{\frac{m}{2} - 1} (8(m - j - 2) + 4) &= 8m^2 - 8\frac{\frac{m}{2}(\frac{m}{2} - 1)}{2} - 8m + 4m \\
-        &= 7m^2 - 2m
-    \end{split}
-\end{equation}
-
-In our implementation of $\tilde{U}_A^{(r)}$, there are $2n$ controlled constant additions ($n$ to compute and $n$ to uncompute) and $2$ squaring protocols (once to compute and uncompute). The phase rotations only contribute $n$ single-qubit gates, which are negligible. We can calculate the total number of Toffolis in $\tilde{U}_A^{(r)}$.
-
-\begin{equation}
-    \begin{split}
-        \tilde{N}_{CCNOT} &= 2n(1.5m - 5) + 2(7m^2 - 2m) \\
-        &= 3mn - 10n + 14m^2 - 4m \\
-        &= O(mn + m^2) \label{eq: toffolis}
-    \end{split}
-\end{equation}
-
-A Toffoli gate can be constructed from $2$ Hadamard gates (negligible), $6$ CNOT gates, and $7$ T-gates. There are also $2.5mn - 7n$ additional CNOTs from the controlled constant additions.
-
-\begin{equation}
-    \begin{split}
-        \tilde{N}_{CNOT} &= 6\tilde{N}_{CCNOT} + 2.5mn - 7n \\
-        &= 20.5mn - 67n + 84m^2 - 24m \\
-        &= O(mn + m^2) \label{eq: cnots}
-    \end{split}
-\end{equation}
-
-\begin{equation}
-    \begin{split}
-        \tilde{N}_{T} &= 7\tilde{N}_{CCNOT} \\
-        &= 21mn - 70n + 98m^2 - 28m \\
-        &= O(mn + m^2) \label{eq: Ts}
-    \end{split}
-\end{equation}
-
 \section{Error Analysis}
 
-The size of the ancilla registers is determined by $m$ and affects the precision of the applied phase. A larger $m$ means more ancilla registers and a more precise phase, but quadratically increases the gate cost according to \eqref{eq: toffolis}. If we want to guarantee an error below $\epsilon$ accordingly with \eqref{eq: error}, $m$ must be sufficiently large. We now calculate the relation between $\epsilon$ and $m$. This is to say that we upper bound the error $||U_A^{(r)} - \tilde{U}_A^{(r)}||$ in terms of $m$.
+The size of the ancilla registers is determined by $m$ and affects the precision of the applied phase. A larger $m$ means more ancilla registers and a more precise phase, but increases the gate cost. If we want to guarantee an error below $\epsilon$ accordingly with \eqref{eq: error}, $m$ must be sufficiently large. We now calculate the relation between $\epsilon$ and $m$. This is to say that we upper bound the error $||U_A^{(r)} - \tilde{U}_A^{(r)}||$ in terms of $m$.
 
-The error originates from the fact that we need to truncate our representation of $\lambda^{(r)}_s$ into $\tilde{\lambda}^{(r)}_s$, and propagates into $\tilde{U}_A^{(r)}$. So we begin by bounding the error in $\tilde{\lambda}^{(r)}_s$.
+The error originates from both the truncation of $\lambda^{(r)}_s$ into $\tilde{\lambda}^{(r)}_s$ and the inherent error in applying non-Clifford ($R_z$) gates. The error then propagates into $\tilde{U}_A^{(r)}$. So we begin by bounding the error in $\tilde{\lambda}^{(r)}_s$.
 
 \begin{equation}
     \begin{split}
@@ -224,34 +203,112 @@ We propagate this error to $\tilde{y}(\vec{x})^2$.
     \end{split}
 \end{equation}
 
-\begin{equation}
-    \begin{split}
-        ||U_A^{(r)} - \tilde{U}_A^{(r)}|| &= \max_{\ket{\psi} : ||\ket{\psi}|| = 1} ||(U_A^{(r)} - \tilde{U}_A^{(r)})\ket{\psi}|| \\
-        &= \max_{\vec{x} \in \{0, 1\}^n} ||(U_A^{(r)} - \tilde{U}_A^{(r)})\ket{\vec{x}}|| \\
-        &= \max_{\vec{x} \in \{0, 1\}^n} ||(e^{-i\frac{\Delta t}{2}\lambda_ry_r(\vec{x})^2} - e^{-i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2})\ket{\vec{x}}|| \\
-        &= \max_{\vec{x} \in \{0, 1\}^n} ||(e^{-i\frac{\Delta t}{2}|\lambda_r|(y_r(\vec{x})^2 - \tilde{y}_r(\vec{x})^2)} - 1)\ket{\vec{x}}|| \\
-        &\leq \max_{\vec{x} \in \{0, 1\}^n} \frac{\Delta t}{2}|\lambda_r||y_r(\vec{x})^2 - \tilde{y}_r(\vec{x})^2| \\
-        &\leq \frac{\Delta t}{2}|\lambda_r|\max_{\vec{x} \in \{0, 1\}^n} \max\left(2|y_r(\vec{x})|n\frac{Y_r}{2^{\frac{m}{2} - 3}}, \left(n\frac{Y_r}{2^{\frac{m}{2} - 3}}\right)^2\right) \\
-        &= n\frac{|\lambda_r| Y_r^2\Delta t}{2^{\frac{m}{2} - 4}}\max\left(1, \frac{n}{2^{\frac{m}{2} - 2}}\right)
-    \end{split}
-\end{equation}
-
-We want $m$ to be large enough that this quantity is at most $\epsilon$.
+Recall that there is some error generated from the $m$ $R_z$ gates in $\tilde{U}_A^{(r)}$. Each gate generates error $\epsilon_z$, which is variable depending on how many Clifford + $T$ gates we use to implement it. Since the operator norm is a norm, the total error is sub-additive.
 
 \begin{equation}
     \begin{split}
-        m_{min} &= \max(2\log_2\left(n\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) + 3, \log_2\left(n^2\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) + 5) \\
-        &\geq 2\log_2(n) + 2\log_2\left(\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) + 3
+        ||e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \tilde{\lambda}'^{(r)}_s \ket{1}\bra{1}_s\right)^2} - \tilde{U}_A^{(r)}|| &\leq m\epsilon
     \end{split}
 \end{equation}
 
-Clearly $m_{min}$ is asymptotically logarithmic in $n$, as long as $|\lambda_r|$ and $Y_r$ are not exponential in $n$ (in reality they are sublinear). Referring back to \eqref{eq: toffolis}, the total asymptotic gate cost of $\tilde{U}_A^{(r)}$ is therefore $O(mn + m^2) = O(n\log{n} + (\log{n})^2) = O(n\log{n})$.
+We can propagate both errors into the overall error $||U_A^{(r)} - \tilde{U}_A^{(r)}||$.
+
+\begin{equation}
+    \begin{split}
+        ||U_A^{(r)} - \tilde{U}_A^{(r)}|| &\leq ||U_A^{(r)} - e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \tilde{\lambda}'^{(r)}_s \ket{1}\bra{1}_s\right)^2}|| + ||e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \tilde{\lambda}'^{(r)}_s \ket{1}\bra{1}_s\right)^2} - \tilde{U}_A^{(r)}|| \\
+        &\leq \max_{\ket{\psi} : ||\ket{\psi}|| = 1} ||(U_A^{(r)} - e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \tilde{\lambda}'^{(r)}_s \ket{1}\bra{1}_s\right)^2})\ket{\psi}|| + m\epsilon_z \\
+        &= \max_{\vec{x} \in \{0, 1\}^n} ||(e^{-i\frac{\Delta t}{2}\lambda_ry_r(\vec{x})^2} - e^{-i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2})\ket{\vec{x}}|| + m\epsilon_z \\
+        &= \max_{\vec{x} \in \{0, 1\}^n} ||(e^{-i\frac{\Delta t}{2}|\lambda_r|(y_r(\vec{x})^2 - \tilde{y}_r(\vec{x})^2)} - 1)\ket{\vec{x}}|| + m\epsilon_z \\
+        &\leq \max_{\vec{x} \in \{0, 1\}^n} \frac{\Delta t}{2}|\lambda_r||y_r(\vec{x})^2 - \tilde{y}_r(\vec{x})^2| + m\epsilon_z \\
+        &\leq \frac{\Delta t}{2}|\lambda_r|\max_{\vec{x} \in \{0, 1\}^n} \max\left(2|y_r(\vec{x})|n\frac{Y_r}{2^{\frac{m}{2} - 3}}, \left(n\frac{Y_r}{2^{\frac{m}{2} - 3}}\right)^2\right) + m\epsilon_z \\
+        &= n\frac{|\lambda_r| Y_r^2\Delta t}{2^{\frac{m}{2} - 4}}\max\left(1, \frac{n}{2^{\frac{m}{2} - 2}}\right) + m\epsilon_z
+    \end{split}
+\end{equation}
+
+We want $m$ to be large enough and $\epsilon_z$ small enough that this quantity is at most $\epsilon$. To make the calculations simpler, we can restrict both terms to at most $\frac{\epsilon}{2}$.
+
+\begin{equation}
+    \begin{split}
+        \frac{\epsilon}{2} &\geq n\frac{|\lambda_r| Y_r^2\Delta t}{2^{\frac{m}{2} - 4}}\max\left(1, \frac{n}{2^{\frac{m}{2} - 2}}\right) \\
+        \implies m_{min} &\geq \max(2\log_2\left(n\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) + 4, \log_2\left(n^2\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) + 6) \\
+        &= 2\log_2(n) + 2\log_2\left(\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) + 4 \label{eq: m_min}
+    \end{split}
+\end{equation}
+
+We choose the first input of the $\max$. Both options are asymptotically the same, so we choose the one with the larger constant factor to establish an upper bound on the threshold. If it turns out that $\log_2\left(n^2\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) < 2$, then $m_{min}$ won't be much larger than $2\log_2(n)$ anyway.
+
+Clearly the minimum value of $m$ is asymptotically logarithmic in $n$, as long as $|\lambda_r|$ and $Y_r$ are not exponential in $n$ (in reality they are sublinear). Referring back to \eqref{eq: toffolis}, the total asymptotic gate cost of $\tilde{U}_A^{(r)}$ is therefore $O(mn + m^2) = O(n\log{n} + (\log{n})^2) = O(n\log{n})$.
 
 $m$ is also logarithmic in $\Delta t$ and in $\frac{1}{\epsilon}$.
 
+Meanwhile, the restriction on $m\epsilon_z$ allows for lower bound on $\epsilon_z$.
+
+\begin{equation}
+    \begin{split}
+        \frac{\epsilon}{2} &\geq m\epsilon_z \\
+        \implies \epsilon_z &\geq \frac{\epsilon}{2m} \label{eq: e_z}
+    \end{split}
+\end{equation}
+
+\section{Complexity Analysis}
+
+We would like to establish an upper bound on the cost of $\tilde{U}_A^{(r)}$. In implementing fault-tolerant quantum circuits, the T-count is the usual cost metric, since $T$-state distillation is usually the bottleneck.
+
+The controlled constant addition in \ref{fig: add} requires $\frac{m}{2} - 1$ ancilla qubits (in addition to the target register) and its gate count depends on the values of $[w]_j$. At maximum, it requires $1.5m - 5$ Toffolis and $2.5m - 7$ CNOTs.
+
+Next, we wish to find the cost of the squaring circuit in \ref{fig: squaring}. Observe that for each $\ket{z}_{j + 2}, ..., \ket{z}_{m - 1}$, there are $8$ Toffolis \footnote{When iterating through each of the qubits in $\ket{w}$, inevitably one or more of these qubits will be $\ket{w}_j$. One of the gates in an iteration is a Toffoli controlled by $\ket{w}_j$ and the iterated qubit, which in this case is itself. Then that Toffoli will actually be a CNOT with a lower cost. We ignore this edge case because we only need an upper bound}. There are $4$ additional Toffolis ($2$ for the highest bit and $2$ at the beginning and end). This is a total of $8(m - j - 2) + 4$ Toffolis in \ref{fig: squaring}.
+
+Since the squaring protocol performs \ref{fig: squaring} for each $j \in [0, \frac{m}{2})$, we can calculate the total number of Toffolis in the squaring protocol.
+
+\begin{equation}
+    \begin{split}
+        \sum_{j = 0}^{\frac{m}{2} - 1} (8(m - j - 2) + 4) &= 8m^2 - 8\frac{\frac{m}{2}(\frac{m}{2} - 1)}{2} - 8m + 4m \\
+        &= 7m^2 - 2m
+    \end{split}
+\end{equation}
+
+In our implementation of $\tilde{U}_A^{(r)}$, there are $2n$ controlled constant additions ($n$ to compute and $n$ to uncompute) and $2$ squaring protocols (once to compute and uncompute). The phase rotations only contribute $n$ single-qubit gates, which are negligible. We can calculate the total number of Toffolis in $\tilde{U}_A^{(r)}$.
+
+\begin{equation}
+    \begin{split}
+        \tilde{N}_{CCNOT} &= 2n(1.5m - 5) + 2(7m^2 - 2m) \\
+        &= 3mn - 10n + 14m^2 - 4m \\
+        &= O(mn + m^2) \label{eq: toffolis}
+    \end{split}
+\end{equation}
+
+Given $\epsilon_z$, each $R_z$ gate requires $10 + 4\log_2(\frac{1}{\epsilon_z})$ T-gates using the implementation in \cite{Rz}. There are $m$ $R_z$ gates in $\tilde{U}_A^{(r)}$. We can use the minimum $\epsilon_z$ calculated in \eqref{eq: e_z} to upper-bound this number of $T$s in terms of $m$ and $\epsilon$.
+
+\begin{equation}
+    \begin{split}
+        \tilde{N}_{T; Rz} &= m(10 + 4\log_2(\frac{1}{\epsilon_z})) \\
+        &= 10m + 4m\log_2(\frac{2m}{\epsilon})
+    \end{split}
+\end{equation}
+
+A Toffoli gate can be constructed from $2$ Hadamard gates, $6$ CNOT gates, and $7$ T-gates. We can then calculate the total $T$-count of $\tilde{U}_A^{(r)}$.
+
+\begin{equation}
+    \begin{split}
+        \tilde{N}_{T} &= 7\tilde{N}_{CCNOT} + \tilde{N}_{T; Rz} \\
+        &= 21mn - 70n + 98m^2 - 28m + 10m + 4m\log_2(\frac{2m}{\epsilon}) \\
+        &= 21mn - 70n + 98m^2 - 18m + 4m\log_2(\frac{2m}{\epsilon}) \\
+        &= O(mn + m^2 + m\log_2(\frac{1}{\epsilon})) \label{eq: Ts_mneps}
+    \end{split}
+\end{equation}
+
+We can substitute the asymptotic threshold $m = O(\log_2(\frac{n}{\epsilon}))$ from \eqref{eq: m_min} to obtain an asymptotic $\tilde{N}_{T}$ in terms of $n$ and $\frac{1}{\epsilon}$.
+
+\begin{equation}
+    \begin{split}
+        \tilde{N}_{T} &= O(\log_2(\frac{n}{\epsilon})n + (\log_2(\frac{n}{\epsilon}))^2 + \log_2(\frac{n}{\epsilon})\log_2(\frac{1}{\epsilon})) \\
+        &= O(n\log_2(\frac{n}{\epsilon}) + \log_2(\frac{1}{\epsilon})^2) \label{eq: Ts_neps}
+    \end{split}
+\end{equation}
+
 \section{Numerics}
 
-Although the gate cost of this $\tilde{U}_A^{(r)}$ is asympotically lower than the quadratic cost of \eqref{eq: brute}, it's useful to get a (very rough) numerical estimate of the gate counts to understand the scale ($n$) at which it actually becomes a better option than alternatives.
+The gate cost of this $\tilde{U}_A^{(r)}$ is asympotically lower in $n$ than the $O(n^2\log_2(\frac{n}{\epsilon}))$ cost of the expansion method in \eqref{eq: expansionTs}, which is a significant advantage. It's useful to get a (very rough) numerical estimate of the gate counts to understand the scale ($n$) at which the advantage appears.
 
 The value of $\Delta t$ depends on the particular Trotter-like algorithm used. A very loose upper bound for $\Delta t$ is $t$ itself. \cite{Gate_Count} uses $t = 6000 \frac{1}{E_h}$ and $\epsilon = 10^{-6}$. We decomposed Hamiltonians of hydrogen chain systems for various $n$ ($n$ is the number of $H$s and the number of orbitals) to obtain values of $|\lambda_r|$ and $Y_r$. It turns out for these systems that $|\lambda_r|Y_r^2 \approx n\log_2{n} E_h$.
 
@@ -271,7 +328,7 @@ In practice, $\Delta << t$, so $t$ is not a useful order of magnitude for $\Delt
     \end{split}
 \end{equation}
 
-In non-fault-tolerant computing, quantum gate cost is often measured by the number of two-qubit gates (in our case, CNOTs). So we can substitute this function $m(n)$ back into \eqref{eq: cnots} and plot $\tilde{N}_{CNOT}$ as a function of $n$. We can then compare $\tilde{N}_{CNOT}$ with $N_{CNOT} = 2{n \choose 2}$, the number of CNOTs necessary to implement \eqref{eq: brute} (a controlled Z-rotation can be done with $2$ CNOTs and two $P$ gates) \cite{gates}. It turns out that $\tilde{N}_{CNOT} = N_{CNOT}$ when $n = 3023.3$, above which $\tilde{N}_{CNOT} < N_{CNOT}$.
+In non-fault-tolerant computing, quantum gate cost is often measured by the number of two-qubit gates (in our case, CNOTs). So we can substitute this function $m(n)$ back into \eqref{eq: cnots} and plot $\tilde{N}_{CNOT}$ as a function of $n$. We can then compare $\tilde{N}_{CNOT}$ with $N_{CNOT} = 2{n \choose 2}$, the number of CNOTs necessary to implement \eqref{eq: expansion} (a controlled Z-rotation can be done with $2$ CNOTs and two $P$ gates) \cite{gates}. It turns out that $\tilde{N}_{CNOT} = N_{CNOT}$ when $n = 3023.3$, above which $\tilde{N}_{CNOT} < N_{CNOT}$.
 
 \textcolor{red}{I will add this plot later}
 

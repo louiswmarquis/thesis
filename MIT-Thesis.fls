@@ -461,6 +461,10 @@ INPUT .\appendixa.tex
 INPUT .\appendixa.tex
 INPUT appendixa.tex
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmcsc10.tfm
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtt12.tfm
 INPUT MIT-Thesis.aux
 INPUT .\acknowledgments.aux
 INPUT .\acknowledgments.aux
@@ -516,3 +520,5 @@ INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmsy6.pfb
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmsy8.pfb
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmsy8.pfb
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmtt12.pfb
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmtt12.pfb

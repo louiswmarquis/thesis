@@ -206,7 +206,7 @@ We introduced new coefficients $h'_{ij}$ and $h'_{iljk}$ for this new ordering a
     \end{split}
 \end{equation}
 
-As a reminder, we would like to simulate $U = e^{-i\hat{H}t}$ on a quantum computer. Trotterization allows us to study each term in \eqref{eq: H3} independently. That is, we just need to find a way to simulate $U_1 = e^{-i\hat{H}_{1e}t}$ and $U_2 = e^{-i\hat{H}_{2e}t}$ for arbitrary $t$. The direct brute force method is to substitute the operator correspondances from \eqref{eq: JWdown} and \eqref{eq: JWup} into \eqref{eq: H3} to obtain the corresponding qubit Hamiltonian. With this method, it turns out that $U_1$ requires $O(n^2)$ gates and $U_2 = e^{-\hat{H}_{2e}t}$ requires $O(n^4)$ gates.
+As a reminder, we would like to simulate $U = e^{-i\hat{H}t}$ on a quantum computer. Trotterization allows us to study each term in \eqref{eq: H3} independently. That is, we just need to find a way to simulate $U_1 = e^{-i\hat{H}_{1e}\Delta t}$ and $U_2 = e^{-i\hat{H}_{2e}\Delta t}$ for arbitrary $\Delta t$. The direct brute force method is to substitute the operator correspondances from \eqref{eq: JWdown} and \eqref{eq: JWup} into \eqref{eq: H3} to obtain the corresponding qubit Hamiltonian. With this method, it turns out that $U_1$ is a sum of $O(n^2)$ terms and $U_2 = e^{-\hat{H}_{2e}t}$ becomes $O(n^4)$ terms. We can iterate over the terms with a Trotter-like or qDRIFT, but the $O(n^4)$ can make such an iteration very tedious. We'd like to see if there's a more clever method.
 
 Recall that because $h'_{iljk} = h_{ijkl}$ is symmetric between $(i, l)$ and $(j, k)$, $h'$ can be treated as a real symmetric $n^2 \times n^2$ matrix and eigendecomposed with eigenvalues $\lambda_r$ and eigenvectors $Q^{(r)}$ whose indices are $(i, l)$ ordered pairs. A Cholesky decomposition is also an option but for now we will use an eigendecomposition.
 
@@ -219,12 +219,19 @@ Recall that because $h'_{iljk} = h_{ijkl}$ is symmetric between $(i, l)$ and $(j
         \hat{H}_{2e} &= \frac{1}{2}\sum_{i,j,k,l} h'_{ijkl}a^\dag_ia_la^\dag_ja_k \\
         &= \frac{1}{2}\sum_{i,j,k,l} \sum_r \lambda_r Q^{(r)}_{i, l}Q^{(r)}_{j, k}a^\dag_ia_la^\dag_ja_k \\
         &= \frac{1}{2}\sum_r \lambda_r \sum_{i,l} Q^{(r)}_{i, l}a^\dag_ia_l\sum_{j,k}Q^{(r)}_{j, k}a^\dag_ja_k \\
-        &= \frac{1}{2}\sum_r\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2
+        &= \frac{1}{2}\sum_r\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
+        &= \sum_r \hat{H}_{2e}^{(r)}
     \end{split}
     \label{eq: DF}
 \end{equation}
 
-Because $h'_{iljk}$ is symmetric between $i$ and $l$ and between $j$ and $k$, $Q^{(r)}_{i, j}$ is symmetric between $i$ and $j$. Each $n^2$-length vector $Q^{(r)}$ can then be treated as an $n \times n$ matrix to be further eigendecomposed with eigenvalues $\lambda'^{(r)}_s$ and real orthonormal eigenvectors $R^{(r)}_s$ as the columns of $R^{(r)}$, which is orthogonal.
+We have written $\hat{H}_{2e}$ as a sum of terms $\hat{H}_{2e}^{(r)}$. If we could simulate $U_2^{(r)} = e^{-i\hat{H}_{2e}^{(r)}\Delta t}$ for an arbitrary $\Delta t$, then we can Trotter or qDRIFT over these terms to implement $U_2$.
+
+\begin{equation}
+    \hat{H}_{2e}^{(r)} = \frac{1}{2}\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2
+\end{equation}
+
+Observe that $h'_{iljk}$ is symmetric between $i$ and $l$ and between $j$ and $k$, implying that $Q^{(r)}_{i, j}$ is symmetric between $i$ and $j$. Each $n^2$-length vector $Q^{(r)}$ can then be treated as an $n \times n$ matrix to be further eigendecomposed with eigenvalues $\lambda'^{(r)}_s$ and real orthonormal eigenvectors $R^{(r)}_s$ as the columns of $R^{(r)}$, which is orthogonal.
 
 \begin{equation}
     \begin{split}
@@ -245,40 +252,95 @@ We introduce the operators $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s$, which are
     \end{split}
 \end{equation}
 
-We can rewrite $\hat{H}_{2e}$ in terms of $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s, \tilde{n}^{(r)}_s$.
+We can rewrite $\hat{H}_{2e}^{(r)}$ in terms of $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s, \tilde{n}^{(r)}_s$.
 
 \begin{equation}
     \begin{split}
-        H_2 &= \frac{1}{2}\sum_r\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
-        &= \frac{1}{2}\sum_r\lambda_r\left(\sum_{i,j} \sum_s \lambda'^{(r)}_s R^{(r)}_{is}R^{(r)}_{js}a^\dag_ia_j\right)^2 \\
-        &= \frac{1}{2}\sum_r\lambda_r\left(\sum_s \lambda'^{(r)}_s \sum_i R^{(r)}_{is}a^\dag_i\sum_jR^{(r)}_{js}a_j\right)^2 \\
-        &= \frac{1}{2}\sum_r\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{a}^{(r)\dag}_s\tilde{a}^{(r)}_s\right)^2 \\
-        &= \frac{1}{2}\sum_r\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s\right)^2
+        H_{2e}^{(r)} &= \frac{1}{2}\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
+        &= \frac{1}{2}\lambda_r\left(\sum_{i,j} \sum_s \lambda'^{(r)}_s R^{(r)}_{is}R^{(r)}_{js}a^\dag_ia_j\right)^2 \\
+        &= \frac{1}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \sum_i R^{(r)}_{is}a^\dag_i\sum_jR^{(r)}_{js}a_j\right)^2 \\
+        &= \frac{1}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{a}^{(r)\dag}_s\tilde{a}^{(r)}_s\right)^2 \\
+        &= \frac{1}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s\right)^2
     \end{split}
 \end{equation}
 
-We would like to simulate $U_2 = e^{-i\hat{H}_{2e}}$; that is, implement efficiently its corresponding qubit operator. Since it's a summation over $r$, Trotterization again allows us to look at each term individually.
-
-We would like to simulate $U_2^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s\right)^2}$ for an arbitrary $\Delta t$. If the operator's eigenbasis were the same as the qubits' computational basis, it would be very simple. However, its eigenbasis is the Fock basis constructed from the rotated basis $\{\tilde{\phi}_s\}$. Meanwhile, the qubit computational basis $\{\ket{\vec{x}}\}$ corresponds to the original physical Fock basis $\{\ket{\vec{f}}\}$ constructed from $\{\phi_i\}$. To deal with this, we have to essentially rotate the operator $U_r$ into the computational basis. \cite{FSN} uses the Thouless Theorem to show that such a rotation operator $U(R^{(r)})$ necessary can be calculated from $R^{(r)}$ and and corresponds to a maximum of ${n \choose 2} = O(n^2)$ gates on the quantum computer. 
+We would like to simulate $U_2^{(r)} = e^{-i\hat{H}_{2e}^{(r)}\Delta T}$ for an arbitrary $\Delta t$. If the operator's eigenbasis were the same as the qubits' computational basis, it would be very simple. However, its eigenbasis is the Fock basis constructed from the rotated basis $\{\tilde{\phi}_s\}$. Meanwhile, the qubit computational basis $\{\ket{\vec{x}}\}$ corresponds to the original physical Fock basis $\{\ket{\vec{f}}\}$ constructed from $\{\phi_i\}$. To deal with this, we have to essentially rotate the operator $U_r$ into the computational basis. \cite{FSN} uses the Thouless Theorem to show that such a rotation operator $U_R(R^{(r)})$ necessary can be calculated from $R^{(r)}$ and and corresponds to a maximum of ${n \choose 2} = O(n^2)$ gates on the quantum computer. 
 
 \begin{equation}
-    U_2^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s\right)^2} = U(R^{(r)})^\dag e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2}U(R^{(r)}) = U(R^{(r)})^\dag U_A^{(r)}U(R^{(r)})
+    U_2^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s\right)^2} = U_R(R^{(r)})^\dag e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2}U_R(R^{(r)}) = U_R(R^{(r)})^\dag U_A^{(r)}U_R(R^{(r)})
+    \label{eq: U_2^r}
+\end{equation}
+\begin{equation}
+    U_A^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2}
 \end{equation}
 
-We also need to find a qubit analog to $U_A^{(r)}$. One way is to expand the square $U_A^{(r)}$ and factor it into $O(n^2)$ individual operators, since the terms all commute.
+\subsection{Double-Factorized Expansion Method}
+
+We'd like to find a qubit analog to $U_A^{(r)}$. One way is to expand the square inside $U_A^{(r)}$ and factor it into ${n + 1 \choose 2}$ individual operators, since the terms all commute. Let's call this the ``double-factorized expansion method'', or ``expansion method'' for short.
 
 \begin{equation}
-    U_A^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2} = e^{-\frac{i\Delta t}{2}\lambda_r\sum_{s, s'} \lambda'^{(r)}_s\lambda'^{(r)}_{s'} n_sn_{s'}} = \prod_{s, s'} e^{-\frac{i\Delta t}{2}\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'} n_sn_{s'}}
-    \label{eq: brute}
+    \begin{split}
+        U_A^{(r)} &= e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2} \\
+        &= e^{-\frac{i\Delta t}{2}\lambda_r\sum_{s, s'} \lambda'^{(r)}_s\lambda'^{(r)}_{s'} n_sn_{s'}} \\
+        &= \prod_{s, s'} e^{-\frac{i\Delta t}{2}\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'} n_sn_{s'}} \\
+        &= \prod_s e^{-\frac{i\Delta t}{2}\lambda_s(\lambda'^{(r)}_s)^2 n_s}\prod_{s < s'} e^{-i\Delta t\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'} n_sn_{s'}}
+        \label{eq: expansion}
+    \end{split}
 \end{equation}
 
-Each operator is the exponent of a product of two number operators $n_s, n_{s'}$. If $s = s'$, then that operator corresponds to a Z-rotation on a qubit. If $s \neq s'$, that operator corresponds to a controlled Z-rotation. In total this would comprise $O(n^2)$ gates.
+Each operator with a single $n_s$ corresponds (up to a phase) to a $R_z$ operator on the $s$th qubit in a quantum computer. Each operator with $n_sn_{s'}$ corresponds (up to a phase) to a controlled $R_z$ operator on the $s$th and $s'$th qubits in a quantum computer. 
+\begin{equation}
+    e^{-\frac{i\Delta t}{2}\lambda_r(\lambda'^{(r)}_s)^2 n_s} \leftrightarrow R_z(-\frac{\Delta t}{2}\lambda_r(\lambda'^{(r)}_s)^2)_s
+\end{equation}
+\begin{equation}
+    R_z(\varphi) = \begin{bmatrix}
+        e^{-i\frac{\varphi}{2}} & 0 \\ 0 & e^{i\frac{\varphi}{2}}
+    \end{bmatrix} = e^{-i\frac{\varphi}{2}}\begin{bmatrix}
+        1 & 0 \\ 0 & e^{i\varphi}
+    \end{bmatrix} = e^{-i\frac{\varphi}{2}}(\ket{0}\bra{0} + e^{i\varphi}\ket{1}\bra{1})
+\end{equation}
+\begin{equation}
+    e^{-\frac{i\Delta t}{2}\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'} n_sn_{s'}} \leftrightarrow CR_z(-\frac{\Delta t}{2}\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'})_{s, s'}
+\end{equation}
+\begin{equation}
+    CR_z(\varphi) = \begin{bmatrix}
+        1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & e^{i\varphi}
+    \end{bmatrix}
+    \label{eq: CR_z}
+\end{equation}
 
-Since $U_2^{(r)}$ can be implemented on the quantum computer with three steps each comprising $O(n^2)$ gates, it itself has gate complexity $O(n^2)$. However, the number of values of $r$ is the rank of $\hat{H}_{2e}$, which is bounded by $n^2$. Then one Trotter iteration of the terms in $H_2$ has gate complexity $O(n^4)$, which does no better than the original brute force method, which had $O(n^4)$ terms each with constant gate count.
+There are therefore $n$ $R_z$ operators and ${n \choose 2}$ $CR_z$ operators in this decomposition. Each $CR_z$ can be decomposed to two $CNOT$s and three $R_z$s, shown in \ref{fig: CR_z}. This results in $n + 3{n \choose 2} = \frac{3n(n - 1)}{2}$ $R_z$ gates total in $U_A^{(r)}$.
 
-However, the $O(n^2)$ figure for the gate count of $U(R^{(r)})$ from \cite{FSN} is only an upper bound, and much of the time $R^{(r)}$ is simple enough that $U(R^{(r)})$ can be implemented more cheaply, often in linear $O(n)$ gate count. The operator $U_A^{(r)}$ can also be implemented in sub-quadratic asymptotic gate count with a coherent method using quantum arithmetic circuits. This situation allows for a sub-quartic simulation of $U_2$, beating the naive brute force method.
+\begin{figure}[h]
+    \centering
+    \Qcircuit @C=1em @R=1.6em {
+        \lstick{} & \gate{R_z(\frac{\varphi}{4})} & \ctrl{1} & \qw & \ctrl{1} & \qw \\
+        \lstick{} & \gate{R_z(\frac{\varphi}{4})} & \targ    & \gate{R_z(-\frac{\varphi}{4})} & \targ & \qw 
+    }
+    \caption{Construction of $CR_z(\varphi)$ in \eqref{eq: CR_z} with two $CNOT$ gates and three $R_z$ gates}
+    \label{fig: CR_z}
+\end{figure}
 
-This project attempted to explore the conditions for which a linear $O(n)$ gate count for $U(R^{(r)})$ arises, construct a quantum circuit design to implement the described coherent method, and analyze its cost and error. It further attempted some unconventional decomposition techniques on the electronic structure Hamiltonian that were inspired by the linear-gate count conditions, using gradient descent methods to optimize the decomposition.
+\cite{Rz} achieves a fault-tolerant implementation of $R_z$ using at most $10 + 4\log_2(\frac{1}{\epsilon_z})$ T-gates, in which $\epsilon_z$ is the the desired error bound of $R_z$. Since $U_A^{(r)}$ contains $\frac{3n(n - 1)}{2}$ $R_z$ gates and error (which is by operator norm) propagates sub-additively, we need $\epsilon_z \leq \frac{\epsilon}{\frac{3n(n - 1)}{2}}$ to guarantee a threshold $\epsilon$ for the error of $U_A^{(r)}$.
+
+We can then calculate the upper bound for the T-count $\tilde{N}_T$ of $U_A^{(r)}$ using the expansion method in terms of $n, \frac{1}{\epsilon}$.
+
+\begin{equation}
+    \begin{split}
+        \tilde{N}_T &= \frac{3n(n - 1)}{2}(10 + \log_2(\frac{1}{\epsilon_z})) \\
+        &= \frac{3n(n - 1)}{2}(10 + \log_2(\frac{\frac{3n(n - 1)}{2}}{\epsilon})) \\
+        &= O(n^2\log_2(\frac{n}{\epsilon}))
+    \end{split}
+    \label{eq: expansionTs}
+\end{equation}
+
+\subsection{Discussion}
+
+Similarly to \eqref{eq: expansion}, $U_R(R^{(r)})$ in \eqref{eq: U_2^r} can be decomposed into at most $O(n^2)$ non-Clifford gates as described in \cite{FSN}, resulting in a $O(n^2\log_2(\frac{n}{\epsilon}))$ T-count. Combined with \eqref{eq: expansionTs}, one can achieve an overall T-count of $O(n^2\log_2(\frac{n}{\epsilon}))$ for $U_2^{(r)}$.
+
+We'd like to find alternative fault-tolerant implementations of $U_2^{(r)}$ with a lower asymptotic $T$-count. For this to be possible, the chemical system must have a Hamiltonian with ``easy'' basis rotations; that is, it double factorizes such that all $U_R(R^{(r)})$ decomposes using the \cite{FSN} method to $o(n^2)$ non-Clifford gates. We also need to both implement $U_A^{(r)}$ more efficiently.
+
+Chapter 2 introduces and explicitly constructs a quantum circuit that simulates $U_R(R^{(r)})$ with $O(n\log_2(\frac{n}{\epsilon}) + \log_2(\frac{1}{\epsilon})^2)$ $T$-count. We call this quantum circuit the ``coherent method'', in contrast to the ``expansion method''. Chapter 3 explores types of Hamiltonians with ``easy'' basis rotations and how to effectively leverage the ``coherent method'' for these Hamiltonians.
 
 %%%%%%%%%%%%%%%% end table %%%%%%%%%%%%%%%%%%% 
 
