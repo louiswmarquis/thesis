@@ -29,7 +29,7 @@ We want to find an efficient way to approximately simulate $U_A^{(r)}$. That is,
     \epsilon \geq ||U_A^{(r)} - \tilde{U}_A^{(r)}|| = ||e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2} - \tilde{U}_A^{(r)}|| \label{eq: error}
 \end{equation}
 
-\eqref{eq: expansion} presented a method that simulated $U_A^{(r)}$ exactly (no error) but it required $O(n^2)$ gates. We now present a $\tilde{U}_A^{(r)}$ that requires $O(n\log_2(\frac{n}{\epsilon}) + \log_2(\frac{1}{\epsilon})^2)$ gates. The idea is to coherently calculate the phase of the phase rotation on a separate qubit register and use these qubits representing the phase as controls to apply a phase rotation.
+\eqref{eq: expansion} presented a method that simulated $U_A^{(r)}$ exactly (no error) but it required $O(n^2)$ gates. We now present a $\tilde{U}_A^{(r)}$ that requires $O(n\log_2(\frac{n}{\epsilon}) + \log_2(\frac{1}{\epsilon})^2)$ gates. The idea is to coherently calculate the phase of the phase rotation on a separate qubit register and use these qubits representing the phase as controls to apply a phase rotation. Hence, we call this the ``coherent'' method.
 
 More formally, denote the value of the summation in the phase rotation as $y_r(\vec{x})$.
 
@@ -40,7 +40,7 @@ More formally, denote the value of the summation in the phase rotation as $y_r(\
     \end{split}
 \end{equation}
 
-We begin with a register of $n$ qubits in a Fock state $\ket{\vec{x}}$ and introduce an ancilla register of $\frac{m}{2}$ and another of $m$ qubits, both initalized to zeros. We calculate an approximation $\tilde{y}_r(\vec{x})$ onto the smaller ancilla register. We use the value stored in the smaller register to compute an approximation $\tilde{y}_r(\vec{x})^2$ into the larger register. Then we use values of the $m$ ancilla qubits to rotate the phase by $e^{-i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}}$. Finally, we uncompute the ancilla register and remove them afterwards. These steps comprise the proposed $\tilde{U}_A^{(r)}$. If we wish to construct this circuit fault-tolerantly (i.e. with Clifford gates and T gates), the \eqref{eq: phase} step (and therefore $\tilde{U}_A^{(r)}$ as a whole) will be an approximation. 
+We begin with a register of $n$ qubits in a Fock state $\ket{\vec{x}}$ and introduce an ancilla register of $\frac{m}{2}$ and another of $m$ qubits, both initalized to zeros. We calculate an approximation $\tilde{y}_r(\vec{x})$ onto the smaller ancilla register. We use the value stored in the smaller register to compute an approximation $\tilde{y}_r(\vec{x})^2$ into the larger register. Then we use values of the $m$ ancilla qubits to rotate the phase by $e^{-i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}}$. Finally, we uncompute the ancilla register and remove them afterwards. These steps comprise the proposed $\tilde{U}_A^{(r)}$. If we wish to construct this circuit fault-tolerantly (i.e. with Clifford gates and T gates), the \eqref{eq: phase} step, which is non-Clifford, will be an approximation. 
 
 \begin{align}
     \ket{\vec{x}} &\rightarrow \ket{\vec{x}}\ket{0^{\frac{m}{2}}}\ket{0^m} \\
@@ -49,7 +49,7 @@ We begin with a register of $n$ qubits in a Fock state $\ket{\vec{x}}$ and intro
     &\rightarrow e^{-i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})}\ket{\tilde{y}_r(\vec{x})^2} \label{eq: phase} \\
     &\rightarrow e^{-i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}}\ket{0^{\frac{m}{2}}}\ket{0^m} \\
     &\rightarrow e^{-i\frac{\Delta t}{2}\lambda_r\tilde{y}_r(\vec{x})^2}\ket{\vec{x}} \\
-    &\rightarrow e^{-i\frac{\Delta t}{2}\lambda_r(\sum_s \tilde{\lambda}'^{(r)}_s \ket{1}\bra{1}_s)^2}\ket{\vec{x}} \\
+    &= e^{-i\frac{\Delta t}{2}\lambda_r(\sum_s \tilde{\lambda}'^{(r)}_s \ket{1}\bra{1}_s)^2}\ket{\vec{x}} \\
     &\approx \tilde{U}_A^{(r)}\ket{\vec{x}}
 \end{align}
 
@@ -170,7 +170,7 @@ We can then decompose the phase operation into several $R_z$ gates. These gates 
 
 We observe that factoring the phase into $R_z$ rotations results in a global phase factor $e^{i\sum_k \varphi_k}$. However, such a phase can be ignored as long as it is independent of $\vec{x}$ (which it is).
 
-Because the $R_z$ gate is not a Clifford gate, it cannot be directly implemented in a fault-tolerant way. Instead, it must be approximated using Clifford and $T$ gates. The number of such gates scales with $O(\log_2(\frac{1}{\epsilon_z}))$, where $\epsilon_z$ is the desired precision of the $R_z$ operator. An implementation by \cite{Rz} achieves a T-count of $10 + 4\log_2(\frac{1}{\epsilon_z})$. 
+Because the $R_z$ gate is not a Clifford gate, it cannot be directly implemented in a fault-tolerant way. Instead, it must be approximated using Clifford and $T$ gates. The number of such gates scales with $O(\log_2(\frac{1}{\epsilon_z}))$, where $\epsilon_z$ is the desired precision of the $R_z$ operator. An implementation by \cite{Rz} achieves a $T$-count of $10 + 4\log_2(\frac{1}{\epsilon_z})$. 
 
 Once the phase has been applied, it is necessary to uncompute the values $\tilde{y}_r(\vec{x}), \tilde{y}_r(\vec{x})^2$ computed in the ancilla registers and reset the registers to zeros. One can simply do this by applying all the previous gates (in the summation and squaring) in reverse order. Then the empty registers can be safely removed and $\tilde{U}_A^{(r)}$ has successfully been applied.
 
@@ -225,7 +225,7 @@ We can propagate both errors into the overall error $||U_A^{(r)} - \tilde{U}_A^{
     \end{split}
 \end{equation}
 
-We want $m$ to be large enough and $\epsilon_z$ small enough that this quantity is at most $\epsilon$. We can calculate the thresholds $m^*$ and $\epsilon_z^*$ above which this is the case. To make the calculations simpler, we can restrict both terms to at most $\frac{\epsilon}{2}$.
+We want $m$ to be large enough and $\epsilon_z$ small enough that this quantity is at most $\epsilon$. We can calculate the thresholds $m^*$ and $\epsilon_z^*$ above which this is the case. To make the calculations simpler, we can (arbitrarily) restrict both terms to at most $\frac{\epsilon}{2}$.
 
 \begin{equation}
     \begin{split}
@@ -252,7 +252,7 @@ Meanwhile, the restriction on $m\epsilon_z$ leads to a threshold $\epsilon_z^*$.
 
 \section{Complexity Analysis}
 
-We would like to establish an upper bound on the cost of $\tilde{U}_A^{(r)}$. In implementing fault-tolerant quantum circuits, the T-count is the usual cost metric, since $T$-state distillation is usually the bottleneck.
+We would like to establish an upper bound on the cost of $\tilde{U}_A^{(r)}$. In implementing fault-tolerant quantum circuits, the $T$-count is the usual cost metric, since $T$-state distillation is usually the bottleneck.
 
 The controlled constant addition in \ref{fig: add} requires $\frac{m}{2} - 1$ ancilla qubits (in addition to the target register) and its gate count depends on the values of $[w]_j$. At maximum, it requires $1.5m - 5$ Toffolis and $2.5m - 7$ CNOTs.
 
@@ -286,13 +286,13 @@ Given $\epsilon_z$, each $R_z$ gate requires $10 + 4\log_2(\frac{1}{\epsilon_z})
     \end{split}
 \end{equation}
 
-A Toffoli gate can be constructed from $2$ Hadamard gates, $6$ CNOT gates, and $7$ T-gates. We can then calculate the total $T$-count of $\tilde{U}_A^{(r)}$.
+The traditional construction of the Toffoli gate uses $2$ Hadamard gates, $6$ CNOT gates, and $7$ T-gates. However, \cite{Toffoli} proposed a construction that uses only $4$ $T$-gates. We can calculate the total $T$-count of $\tilde{U}_A^{(r)}$ if we use the latter construction.
 
 \begin{equation}
     \begin{split}
-        \tilde{N}_{T} &= 7\tilde{N}_{CCNOT} + \tilde{N}_{T; Rz} \\
-        &= 21mn - 70n + 98m^2 - 28m + 10m + 4m\log_2(\frac{2m}{\epsilon}) \\
-        &= 21mn - 70n + 98m^2 - 18m + 4m\log_2(\frac{2m}{\epsilon}) \\
+        \tilde{N}_{T} &= 4\tilde{N}_{CCNOT} + \tilde{N}_{T; Rz} \\
+        &= 12mn - 40n + 56m^2 - 16m + 10m + 4m\log_2(\frac{2m}{\epsilon}) \\
+        &= 12mn - 40n + 56m^2 - 6m + 4m\log_2(\frac{2m}{\epsilon}) \\
         &= O(mn + m^2 + m\log_2(\frac{1}{\epsilon})) \label{eq: Ts_mneps}
     \end{split}
 \end{equation}
@@ -324,17 +324,17 @@ In practice, $\Delta << t$, so $t$ is not a useful order of magnitude for $\Delt
 
 \begin{equation}
     \begin{split}
-        m^*_{H} \approx 2\log_2(n) + 2\log_2\left(\frac{n\log_2{n}\times 0.01}{10^{-6}}\right) + 4 \approx 4\log_2(n) + 2\log_2(\log_2(n)) + 18
+        m^*_{H} \approx 2\log_2(n) + 2\log_2\left(\frac{n\log_2{n}\times 0.01}{10^{-6}}\right) + 4 \approx 4\log_2(n) + 2\log_2(\log_2(n)) + 30.57
     \end{split}
 \end{equation}
 
 \begin{equation}
     \begin{split}
-        \tilde{N}_{T} &= 21m(n)n - 70n + 98m(n)^2 - 18m(n) + 4m(n)\log_2(\frac{2m(n)}{\epsilon})
+        \tilde{N}_{T} &= 12m(n)n - 40n + 56m(n)^2 - 6m(n) + 4m(n)\log_2(\frac{2m(n)}{\epsilon})
     \end{split}
 \end{equation}
 
-We plot this $T$-count of the ``coherent method'' as well as that of the ``expansion method'' in \eqref{eq: expansionTs} as functions of $n$. It turns out that the expansion method surpasses the coherent method in $T$-count at approxmiately $n \approx 122$. At $n = 122$, the coherent method requires about $3.94 * 10^5$ $T$-gates and has $m = 52$, while the expansion method requires about $4.00 * 10^5$ $T$-gates.
+We plot this $T$-count of the ``coherent method'' as well as that of the ``expansion method'' in \eqref{eq: expansionTs} as functions of $n$. It turns out that the expansion method surpasses the coherent method in $T$-count at approxmiately $n \approx 64$. At $n = 64$, the coherent method requires about $2.51 * 10^5$ $T$-gates and has $m = 60$, while the expansion method requires about $2.57 * 10^5$ $T$-gates.
 
 \textcolor{red}{INSERT PLOT}
 
@@ -344,9 +344,9 @@ We plot this $T$-count of the ``coherent method'' as well as that of the ``expan
 
 \section{Discussion}
 
-The asymptotic advantage of the coherent method ($O(n^3\log_2{n})$) over the expansion method ($O(n^4)$) is only useful in $U_A^{(r)}$ if the number of $T$ gates in $U_R(R^{(r)})$ can also be reduced from $O(n^2\log_2(\frac{n}{\epsilon}))$. Otherwise, the latter complexity dominates and maintains the overall complexity unchanged.
+The asymptotic (in $n$) advantage of the coherent method ($O(n\log_2{n})$) over the expansion method ($O(n^2)$) is only useful in $U_A^{(r)}$ if the number of $T$ gates in $U_R(u^{(r)})$ can also be reduced from $O(n^2\log_2(\frac{n}{\epsilon}))$. Otherwise, the latter complexity dominates and maintains the overall complexity unchanged.
 
-In Chapter 3, we explore chemical systems and Hamiltonians for which it is the case that $U_R(R^{(r)})$ can be decomposed ``easily'' as such.
+In Chapter 3, we explore chemical systems and Hamiltonians for which it is the case that $U_R(u^{(r)})$ can be decomposed ``easily'' as such.
 
 
 %%%%%%%%%%%%%%%% end table %%%%%%%%%%%%%%%%%%% 

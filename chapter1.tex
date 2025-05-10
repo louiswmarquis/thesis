@@ -11,15 +11,15 @@ Quantum computational chemistry aims to perform this task using quantum computer
 
 \section{Hamiltonian Simulation}
 
-In any quantum system, the behavior in which its state changes over time is dictated by its Hamiltonian operator $\hat{H}$. In particular, if the system starts in state $\ket{\psi(0)}$, then we can determine its state $\ket{\psi(t)}$ at time $t$.
+In any quantum system, the behavior in which its state changes over time is dictated by its Hamiltonian operator $H$. In particular, if the system starts in state $\ket{\psi(0)}$, then we can determine its state $\ket{\psi(t)}$ at time $t$.
 
 \begin{equation}
-    \ket{\psi(t)} = e^{-i\hat{H}t}\ket{\psi(0)}
+    \ket{\psi(t)} = e^{-iHt}\ket{\psi(0)}
 \end{equation}
 
 Operators and states can be thought of as matrices and vectors, but where a vector maps integer indices to values, a state is a function that maps a continuous variable (such as position) to an amplitude value. An operator maps state functions to state functions how a matrix maps vectors to vectors.
 
-The Hamiltonian $\hat{H}$ depends on many factors, such as the nature of interactions between particles in the system or external forces such as electric or magnetic fields acting in the system. $\hat{H}$, and in turn $U = e^{-i\hat{H}t}$ can be very complex, and usually it's not feasible to simulate $U$ exactly. Instead, we try find a different operator $\tilde{U}$ that is easy to simulate and sufficiently close to $\tilde{U}$. Usually we choose to define the error as the spectral norm (largest singular value) of the difference between $U$ and $\tilde{U}$. The goal is for the error to be below some variable threshold $\epsilon$.
+The Hamiltonian $H$ depends on many factors, such as the nature of interactions between particles in the system or external forces such as electric or magnetic fields acting in the system. $H$, and in turn $U = e^{-iHt}$ can be very complex, and usually it's not feasible to simulate $U$ exactly. Instead, we try find a different operator $\tilde{U}$ that is easy to simulate and sufficiently close to $\tilde{U}$. Usually we choose to define the error as the spectral norm (largest singular value) of the difference between $U$ and $\tilde{U}$. The goal is for the error to be below some variable threshold $\epsilon$.
 
 \begin{equation}
     \epsilon \geq ||U - \tilde{U}|| = ||e^{-iHt} - \tilde{U}||
@@ -30,28 +30,28 @@ This task is accordingly named Hamiltonian simulation.
 One important Hamiltonian is the electronic structure Hamiltonian, describing the behavior of electrons in a molecule consisting of many nuclei and electrons. In modeling this system, we use the Born-Oppenheimer approximation, which assumes that the positions of the nuclei are essentially fixed. This is justified by the fact that the nuclei are far more massive than the electrons, so we can study the movement of electrons separately from the movement of the nuclei. With this assumption, the electronic structure Hamiltonian contains only terms for the electrons' kinetic energies, for the interactions between electrons and nuclei, and for the interactions among electrons.
 
 \begin{equation}
-    \hat{H} = -\sum_p \frac{\hbar^2}{2m_e} \nabla^2_p - \sum_{p, P}\frac{e^2}{4\pi\epsilon_0}\frac{Z_P}{|\vec{r}_p - \vec{R}_P|} + \frac{1}{2}\sum_{p \neq q}\frac{e^2}{4\pi\epsilon_0}\frac{1}{|\vec{r}_p - \vec{r}_q|} \label{eq: H}
+    H = -\sum_p \frac{\hbar^2}{2m_e} \nabla^2_p - \sum_{p, P}\frac{e^2}{4\pi\epsilon_0}\frac{Z_P}{|\vec{r}_p - \vec{R}_P|} + \frac{1}{2}\sum_{p \neq q}\frac{e^2}{4\pi\epsilon_0}\frac{1}{|\vec{r}_p - \vec{r}_q|} \label{eq: H}
 \end{equation}
 
 $\vec{r}_p$ denotes the position of the $p$th electron, and $\vec{r}_P$ and $Z_P$ denote the position and charge of the $P$th nucleus.
 
-The ultimate goal of electronic structure theory is to find the eigenvalues and eigenstates of $e^{-i\hat{H}t}$, or the states that are invariant (up to a phase) under $e^{-i\hat{H}t}$. The ability to simulate the behavior of $e^{-i\hat{H}t}$ on an arbitrary state can directly be used to find the eigenvalues using the quantum phase estimation algorithm. The details of this algorithm are not essential in the topic of this paper, the relevant fact is the power unlocked by performing $e^{-i\hat{H}t}$.
+The ultimate goal of electronic structure theory is to find the eigenvalues and eigenstates of $e^{-iHt}$, or the states that are invariant (up to a phase) under $e^{-iHt}$. The ability to simulate the behavior of $e^{-iHt}$ on an arbitrary state can directly be used to find the eigenvalues using the quantum phase estimation algorithm. The details of this algorithm are not essential in the topic of this paper, the relevant fact is the power unlocked by performing $e^{-iHt}$.
 
 \section{Trotterization}
 
-The Hamiltonian $H$ of a system may often be a sum of many terms $\hat{h}_j$, as exemplified by the electronic structure Hamiltonian in $\eqref{eq: H}$.
+The Hamiltonian $H$ of a system may often be a sum of many terms $h_j$, as exemplified by the electronic structure Hamiltonian in $\eqref{eq: H}$.
 
 \begin{equation}
-    \hat{H} = \sum_j \hat{h}_j
+    H = \sum_j h_j
 \end{equation}
 
-We can use the Lie-Trotter formula to approximate the target operator $U = e^{-i\hat{H}t}$ as the product of many smaller rotations.
+We can use the Lie-Trotter formula to approximate the target operator $U = e^{-iHt}$ as the product of many smaller rotations.
 
 \begin{equation}
-    U = e^{-i\hat{H}t} = e^{-i\sum_j \hat{h}_jt} = \lim_{M \rightarrow \infty} (\prod_j e^{-i\hat{h}_j\frac{t}{M}})^M
+    U = e^{-iHt} = e^{-i\sum_j h_jt} = \lim_{M \rightarrow \infty} (\prod_j e^{-ih_j\frac{t}{M}})^M
 \end{equation}
 
-In other words, for sufficiently large $M$, $U$ is essentially equivalent to iterating $M$ times through smaller evolutions $e^{-i\hat{h}_j\frac{t}{M}}$. We can denote $\Delta t = \frac{t}{M}$ the step size. This is the first-order Trotter-Suzuki Algorithm. This is very convenient because it means that if we can simulate a Hamiltonian evolution with $\hat{h}_j$, we can also approximately simulate $U$. This will be the case most of the time in this paper.
+In other words, for sufficiently large $M$, $U$ is essentially equivalent to iterating $M$ times through smaller evolutions $e^{-ih_j\frac{t}{M}}$. We can denote $\Delta t = \frac{t}{M}$ the step size. This is the first-order Trotter-Suzuki Algorithm. This is very convenient because it means that if we can simulate a Hamiltonian evolution with $h_j$, we can also approximately simulate $U$. This will be the case most of the time in this paper.
 
 However, $M$ must be sufficiently large to make the approximation sufficiently precise. At the same time, the computation cost of the algorithm scales linearly with the number of individual evolutions and therefore with $M$. It turns out that, to achieve an error threshold of $\epsilon$, a cost of $\frac{L^3\Lambda^2t^2}{\epsilon}$ is necessary, in which $L$ is the number of terms $h_j$, and $\Lambda = \max_j ||h_j||$.
 
@@ -59,11 +59,11 @@ First-order Trotterization as described is the most basic of such Hamiltonian si
 
 One example is qDRIFT, a randomized version of first-order Trotterization. Its computation cost is $O(\frac{\lambda^2 t^2}{\epsilon})$, in which $\lambda = \sum_j ||h_j||$.
 
-The power of such Trotter-like techniques (breaking $e^{-i\hat{H}t}$ into many $e^{-i\hat{h}_jt}$) allows us to analyze each term $\hat{h}_j$ independently of the others. If one can simulate $e^{-i\hat{h}_jt}$ for every term, one can simulate $U$.
+The power of such Trotter-like techniques (breaking $e^{-iHt}$ into many $e^{-ih_jt}$) allows us to analyze each term $h_j$ independently of the others. If one can simulate $e^{-ih_jt}$ for every term, one can simulate $U$.
 
 \section{Second Quantized Fock States}
 
-We would like to model the electronic structure system described by $\hat{H}$ in \eqref{eq: H}. As previously described, the system consists of numerous identical electrons and numerous nuclei at fixed positions. The indistinguishability of the electrons means that the joint wavefunction is only determined by how many electrons are in each basis state, rather than which electron is in which state. For example, electrons $1$ and $2$ being in respective states $\phi_1$ and $\phi_2$ must create the same wavefunction as them being in the states $\phi_2$ and $\phi_1$. In addition, the joint wavefunction of many identical fermions must be anti-symmetric upon exchange of any pair of fermions. For example, if we want to express a state where one electron is in state $\phi_1$ and the other is in state $\phi_2$, a simple tensor product $\phi_1 \otimes \phi_2$ would not be a valid joint wavefunction. Instead, it must be anti-symmetrized.
+We would like to model the electronic structure system described by $H$ in \eqref{eq: H}. As previously described, the system consists of numerous identical electrons and numerous nuclei at fixed positions. The indistinguishability of the electrons means that the joint wavefunction is only determined by how many electrons are in each basis state, rather than which electron is in which state. For example, electrons $1$ and $2$ being in respective states $\phi_1$ and $\phi_2$ must create the same wavefunction as them being in the states $\phi_2$ and $\phi_1$. In addition, the joint wavefunction of many identical fermions must be anti-symmetric upon exchange of any pair of fermions. For example, if we want to express a state where one electron is in state $\phi_1$ and the other is in state $\phi_2$, a simple tensor product $\phi_1 \otimes \phi_2$ would not be a valid joint wavefunction. Instead, it must be anti-symmetrized.
 
 \begin{equation}
     \psi = \phi_1 \otimes \phi_2 - \phi_2 \otimes \phi_1
@@ -162,10 +162,10 @@ Observe that individual physical and annihilation operators map to a series of $
 Equipped with Fock states and creation and annihilation operators, we can rewrite the electron structure Hamiltonian from \eqref{eq: H} in a simpler, second-quantized form.
 
 \begin{equation}
-    \hat{H} = \sum_{i, j} h_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia^\dag_ja_ka_l \label{eq: H2}
+    H = \sum_{i, j} h_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia^\dag_ja_ka_l \label{eq: H2}
 \end{equation}
 
-The real coefficients $h_{ij}$ and $h_{ijkl}$ are the projections of $\hat{H}$ onto the chosen single-particle basis $\{\phi_i\}_{i \in [0, n)}$. These can be calculated on a classical computer.
+The real coefficients $h_{ij}$ and $h_{ijkl}$ are the projections of $H$ onto the chosen single-particle basis $\{\phi_i\}_{i \in [0, n)}$. These can be calculated on a classical computer.
 
 \begin{equation}
     \begin{split}
@@ -186,88 +186,88 @@ Observe from \eqref{eq: hij} that $h_{ij}$, which is real, must be symmetric bet
 
 \begin{equation}
     \begin{split}
-        \hat{H} &= \sum_{i, j} h_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia^\dag_ja_ka_l \\
+        H &= \sum_{i, j} h_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia^\dag_ja_ka_l \\
         &= \sum_{i, j} h_{ij}a^\dag_ia_j - \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia^\dag_ja_la_k \\
         &= \sum_{i, j} h_{ij}a^\dag_ia_j - \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_i(\delta_{jl} - a_la^\dag_j)a_k \\
         &= \sum_{i, j} h_{ij}a^\dag_ia_j - \frac{1}{2}\left(\sum_{i, j, k}h_{ijkj}a^\dag_ia_k - \sum_{i,j,k,l} h_{ijkl}a^\dag_ia_la^\dag_ja_k\right) \\
         &= \sum_{i, j} (h_{ij} - \frac{1}{2}\sum_k h_{ikjk})a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia_la^\dag_ja_k \\
         &= \sum_{i, j} h'_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h'_{iljk}a^\dag_ia_la^\dag_ja_k \\
-        &= \hat{H}_{1e} + \hat{H}_{2e}
+        &= H_{1e} + H_{2e}
     \end{split}
     \label{eq: H3}
 \end{equation}
-We introduced new coefficients $h'_{ij}$ and $h'_{iljk}$ for this new ordering and label the summations $\hat{H}_{1e}$ and $\hat{H}_{2e}$.
+We introduced new coefficients $h'_{ij}$ and $h'_{iljk}$ for this new ordering and label the summations $H_{1e}$ and $H_{2e}$.
 \begin{equation}
     \begin{split}
         h'_{ij} &= h_{ij} - \frac{1}{2}\sum_k h_{ikjk} \\
-        \hat{H}_{1e} &= \sum_{i, j} h'_{ij}a^\dag_ia_j \\
+        H_{1e} &= \sum_{i, j} h'_{ij}a^\dag_ia_j \\
         h'_{iljk} &= h_{ijkl} \\
-        \hat{H}_{2e} &= \frac{1}{2}\sum_{i,j,k,l} h'_{iljk}a^\dag_ia_la^\dag_ja_k
+        H_{2e} &= \frac{1}{2}\sum_{i,j,k,l} h'_{iljk}a^\dag_ia_la^\dag_ja_k
     \end{split}
 \end{equation}
 
-As a reminder, we would like to simulate $U = e^{-i\hat{H}t}$ on a quantum computer. Trotterization allows us to study each term in \eqref{eq: H3} independently. That is, we just need to find a way to simulate $U_1 = e^{-i\hat{H}_{1e}\Delta t}$ and $U_2 = e^{-i\hat{H}_{2e}\Delta t}$ for arbitrary $\Delta t$. The direct brute force method is to substitute the operator correspondances from \eqref{eq: JWdown} and \eqref{eq: JWup} into \eqref{eq: H3} to obtain the corresponding qubit Hamiltonian. With this method, it turns out that $U_1$ is a sum of $O(n^2)$ terms and $U_2 = e^{-\hat{H}_{2e}t}$ becomes $O(n^4)$ terms. We can iterate over the terms with a Trotter-like or qDRIFT, but the $O(n^4)$ can make such an iteration very tedious. We'd like to see if there's a more clever method.
+As a reminder, we would like to simulate $U = e^{-iHt}$ on a quantum computer. Trotterization allows us to study each term in \eqref{eq: H3} independently. That is, we just need to find a way to simulate $U_1 = e^{-iH_{1e}\Delta t}$ and $U_2 = e^{-iH_{2e}\Delta t}$ for arbitrary $\Delta t$. The direct brute force method is to substitute the operator correspondances from \eqref{eq: JWdown} and \eqref{eq: JWup} into \eqref{eq: H3} to obtain the corresponding qubit Hamiltonian. With this method, it turns out that $U_1$ is a sum of $O(n^2)$ terms and $U_2 = e^{-H_{2e}t}$ becomes $O(n^4)$ terms. We can iterate over the terms with a Trotter-like or qDRIFT, but the $O(n^4)$ can make such an iteration very tedious. We'd like to see if there's a more concise method.
 
-Recall that because $h'_{iljk} = h_{ijkl}$ is symmetric between $(i, l)$ and $(j, k)$, $h'$ can be treated as a real symmetric $n^2 \times n^2$ matrix and eigendecomposed with eigenvalues $\lambda_r$ and eigenvectors $Q^{(r)}$ whose indices are $(i, l)$ ordered pairs. A Cholesky decomposition is also an option but for now we will use an eigendecomposition.
+Recall that because $h'_{iljk} = h_{ijkl}$ is symmetric between $(i, l)$ and $(j, k)$, $h'$ can be treated as a real symmetric $n^2 \times n^2$ matrix and eigendecomposed with eigenvalues $\lambda_r$ and eigenvectors $Q^{(r)}$ whose indices are $(i, l)$ ordered pairs. A Cholesky decomposition is also an option but for now we will use an eigendecomposition. Denote $R = \text{rank}{(h')}$.
 
 \begin{equation}
-    h'_{iljk} = \sum_r \lambda_r Q^{(r)}_{i, l}Q^{(r)}_{j, k}
+    h'_{iljk} = \sum_{r = 0}^{R - 1} \lambda_r Q^{(r)}_{i, l}Q^{(r)}_{j, k}
 \end{equation}
 
 \begin{equation}
     \begin{split}
-        \hat{H}_{2e} &= \frac{1}{2}\sum_{i,j,k,l} h'_{ijkl}a^\dag_ia_la^\dag_ja_k \\
-        &= \frac{1}{2}\sum_{i,j,k,l} \sum_r \lambda_r Q^{(r)}_{i, l}Q^{(r)}_{j, k}a^\dag_ia_la^\dag_ja_k \\
-        &= \frac{1}{2}\sum_r \lambda_r \sum_{i,l} Q^{(r)}_{i, l}a^\dag_ia_l\sum_{j,k}Q^{(r)}_{j, k}a^\dag_ja_k \\
-        &= \frac{1}{2}\sum_r\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
-        &= \sum_r \hat{H}_{2e}^{(r)}
+        H_{2e} &= \frac{1}{2}\sum_{i,j,k,l} h'_{ijkl}a^\dag_ia_la^\dag_ja_k \\
+        &= \frac{1}{2}\sum_{i,j,k,l} \sum_{r = 0}^{R - 1} \lambda_r Q^{(r)}_{i, l}Q^{(r)}_{j, k}a^\dag_ia_la^\dag_ja_k \\
+        &= \frac{1}{2}\sum_{r = 0}^{R - 1} \lambda_r \sum_{i,l} Q^{(r)}_{i, l}a^\dag_ia_l\sum_{j,k}Q^{(r)}_{j, k}a^\dag_ja_k \\
+        &= \frac{1}{2}\sum_{r = 0}^{R - 1}\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
+        &= \sum_{r = 0}^{R - 1} H_{2e}^{(r)}
     \end{split}
     \label{eq: DF}
 \end{equation}
 
-We have written $\hat{H}_{2e}$ as a sum of terms $\hat{H}_{2e}^{(r)}$. If we could simulate $U_2^{(r)} = e^{-i\hat{H}_{2e}^{(r)}\Delta t}$ for an arbitrary $\Delta t$, then we can Trotter or qDRIFT over these terms to implement $U_2$.
+We have written $H_{2e}$ as a sum of terms $H_{2e}^{(r)}$. The number $R$ of terms is the rank of the tensor $h'$, and in the worst case $R = n^2$. However, for molecular systems, $R$ is often $O(n)$, such as in the carbon-hydrogen systems studied in \cite{CH}. If we could simulate $U_2^{(r)} = e^{-iH_{2e}^{(r)}\Delta t}$ for an arbitrary $\Delta t$, then we can Trotter or qDRIFT over these $R$ terms to implement $U_2$.
 
 \begin{equation}
-    \hat{H}_{2e}^{(r)} = \frac{1}{2}\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2
+    H_{2e}^{(r)} = \frac{1}{2}\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2
 \end{equation}
 
-Observe that $h'_{iljk}$ is symmetric between $i$ and $l$ and between $j$ and $k$, implying that $Q^{(r)}_{i, j}$ is symmetric between $i$ and $j$. Each $n^2$-length vector $Q^{(r)}$ can then be treated as an $n \times n$ matrix to be further eigendecomposed with eigenvalues $\lambda'^{(r)}_s$ and real orthonormal eigenvectors $R^{(r)}_s$ as the columns of $R^{(r)}$, which is orthogonal.
+Observe that $h'_{iljk}$ is symmetric between $i$ and $l$ and between $j$ and $k$, implying that $Q^{(r)}_{i, j}$ is symmetric between $i$ and $j$. Each $n^2$-length vector $Q^{(r)}$ can then be treated as an $n \times n$ matrix to be further eigendecomposed with eigenvalues $\lambda'^{(r)}_s$ and real orthonormal eigenvectors $u^{(r)}_s$ as the columns of $u^{(r)}$, which is orthogonal.
 
 \begin{equation}
     \begin{split}
-        Q^{(r)} &= R^{(r)}\begin{bmatrix}
+        Q^{(r)} &= u^{(r)}\begin{bmatrix}
             \lambda'^{(r)}_0 & & \\ & \ddots & \\ & & \lambda'^{(r)}_{n - 1}
-          \end{bmatrix}R^{(r)T} \\
-        Q^{(r)}_{i, j} &= \sum_s \lambda'^{(r)}_s R^{(r)}_{is}R^{(r)}_{js}
+          \end{bmatrix}u^{(r)T} \\
+        Q^{(r)}_{i, j} &= \sum_s \lambda'^{(r)}_s u^{(r)}_{is}u^{(r)}_{js}
     \end{split}
 \end{equation}
 
-We introduce the operators $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s$, which are respectively linear combinations of the the creation operators $\{a^\dag_i\}_{i \in [0, n)}$ and annihilation operators $\{a_i\}_{i \in [0, n)}$. Because $R^{(r)}$ is orthogonal (and therefore unitary), these $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s$ are actually creation and annihilation operators of a different Fock basis; that is, the basis $\{\tilde{\phi}_s = \sum_s R^{(r)}_{is} \phi_i\}_{s \in [0, n)}$. This rotated basis also has its own number operators $\tilde{n}^{(r)}_s$.
+We introduce the operators $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s$, which are respectively linear combinations of the the creation operators $\{a^\dag_i\}_{i \in [0, n)}$ and annihilation operators $\{a_i\}_{i \in [0, n)}$. Because $u^{(r)}$ is orthogonal (and therefore unitary), these $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s$ are actually creation and annihilation operators of a different Fock basis; that is, the Fock basis created from the single-particle basis $\{\tilde{\phi}_s = \sum_s u^{(r)}_{is} \phi_i\}_{s \in [0, n)}$. This rotated basis also has its own number operators $\tilde{n}^{(r)}_s$.
 
 \begin{equation}
     \begin{split}
-        \tilde{a}^{(r)\dag}_s &= \sum_iR^{(r)}_{is}a^\dag_i \\
-        \tilde{a}^{(r)}_s &= \sum_iR^{(r)}_{is}a_i \\
+        \tilde{a}^{(r)\dag}_s &= \sum_iu^{(r)}_{is}a^\dag_i \\
+        \tilde{a}^{(r)}_s &= \sum_iu^{(r)}_{is}a_i \\
         \tilde{n}^{(r)}_s &= \tilde{a}^{(r)\dag}_s\tilde{a}^{(r)}_s
     \end{split}
 \end{equation}
 
-We can rewrite $\hat{H}_{2e}^{(r)}$ in terms of $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s, \tilde{n}^{(r)}_s$.
+We can rewrite $H_{2e}^{(r)}$ in terms of $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s, \tilde{n}^{(r)}_s$.
 
 \begin{equation}
     \begin{split}
         H_{2e}^{(r)} &= \frac{1}{2}\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
-        &= \frac{1}{2}\lambda_r\left(\sum_{i,j} \sum_s \lambda'^{(r)}_s R^{(r)}_{is}R^{(r)}_{js}a^\dag_ia_j\right)^2 \\
-        &= \frac{1}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \sum_i R^{(r)}_{is}a^\dag_i\sum_jR^{(r)}_{js}a_j\right)^2 \\
+        &= \frac{1}{2}\lambda_r\left(\sum_{i,j} \sum_s \lambda'^{(r)}_s u^{(r)}_{is}u^{(r)}_{js}a^\dag_ia_j\right)^2 \\
+        &= \frac{1}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \sum_i u^{(r)}_{is}a^\dag_i\sum_ju^{(r)}_{js}a_j\right)^2 \\
         &= \frac{1}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{a}^{(r)\dag}_s\tilde{a}^{(r)}_s\right)^2 \\
         &= \frac{1}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s\right)^2
     \end{split}
 \end{equation}
 
-We would like to simulate $U_2^{(r)} = e^{-i\hat{H}_{2e}^{(r)}\Delta T}$ for an arbitrary $\Delta t$. If the operator's eigenbasis were the same as the qubits' computational basis, it would be very simple. However, its eigenbasis is the Fock basis constructed from the rotated basis $\{\tilde{\phi}_s\}$. Meanwhile, the qubit computational basis $\{\ket{\vec{x}}\}$ corresponds to the original physical Fock basis $\{\ket{\vec{f}}\}$ constructed from $\{\phi_i\}$. To deal with this, we have to essentially rotate the operator $U_r$ into the computational basis. \cite{FSN} uses the Thouless Theorem to show that such a rotation operator $U_R(R^{(r)})$ necessary can be calculated from $R^{(r)}$ and and corresponds to a maximum of ${n \choose 2} = O(n^2)$ gates on the quantum computer. 
+We would like to simulate $U_2^{(r)} = e^{-iH_{2e}^{(r)}\Delta t}$ for an arbitrary $\Delta t$. If the operator's eigenbasis were the same as the qubits' computational basis, it would be very simple. However, its eigenbasis is the Fock basis constructed from the rotated basis $\{\tilde{\phi}_s\}$. Meanwhile, the qubit computational basis $\{\ket{\vec{x}}\}$ corresponds to the original physical Fock basis $\{\ket{\vec{f}}\}$ constructed from $\{\phi_i\}$. To deal with this, we have to essentially rotate the operator $U_r$ into the computational basis. \cite{FSN} uses the Thouless Theorem to show that such a rotation operator $U_R(u^{(r)})$ necessary can be calculated from $u^{(r)}$ and and corresponds to a maximum of ${n \choose 2} = O(n^2)$ gates on the quantum computer. 
 
 \begin{equation}
-    U_2^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s\right)^2} = U_R(R^{(r)})^\dag e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2}U_R(R^{(r)}) = U_R(R^{(r)})^\dag U_A^{(r)}U_R(R^{(r)})
+    U_2^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s\right)^2} = U_R(u^{(r)})^\dag e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2}U_R(u^{(r)}) = U_R(u^{(r)})^\dag U_A^{(r)}U_R(u^{(r)})
     \label{eq: U_2^r}
 \end{equation}
 \begin{equation}
@@ -309,7 +309,7 @@ Each operator with a single $n_s$ corresponds (up to a phase) to a $R_z$ operato
     \label{eq: CR_z}
 \end{equation}
 
-There are therefore $n$ $R_z$ operators and ${n \choose 2}$ $CR_z$ operators in this decomposition. Each $CR_z$ can be decomposed to two $CNOT$s and three $R_z$s, shown in \ref{fig: CR_z}. This results in $n + 3{n \choose 2} = \frac{3n(n - 1)}{2}$ $R_z$ gates total in $U_A^{(r)}$.
+There are therefore $n$ $R_z$ operators and ${n \choose 2}$ $CR_z$ operators in this decomposition. Each $CR_z$ can be decomposed (up to a phase) to two $CNOT$s and three $R_z$s, shown in \ref{fig: CR_z}. This results in $n + 3{n \choose 2} = \frac{3n(n - 1)}{2}$ $R_z$ gates total in $U_A^{(r)}$.
 
 \begin{figure}[h]
     \centering
@@ -323,7 +323,7 @@ There are therefore $n$ $R_z$ operators and ${n \choose 2}$ $CR_z$ operators in 
 
 \cite{Rz} achieves a fault-tolerant implementation of $R_z$ using at most $10 + 4\log_2(\frac{1}{\epsilon_z})$ T-gates, in which $\epsilon_z$ is the the desired error bound of $R_z$. Since $U_A^{(r)}$ contains $\frac{3n(n - 1)}{2}$ $R_z$ gates and error (which is by operator norm) propagates sub-additively, we need $\epsilon_z \leq \frac{\epsilon}{\frac{3n(n - 1)}{2}}$ to guarantee a threshold $\epsilon$ for the error of $U_A^{(r)}$.
 
-We can then calculate the upper bound for the T-count $\tilde{N}_T$ of $U_A^{(r)}$ using the expansion method in terms of $n, \frac{1}{\epsilon}$.
+We can then calculate the upper bound for the $T$-count $\tilde{N}_T$ of $U_A^{(r)}$ using the expansion method in terms of $n, \frac{1}{\epsilon}$.
 
 \begin{equation}
     \begin{split}
@@ -336,11 +336,11 @@ We can then calculate the upper bound for the T-count $\tilde{N}_T$ of $U_A^{(r)
 
 \subsection{Discussion}
 
-Similarly to \eqref{eq: expansion}, $U_R(R^{(r)})$ in \eqref{eq: U_2^r} can be decomposed into at most $O(n^2)$ non-Clifford gates as described in \cite{FSN}, resulting in a $O(n^2\log_2(\frac{n}{\epsilon}))$ T-count. Combined with \eqref{eq: expansionTs}, one can achieve an overall T-count of $O(n^2\log_2(\frac{n}{\epsilon}))$ for $U_2^{(r)}$.
+Similarly to \eqref{eq: expansion}, $U_R(u^{(r)})$ in \eqref{eq: U_2^r} can be decomposed into at most $O(n^2)$ non-Clifford gates as described in \cite{FSN}, resulting in a $O(n^2\log_2(\frac{n}{\epsilon}))$ $T$-count. Combined with \eqref{eq: expansionTs}, one can achieve an overall $T$-count of $O(n^2\log_2(\frac{n}{\epsilon}))$ for $U_2^{(r)}$.
 
-We'd like to find alternative fault-tolerant implementations of $U_2^{(r)}$ with a lower asymptotic $T$-count. For this to be possible, the chemical system must have a Hamiltonian with ``easy'' basis rotations; that is, it double factorizes such that all $U_R(R^{(r)})$ decomposes using the \cite{FSN} method to $o(n^2)$ non-Clifford gates. We also need to both implement $U_A^{(r)}$ more efficiently.
+We'd like to find alternative fault-tolerant implementations of $U_2^{(r)}$ with a lower asymptotic $T$-count. For this to be possible, the chemical system must have a Hamiltonian with ``easy'' basis rotations; that is, it double factorizes such that all $U_R(u^{(r)})$ decomposes using the \cite{FSN} method to $o(n^2)$ non-Clifford gates. We also need to both implement $U_A^{(r)}$ more efficiently.
 
-Chapter 2 introduces and explicitly constructs a quantum circuit that simulates $U_R(R^{(r)})$ with $O(n\log_2(\frac{n}{\epsilon}) + \log_2(\frac{1}{\epsilon})^2)$ $T$-count. We call this quantum circuit the ``coherent method'', in contrast to the ``expansion method''. Chapter 3 explores types of Hamiltonians with ``easy'' basis rotations and how to effectively leverage the ``coherent method'' for these Hamiltonians.
+Chapter 2 introduces and explicitly constructs a quantum circuit that simulates $U_R(u^{(r)})$ with $O(n\log_2(\frac{n}{\epsilon}) + \log_2(\frac{1}{\epsilon})^2)$ $T$-count. We call this quantum circuit the ``coherent method'', in contrast to the ``expansion method''. Chapter 3 explores types of Hamiltonians with ``easy'' basis rotations and how to effectively leverage the ``coherent method'' for these Hamiltonians.
 
 %%%%%%%%%%%%%%%% end table %%%%%%%%%%%%%%%%%%% 
 

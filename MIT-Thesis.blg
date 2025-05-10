@@ -1,17 +1,18 @@
-[1] Config.pm:308> INFO - This is Biber 2.20
-[2] Config.pm:311> INFO - Logfile is 'MIT-Thesis.blg'
-[221] biber-MSWIN64:340> INFO - === 
-[301] Biber.pm:420> INFO - Reading 'MIT-Thesis.bcf'
-[514] Biber.pm:994> INFO - Found 4 citekeys in bib section 0
-[540] Biber.pm:4463> INFO - Processing section 0
-[563] Biber.pm:4654> INFO - Looking for bibtex file 'main.bib' for section 0
-[664] bibtex.pm:1713> INFO - LaTeX decoding ...
-[700] bibtex.pm:1519> INFO - Found BibTeX data source 'main.bib'
-[820] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[821] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[821] Biber.pm:4283> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'en-US'
-[821] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
-[837] bbl.pm:676> INFO - Writing 'MIT-Thesis.bbl' with encoding 'UTF-8'
-[847] bbl.pm:779> INFO - Output to MIT-Thesis.bbl
-[848] Biber.pm:131> WARN - legacy month field 'Aug' in entry 'Gate_Count' is not an integer - this will probably not sort properly.
-[848] Biber.pm:133> INFO - WARNINGS: 1
+[0] Config.pm:308> INFO - This is Biber 2.20
+[9] Config.pm:311> INFO - Logfile is 'MIT-Thesis.blg'
+[521] biber-MSWIN64:340> INFO - === 
+[627] Biber.pm:420> INFO - Reading 'MIT-Thesis.bcf'
+[932] Biber.pm:994> INFO - Found 6 citekeys in bib section 0
+[983] Biber.pm:4463> INFO - Processing section 0
+[1029] Biber.pm:4654> INFO - Looking for bibtex file 'main.bib' for section 0
+[1157] bibtex.pm:1713> INFO - LaTeX decoding ...
+[1274] bibtex.pm:1519> INFO - Found BibTeX data source 'main.bib'
+[1673] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1674] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1674] Biber.pm:4283> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'en-US'
+[1674] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[1695] bbl.pm:676> INFO - Writing 'MIT-Thesis.bbl' with encoding 'UTF-8'
+[1713] bbl.pm:779> INFO - Output to MIT-Thesis.bbl
+[1714] Biber.pm:131> WARN - legacy month field 'Feb' in entry 'Toffoli' is not an integer - this will probably not sort properly.
+[1714] Biber.pm:131> WARN - legacy month field 'Aug' in entry 'Gate_Count' is not an integer - this will probably not sort properly.
+[1714] Biber.pm:133> INFO - WARNINGS: 2

@@ -5,34 +5,38 @@
 
 \chapter{Convex Optimization of Decomposition of Electron-Electron Interaction Hamiltonian Term}
 
-\section{Lower Bounds on Rotation Complexity}
+\section{Sparse Double Factorizations}
 
-only results in an overall asymptotic advantage if $U(R^{(r)})$ can also be implemented in with sub-quadratic gate complexity. \cite{FSN} decomposed $U(R^{(r)})$ into a series of at most ${n \choose 2}$ two-orbital basis rotations, each implementable in a constant number of quantum gates. However, for certain types of Hamiltonians, the necessary number of such rotations is often much smaller.
+We would like to identify Hamiltonians for which the double factorization has ``easy'' rotations; that is, each $U_R(u^{(r)})$ decomposes to a small number of basis rotations.
 
-The minimum number of rotation is $0$, which occurs when $R^{(r)} = I$; that is, when $Q^{(r)}$ is already diagonal. However, if this is the case for all $r \in [0, n^2)$ in $\hat{H}_{2e}$, then all of the terms in $\hat{H}_{2e}$ can be combined into $n^2$ terms as shown in \eqref{eq: collapse}, resulting in a $O(n^2)$ complexity for $\hat{H}_{2e}$, in which case the coherent method would not be useful.
+Consider the minimum case: for all $r \in [0, n^2)$, $U_R(u^{(r)}) = I$, which occurs when $u^{(r)} = I$. That is, $Q^{(r)}$ is already diagonal with $\lambda'^{(r)}_s = Q^{(r)}_{s, s}$ and zero basis rotations are necessary. In this case, the Hamiltonian $H_{2e}$ itself can actually be written as a sum of products of number operators. 
 
 \begin{equation}
     \begin{split}
-        \hat{H}_{2e} &= \frac{1}{2}\sum_r\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
+        H_{2e} &= \frac{1}{2}\sum_r\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
         &= \frac{1}{2}\sum_r\lambda_r(\sum_{s} \lambda'^{(r)}_sn_s)^2 \\
-        &= \frac{1}{2}\sum_{s, s'} n_sn_{s'}\sum_r\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'}
+        &= \frac{1}{2}\sum_{s, s'} n_sn_{s'}\sum_r\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'} \\
+        &= \frac{1}{2}\sum_s n_s\sum_r\lambda_r(\lambda'^{(r)}_s)^2 + \sum_{s < s'} n_sn_{s'}\sum_r\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'} \label{eq: collapse}
     \end{split}
-    \label{eq: collapse}
 \end{equation}
 
-In fact, more generally, if $R^{(r)}$ is invariant across $r$, all of the different $\tilde{n}^{(r)}_s$ are in the same basis across $r$. Then the basis rotations $U(R^{(r)})$ and $U(R^{(r)})^\dag$ can be performed at the beginning and end without the need to switch bases between $r$. Then $\hat{H}_{2e}$ combines into $O(n^2)$ terms in \eqref{eq: collapse2}, just like in \eqref{eq: collapse}. Since $U(R^{(r)})$ uses $O(n^2)$ but is only performed twice, the total complexity is $O(n^2)$ for $\hat{H}_{2e}$, and the coherent would not be useful in this case either.
+With $H_{2e}$ in the form \eqref{eq: collapse} analogous to \eqref{eq: expansion} in the expansion method, $U_2 = e^{-iH_{2e}t}$ corresponds to a product of $n$ $R_z$ gates and ${n \choose 2}$ $CR_z$ gates, which, just like in the expansion method, costs $O(n^2\log_2(\frac{n}{\epsilon}))$ $T$ gates. However, unlike in the expansion method, these $O(n^2\log_2(\frac{n}{\epsilon}))$ gates suffice to simulate the entire $H_{2e}$, not just a term $H_2^{(r)}$. If the entire $H_{2e}$ can be simulated with $O(n^2\log_2(\frac{n}{\epsilon}))$ gates, it is unlikely that double factorization (and the coherent method) will be useful at all. The former produces one term that can be simulated with $O(n^2\log_2(\frac{n}{\epsilon}))$ $T$ gates. The latter produces $O(n^2)$ terms $H_2^{(r)}$ (requiring many Trotter or qDRIFT iterations), where each term can be simulated with $O(n\log_2(\frac{n}{\epsilon}) + \log_2(\frac{1}{\epsilon})^2)$ $T$-count (including a large constant factor).
+
+More generally, if $Q{(r)}$ are mostly diagonally dominated,
+
+More generally, if the $Q^{(r)}$ are generally very sparse, then the expansion of $H_{2e}$ also contains a reduced number of terms that make the coherent method unnecessary.
 
 \begin{equation}
     \begin{split}
-        \hat{H}_{2e} &= \frac{1}{2}\sum_r\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}_s\right)^2 \\
-        &= \frac{1}{2}\sum_{s, s'} \tilde{n}_s\tilde{n}_{s'}\sum_r\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'}
+        H_{2e} &= \frac{1}{2}\sum_r\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
+        &= \frac{1}{2}\sum_r\lambda_r(\sum_{s} \lambda'^{(r)}_sn_s)^2 \\
+        &= \frac{1}{2}\sum_{s, s'} n_sn_{s'}\sum_r\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'} \\
+        &= \frac{1}{2}\sum_s n_s\sum_r\lambda_r(\lambda'^{(r)}_s)^2 + \sum_{s < s'} n_sn_{s'}\sum_r\lambda_r\lambda'^{(r)}_s\lambda'^{(r)}_{s'}
     \end{split}
-    \label{eq: collapse2}
+    \label{eq: sparse}
 \end{equation}
 
-Moreover, if all the $Q^{(r)}$ are diagonally dominated (the magnitude of the terms on its diagonal dominates over the non-diagonal terms) or if they have very few ($O(\sqrt{n})$) nonzero off-diagonal elements, then the expansion of $\hat{H}_{2e}$ also contains a reduced number of terms that make the coherent method unnecessary.
-
-For the coherent method to be useful, all of the $U(R^{(r)})$ should decompose to $o(n^2)$ rotations, but $Q^{(r)}$ should have $\omega(\sqrt{n})$ non-zero terms (not a tight bound). This opens an area for future work to address: identifying useful Hamiltonians that satisfy these conditions.
+For the coherent method to be useful, all of the $U(u^{(r)})$ should decompose to $o(n^2)$ rotations, but $Q^{(r)}$ should have $\omega(\sqrt{n})$ non-zero terms (not a tight bound). This opens an area for future work to address: identifying useful Hamiltonians that satisfy these conditions.
 
 In the next section, we will focus on one family of Hamiltonians that satisfy these conditions.
 
@@ -46,7 +50,7 @@ Define an electronic structure Hamiltonian from \eqref{eq: H3} as $K$-range if i
 
 \begin{equation}
     \begin{split}
-        \hat{H} &= \sum_{i, j} h_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia^\dag_ja_ka_l  \\
+        H &= \sum_{i, j} h_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia^\dag_ja_ka_l  \\
         \text{such that } h_{ijkl} &= 0 \text{ if } \min(\max(|i - l|, |j - k|), \max(|i - k|, |j - l|)) > K
     \end{split}
 \end{equation}
@@ -55,7 +59,7 @@ Any $K$-range Hamiltonian can be rewritten in the following more restrictive for
 
 \begin{equation}
     \begin{split}
-        \hat{H} &= \sum_{i, j} h_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} \bar{h}_{ijkl}a^\dag_ia^\dag_ja_ka_l \\
+        H &= \sum_{i, j} h_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} \bar{h}_{ijkl}a^\dag_ia^\dag_ja_ka_l \\
         \text{such that } \bar{h}_{ijkl} &= 0 \text{ if } \max(|i - l|, |j - k|) > K
     \end{split}
 \end{equation}
@@ -64,7 +68,7 @@ Then, accordingly with \eqref{eq: H3}, this Hamiltonian can be rearranged, and a
 
 \begin{equation}
     \begin{split}
-        \hat{H} &= \sum_{i, j} h'_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h'_{iljk}a^\dag_ia_la^\dag_ja_k \\
+        H &= \sum_{i, j} h'_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h'_{iljk}a^\dag_ia_la^\dag_ja_k \\
         &= \sum_{i, j} h'_{ij}a^\dag_ia_j + \frac{1}{2}\sum_r\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \\
         \text{such that } h'_{iljk} &= \bar{h}_{ijkl} = 0 \text{ if } \max(|i - l|, |j - k|) > K
     \end{split}
@@ -86,21 +90,21 @@ Observe that the condition implies that, for all $r$, $Q^{(r)}_{i, j} = 0$ if $|
     \end{bmatrix}
 \end{equation}
 
-If $Q^{(r)}$ has bandwidth $K$, this guarantees $R^{(r)}$ can be decomposed into at most $Kn$ Givens rotations, corresponding to at most $O(Kn)$ two-qubit basis rotations comprising $U(R^{(r)})$. \textcolor{red}{PROOF?} Meanwhile, $Q^{(r)}$ has $\Omega(Kn)$ nonzero terms, so the terms cannot combine in the way of \eqref{eq: collapse} and \eqref{eq: collapse2}. Therefore, a $K$-range Hamiltonian can be expressed as a sum of $n^2$ terms, each simulable with $O(n(\log{n} + K))$ gates using the coherent method. We see that the coherent method is therefore particularly useful on such low-range Hamiltonians. For example, if $K = O(\log{n})$, the total number of gates in a single Trotter iteration over these terms is $O(n^3\log{n})$, beating the $O(n^4)$ complexity of a brute force method.
+If $Q^{(r)}$ has bandwidth $K$, this guarantees $u^{(r)}$ can be decomposed into at most $Kn$ Givens rotations, corresponding to at most $O(Kn)$ two-qubit basis rotations comprising $U(u^{(r)})$. \textcolor{red}{PROOF?} Meanwhile, $Q^{(r)}$ has $\Omega(Kn)$ nonzero terms, so the terms cannot combine in the way of \eqref{eq: collapse} and \eqref{eq: collapse2}. Therefore, a $K$-range Hamiltonian can be expressed as a sum of $n^2$ terms, each simulable with $O(n(\log{n} + K))$ gates using the coherent method. We see that the coherent method is therefore particularly useful on such low-range Hamiltonians. For example, if $K = O(\log{n})$, the total number of gates in a single Trotter iteration over these terms is $O(n^3\log{n})$, beating the $O(n^4)$ complexity of a brute force method.
 
 \section{Decomposition of Hamiltonian Term}
 
-We can expand our usage of this coherent method to electronic structure Hamiltonians that are ``low-rangedly dominant''. These are Hamiltonians that are not themselves low-range but can be expressed as a sum of a low-range term $\hat{H}_0$ and a relatively small arbitrary-range term $\Delta \hat{H}$.
+We can expand our usage of this coherent method to electronic structure Hamiltonians that are ``low-rangedly dominant''. These are Hamiltonians that are not themselves low-range but can be expressed as a sum of a low-range term $H_0$ and a relatively small arbitrary-range term $\Delta H$.
 
 \begin{equation}
     \begin{split}
-        \hat{H} &= \hat{H}_0 + \Delta \hat{H} \\
-        ||\Delta \hat{H}|| &\ll ||\hat{H}_0|| \\
+        H &= H_0 + \Delta H \\
+        ||\Delta H|| &\ll ||H_0|| \\
     \end{split}
     \label{eq: LRD}
 \end{equation}
 
-$e^{-i\hat{H}_0t}$ is (asymptotically) cheaper, while $e^{-i\Delta \hat{H}t}$ is asymptotically more expensive but it affects the output to a lesser extent (since it's smaller). The idea, then, is to use a randomized Hamiltonian simulation algorithm such as qDRIFT, which samples terms more if they have a higher weight (operator norm). In simulating \eqref{eq: LRD}, the algorithm would perform $e^{-i\hat{H}_0t}$ much more frequently (asymptotically) than $e^{-i\Delta \hat{H}t}$, which is good because the former is cheaper. If the operator norm discrepancy $||\Delta \hat{H}|| \ll ||\hat{H}_0||$ is large enough, $\Delta \hat{H}$ will not contribute too much to the overall cost, while still being performed enough times to simulate $\hat{H}$ precisely.
+$e^{-iH_0t}$ is (asymptotically) cheaper, while $e^{-i\Delta Ht}$ is asymptotically more expensive but it affects the output to a lesser extent (since it's smaller). The idea, then, is to use a randomized Hamiltonian simulation algorithm such as qDRIFT, which samples terms more if they have a higher weight (operator norm). In simulating \eqref{eq: LRD}, the algorithm would perform $e^{-iH_0t}$ much more frequently (asymptotically) than $e^{-i\Delta Ht}$, which is good because the former is cheaper. If the operator norm discrepancy $||\Delta H|| \ll ||H_0||$ is large enough, $\Delta H$ will not contribute too much to the overall cost, while still being performed enough times to simulate $H$ precisely.
 
 
 \section{Gradient Descent}
