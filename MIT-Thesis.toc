@@ -7,7 +7,7 @@
 \contentsline {section}{\numberline {1.5}Trotterization}{16}{section.1.5}%
 \contentsline {section}{\numberline {1.6}Double Factorization of Electronic Structure Hamiltonian}{17}{section.1.6}%
 \contentsline {subsection}{\numberline {1.6.1}Double-Factorized Expansion Method}{19}{subsection.1.6.1}%
-\contentsline {subsection}{\numberline {1.6.2}Discussion}{20}{subsection.1.6.2}%
+\contentsline {section}{\numberline {1.7}Discussion}{20}{section.1.7}%
 \contentsline {chapter}{\numberline {2}Quantum Arithmetic Circuit Design for Double-Factorized Electronic Structure Hamiltonian Simulation}{21}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Summation}{22}{section.2.1}%
 \contentsline {section}{\numberline {2.2}Squaring}{23}{section.2.2}%
