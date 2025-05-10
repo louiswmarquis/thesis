@@ -37,30 +37,6 @@ $\vec{r}_p$ denotes the position of the $p$th electron, and $\vec{r}_P$ and $Z_P
 
 The ultimate goal of electronic structure theory is to find the eigenvalues and eigenstates of $e^{-iHt}$, or the states that are invariant (up to a phase) under $e^{-iHt}$. The ability to simulate the behavior of $e^{-iHt}$ on an arbitrary state can directly be used to find the eigenvalues using the quantum phase estimation algorithm. The details of this algorithm are not essential in the topic of this paper, the relevant fact is the power unlocked by performing $e^{-iHt}$.
 
-\section{Trotterization}
-
-The Hamiltonian $H$ of a system may often be a sum of many terms $h_j$, as exemplified by the electronic structure Hamiltonian in $\eqref{eq: H}$.
-
-\begin{equation}
-    H = \sum_j h_j
-\end{equation}
-
-We can use the Lie-Trotter formula to approximate the target operator $U = e^{-iHt}$ as the product of many smaller rotations.
-
-\begin{equation}
-    U = e^{-iHt} = e^{-i\sum_j h_jt} = \lim_{M \rightarrow \infty} (\prod_j e^{-ih_j\frac{t}{M}})^M
-\end{equation}
-
-In other words, for sufficiently large $M$, $U$ is essentially equivalent to iterating $M$ times through smaller evolutions $e^{-ih_j\frac{t}{M}}$. We can denote $\Delta t = \frac{t}{M}$ the step size. This is the first-order Trotter-Suzuki Algorithm. This is very convenient because it means that if we can simulate a Hamiltonian evolution with $h_j$, we can also approximately simulate $U$. This will be the case most of the time in this paper.
-
-However, $M$ must be sufficiently large to make the approximation sufficiently precise. At the same time, the computation cost of the algorithm scales linearly with the number of individual evolutions and therefore with $M$. It turns out that, to achieve an error threshold of $\epsilon$, a cost of $\frac{L^3\Lambda^2t^2}{\epsilon}$ is necessary, in which $L$ is the number of terms $h_j$, and $\Lambda = \max_j ||h_j||$.
-
-First-order Trotterization as described is the most basic of such Hamiltonian simulation algorithms, and there is a rich field of literature finding improved methods to decrease error and computation cost for this problem.
-
-One example is qDRIFT, a randomized version of first-order Trotterization. Its computation cost is $O(\frac{\lambda^2 t^2}{\epsilon})$, in which $\lambda = \sum_j ||h_j||$.
-
-The power of such Trotter-like techniques (breaking $e^{-iHt}$ into many $e^{-ih_jt}$) allows us to analyze each term $h_j$ independently of the others. If one can simulate $e^{-ih_jt}$ for every term, one can simulate $U$.
-
 \section{Second Quantized Fock States}
 
 We would like to model the electronic structure system described by $H$ in \eqref{eq: H}. As previously described, the system consists of numerous identical electrons and numerous nuclei at fixed positions. The indistinguishability of the electrons means that the joint wavefunction is only determined by how many electrons are in each basis state, rather than which electron is in which state. For example, electrons $1$ and $2$ being in respective states $\phi_1$ and $\phi_2$ must create the same wavefunction as them being in the states $\phi_2$ and $\phi_1$. In addition, the joint wavefunction of many identical fermions must be anti-symmetric upon exchange of any pair of fermions. For example, if we want to express a state where one electron is in state $\phi_1$ and the other is in state $\phi_2$, a simple tensor product $\phi_1 \otimes \phi_2$ would not be a valid joint wavefunction. Instead, it must be anti-symmetrized.
@@ -157,12 +133,12 @@ We use the short-hand $U_i = I^{\otimes i}\otimes U \otimes I^{\otimes n - i - 1
 
 Observe that individual physical and annihilation operators map to a series of $i$ gates (qubit operators). In the average case, this amounts to $O(n)$ gates, which is not ideal. There are other encodings that optimize the efficiency of operator mappings, but they sacrifice the simplicity in basis state mappings exhibited by the Jordan-Wigner Encoding. For the purposes of this project, the Jordan-Wigner Encoding is sufficient.
 
-\section{Double Factorization of Electronic Structure Hamiltonian}
+\section{Second-Quantized Electronic Structure Hamiltonian}
 
 Equipped with Fock states and creation and annihilation operators, we can rewrite the electron structure Hamiltonian from \eqref{eq: H} in a simpler, second-quantized form.
 
 \begin{equation}
-    H = \sum_{i, j} h_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia^\dag_ja_ka_l \label{eq: H2}
+    H = \sum_{i, j} h_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia^\dag_ja_ka_l
 \end{equation}
 
 The real coefficients $h_{ij}$ and $h_{ijkl}$ are the projections of $H$ onto the chosen single-particle basis $\{\phi_i\}_{i \in [0, n)}$. These can be calculated on a classical computer.
@@ -200,13 +176,51 @@ We introduced new coefficients $h'_{ij}$ and $h'_{iljk}$ for this new ordering a
 \begin{equation}
     \begin{split}
         h'_{ij} &= h_{ij} - \frac{1}{2}\sum_k h_{ikjk} \\
-        H_{1e} &= \sum_{i, j} h'_{ij}a^\dag_ia_j \\
+        H_{1e} &= \sum_{i, j} h'_{ij}a^\dag_ia_j \label{eq: H1}
+    \end{split}
+\end{equation}
+\begin{equation}
+    \begin{split}
         h'_{iljk} &= h_{ijkl} \\
-        H_{2e} &= \frac{1}{2}\sum_{i,j,k,l} h'_{iljk}a^\dag_ia_la^\dag_ja_k
+        H_{2e} &= \frac{1}{2}\sum_{i,j,k,l} h'_{iljk}a^\dag_ia_la^\dag_ja_k \label{eq: H2}
     \end{split}
 \end{equation}
 
-As a reminder, we would like to simulate $U = e^{-iHt}$ on a quantum computer. Trotterization allows us to study each term in \eqref{eq: H3} independently. That is, we just need to find a way to simulate $U_1 = e^{-iH_{1e}\Delta t}$ and $U_2 = e^{-iH_{2e}\Delta t}$ for arbitrary $\Delta t$. The direct brute force method is to substitute the operator correspondances from \eqref{eq: JWdown} and \eqref{eq: JWup} into \eqref{eq: H3} to obtain the corresponding qubit Hamiltonian. With this method, it turns out that $U_1$ is a sum of $O(n^2)$ terms and $U_2 = e^{-H_{2e}t}$ becomes $O(n^4)$ terms. We can iterate over the terms with a Trotter-like or qDRIFT, but the $O(n^4)$ can make such an iteration very tedious. We'd like to see if there's a more concise method.
+\section{Trotterization}
+
+We would like to simulate $U = e^{-iHt}$ on a quantum computer. Unfortunately, simulating $U$ itself is very difficult: we don't even know what the eigenstates of $H$ are. The main problem is $H$ is sum of many terms, each of which act very differently on a state. We'd like to study each term separately. Fortunately, Trotterization allows us to do so.
+
+Consider a generic Hamiltonian $H$ that is the sum of $L$ terms $h_j$.
+
+\begin{equation}
+    H = \sum_{j = 0}^{L - 1} h_j
+\end{equation}
+
+We can use the Lie-Trotter formula to approximate the target operator $U = e^{-iHt}$ as the product of many smaller rotations.
+
+\begin{equation}
+    U = e^{-iHt} = e^{-i\sum_{j = 0}^{L - 1} h_jt} = \lim_{M \rightarrow \infty} (\prod_{j = 0}^{L - 1} e^{-ih_j\frac{t}{M}})^M
+\end{equation}
+
+In other words, for sufficiently large $M$, $U$ is essentially equivalent to iterating $M$ times through smaller evolutions $e^{-ih_j\frac{t}{M}}$. We can denote $\Delta t = \frac{t}{M}$ the step size. This is the first-order Trotter-Suzuki Algorithm. One can use the term ``Trotterize'' to denote the breaking of $e^{-iHt}$ into the product of many $e^{-ih_j\Delta t}$
+
+However, $M$ must be sufficiently large to make the approximation sufficiently precise. In first-order Trotterization, $M = O(\frac{(L\Lambda t)^2}{\epsilon})$ (in which $\lambda = max_j ||h_j||$, the largest singular value of a term), scales quadratically with the number of terms $L$. Each iteration requires $L$ steps, totalling $O(ML = O(\frac{L^3(\Lambda t)^2}{\epsilon}))$ steps.
+
+We can reduce the asymptotic number of iterations necessary with the second-order Trotter-Suzuki Algorithm, which essentially iterates $[h_j]_j$ in ascending order then descending order.
+
+\begin{equation}
+    U = e^{-iHt} = e^{-i\sum_{j = 0}^{L - 1} h_jt} = \lim_{M \rightarrow \infty} (\prod_{j = 0}^{L - 1} e^{-ih_j\frac{t}{2M}}\prod_{j = L - 1}^{0} e^{-ih_j\frac{t}{2M}})^M
+\end{equation}
+
+Second-order Trotterization requires $M = O(\frac{(L\Lambda t)^{1.5}}{\sqrt{\epsilon}})$. In fact, one can continue increasing the order: in general, the $2k$th order Trotterization requires $M = O(\frac{(L\Lambda t)^{1+\frac{1}{2k}}}{\epsilon^{\frac{1}{2k}}})$. However, increasing the order $k$ quickly increases the constant factor, so in practice it's rarely useful to go beyond $k = 3$.
+
+Randomizing the order of the steps $e^{-ih_j\Delta t}$ can significantly improve performance. \cite{QDRIFT} proposed the qDRIFT algorithm, which samples among terms $[h_j]_j$, assigning $h_j$ a probability proportional to $||h_j||$. It requires at most $\frac{2\lambda^2 t^2}{\epsilon} \leq \frac{2L^2\Lambda^2 t^2}{\epsilon}$ total steps, in which $\lambda = \sum_j ||h_j||$.
+
+The power of such techniques like Trotterization and qDRIFT (breaking $e^{-iHt}$ into many $e^{-ih_j\Delta t}$) allows us to analyze each term $h_j$ independently of the others. If one can simulate $e^{-ih_j \Delta t}$ for arbitrary $\Delta t$ for every term, one can approximately simulate $U = e^{-iHt}$.
+
+For example, one can Trotterize the electronic structure Hamiltonian \eqref{eq: H3}. One can substitute the operator correspondances from \eqref{eq: JWdown} and \eqref{eq: JWup} into \eqref{eq: H3} to obtain the corresponding qubit Hamiltonian, which would be a sum of many tensor products of Paulis. However, with $O(n^4)$ terms in \eqref{eq: H2}, there end up being $L = O(n^4)$ tensor products of Paulis in the qubit Hamiltonian, each containing $O(n)$ non-identity Paulis. With $L = O(n^4)$, the number of iterations with second-order Trotter-Suzuki becomes $M = O(L^{1.5}) = O(n^6)$, totalling $O(ML) = O(n^{10})$ total steps. We'd like to see if there's a more concise method.
+
+\section{Double Factorization of Electronic Structure Hamiltonian}
 
 Recall that because $h'_{iljk} = h_{ijkl}$ is symmetric between $(i, l)$ and $(j, k)$, $h'$ can be treated as a real symmetric $n^2 \times n^2$ matrix and eigendecomposed with eigenvalues $\lambda_r$ and eigenvectors $Q^{(r)}$ whose indices are $(i, l)$ ordered pairs. A Cholesky decomposition is also an option but for now we will use an eigendecomposition. Denote $R = \text{rank}{(h')}$.
 
@@ -225,13 +239,13 @@ Recall that because $h'_{iljk} = h_{ijkl}$ is symmetric between $(i, l)$ and $(j
     \label{eq: DF}
 \end{equation}
 
-We have written $H_{2e}$ as a sum of terms $H_{2e}^{(r)}$. The number $R$ of terms is the rank of the tensor $h'$, and in the worst case $R = n^2$. However, for molecular systems, $R$ is often $O(n)$, such as in the carbon-hydrogen systems studied in \cite{CH}. If we could simulate $U_2^{(r)} = e^{-iH_{2e}^{(r)}\Delta t}$ for an arbitrary $\Delta t$, then we can Trotter or qDRIFT over these $R$ terms to implement $U_2$.
+We have written $H_{2e}$ as a sum of terms $H_{2e}^{(r)}$, defined in \eqref{eq: H2er}. The number $R$ of terms is the rank of $h'$, and in the worst case $R = n^2$. However, for molecular systems, $h'$ is often low-rank, with $R$ often being $O(n)$, such as in the carbon-hydrogen systems studied in \cite{CH}. If we could simulate $U_2^{(r)} = e^{-iH_{2e}^{(r)}\Delta t}$ for an arbitrary $\Delta t$, then we could Trotter or qDRIFT over these $R$ terms to implement $U_2$, far fewer than the $O(n^4)$ terms in direct Trotterization of $H_{2e}$.
 
 \begin{equation}
-    H_{2e}^{(r)} = \frac{1}{2}\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2
+    H_{2e}^{(r)} = \frac{1}{2}\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \label{eq: H2er}
 \end{equation}
 
-Observe that $h'_{iljk}$ is symmetric between $i$ and $l$ and between $j$ and $k$, implying that $Q^{(r)}_{i, j}$ is symmetric between $i$ and $j$. Each $n^2$-length vector $Q^{(r)}$ can then be treated as an $n \times n$ matrix to be further eigendecomposed with eigenvalues $\lambda'^{(r)}_s$ and real orthonormal eigenvectors $u^{(r)}_s$ as the columns of $u^{(r)}$, which is orthogonal.
+Observe that $h'_{iljk}$ is symmetric between $i$ and $l$ and between $j$ and $k$, implying that $Q^{(r)}_{i, j}$ is symmetric between $i$ and $j$. Each $n^2$-length vector $Q^{(r)}$ can then be treated as a symmetric $n \times n$ matrix to be further eigendecomposed with eigenvalues $\lambda'^{(r)}_s$ and real orthonormal eigenvectors $u^{(r)}_s$ as the columns of $u^{(r)}$, which is orthogonal.
 
 \begin{equation}
     \begin{split}

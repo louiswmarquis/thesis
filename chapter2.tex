@@ -306,7 +306,7 @@ We can substitute the asymptotic threshold $m^* = O(\log_2(\frac{n}{\epsilon}))$
     \end{split}
 \end{equation}
 
-\section{Numerics}
+\section{Numerical Cost Estimates}
 
 The gate cost of this $\tilde{U}_A^{(r)}$ is asympotically lower in $n$ than the $O(n^2\log_2(\frac{n}{\epsilon}))$ cost of the expansion method in \eqref{eq: expansionTs}, which is a significant advantage. It's useful to get a (very rough) numerical estimate of the gate counts to understand the scale ($n$) at which the advantage appears.
 
@@ -335,6 +335,10 @@ In practice, $\Delta << t$, so $t$ is not a useful order of magnitude for $\Delt
 \end{equation}
 
 We plot this $T$-count of the ``coherent method'' as well as that of the ``expansion method'' in \eqref{eq: expansionTs} as functions of $n$. It turns out that the expansion method surpasses the coherent method in $T$-count at approxmiately $n \approx 64$. At $n = 64$, the coherent method requires about $2.51 * 10^5$ $T$-gates and has $m = 60$, while the expansion method requires about $2.57 * 10^5$ $T$-gates.
+
+We reiterate that this is a very rough estimate, intended to show the order of magnitude of the threshold $n$, rather than a specific practical value. The number of ancillas and the gate count of the coherent method are highly dependent on the scale of values $\lambda_r, Y_r$ which are highly dependent on the specific Hamiltonian. The values of $\epsilon$ and $\Delta t$ are also vary significantly across use cases.
+
+Additionally, the circuit design describes an uncontrolled implementation of $e^{-i\hat{H}_2^{(r)}\delta t}$, while in practice the main use case of an operation $e^{-iHt}$ is in phase estimation to obtain the ground state of $H$. Phase estimation will require a controlled version of $e^{-iHt}$, and therefore a controlled version of $e^{-i\hat{H}_2^{(r)}\delta t}$. This will turn the Toffoli gates into $CCCNOT$ gates, $CNOT$ gates into Toffolis, $R_z$ gates into $CR_z$ gates, and $CR_z$ gates into $CCR_z$ gates, which will increase the gate count of both the expansion and coherent methods and will shift the threshold $n$. However, such a transformation will only affect the the gate counts by a constant factor (e.g. a $CCCNOT$ can be implemented with $3$ Toffolis) and will not affect the asymptotic performance of the coherent and expansion methods.
 
 \textcolor{red}{INSERT PLOT}
 

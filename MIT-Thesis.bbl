@@ -79,6 +79,46 @@
       \verb http://dx.doi.org/10.1103/RevModPhys.92.015003
       \endverb
     \endentry
+    \entry{QDRIFT}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=36e37cc9a213735536fb5b817681bd19}{%
+           family={Campbell},
+           familyi={C\bibinitperiod},
+           given={Earl},
+           giveni={E\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society (APS)}%
+      }
+      \strng{namehash}{36e37cc9a213735536fb5b817681bd19}
+      \strng{fullhash}{36e37cc9a213735536fb5b817681bd19}
+      \strng{fullhashraw}{36e37cc9a213735536fb5b817681bd19}
+      \strng{bibnamehash}{36e37cc9a213735536fb5b817681bd19}
+      \strng{authorbibnamehash}{36e37cc9a213735536fb5b817681bd19}
+      \strng{authornamehash}{36e37cc9a213735536fb5b817681bd19}
+      \strng{authorfullhash}{36e37cc9a213735536fb5b817681bd19}
+      \strng{authorfullhashraw}{36e37cc9a213735536fb5b817681bd19}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1079-7114}
+      \field{journaltitle}{Physical Review Letters}
+      \field{month}{8}
+      \field{number}{7}
+      \field{title}{Random Compiler for Fast Hamiltonian Simulation}
+      \field{volume}{123}
+      \field{year}{2019}
+      \verb{doi}
+      \verb 10.1103/physrevlett.123.070503
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1103/PhysRevLett.123.070503
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1103/PhysRevLett.123.070503
+      \endverb
+    \endentry
     \entry{CH}{article}{}{}
       \name{author}{2}{}{%
         {{hash=883ca506b36387ef49f12b3a0d8dbacf}{%
@@ -100,8 +140,8 @@
       \strng{authornamehash}{8e08b80ea994610486ff603a02a45cfb}
       \strng{authorfullhash}{8e08b80ea994610486ff603a02a45cfb}
       \strng{authorfullhashraw}{8e08b80ea994610486ff603a02a45cfb}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Chemical Theory and Computation}
@@ -174,8 +214,8 @@
       \strng{authornamehash}{88bb752bc9192b6bcb9544c0ed00d8e6}
       \strng{authorfullhash}{1f9257de35e866fe65e4bec27ebb3362}
       \strng{authorfullhashraw}{1f9257de35e866fe65e4bec27ebb3362}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{1079-7114}
@@ -211,8 +251,8 @@
       \strng{authornamehash}{0d665e53102b24b5d852725ad829d803}
       \strng{authorfullhash}{0d665e53102b24b5d852725ad829d803}
       \strng{authorfullhashraw}{0d665e53102b24b5d852725ad829d803}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
