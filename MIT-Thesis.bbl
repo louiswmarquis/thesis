@@ -19,6 +19,78 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global/global}
+    \entry{DF}{article}{}{}
+      \name{author}{7}{}{%
+        {{hash=7b716e95ea75453dcc65e31e72b39ac7}{%
+           family={Burg},
+           familyi={B\bibinitperiod},
+           given={Vera},
+           giveni={V\bibinitperiod},
+           prefix={von},
+           prefixi={v\bibinitperiod}}}%
+        {{hash=9392ec6c19f799fdccb939e713e413f0}{%
+           family={Low},
+           familyi={L\bibinitperiod},
+           given={Guang\bibnamedelima Hao},
+           giveni={G\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=41e081bb7f82385c97c7c01e365377e2}{%
+           family={Häner},
+           familyi={H\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod}}}%
+        {{hash=ea2588005b5d0d198a044b90c3b819ea}{%
+           family={Steiger},
+           familyi={S\bibinitperiod},
+           given={Damian\bibnamedelima S.},
+           giveni={D\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=101a884703c155ac5ca9bc3f658bcc99}{%
+           family={Reiher},
+           familyi={R\bibinitperiod},
+           given={Markus},
+           giveni={M\bibinitperiod}}}%
+        {{hash=6002e95e6f01ef3deb6012e8e279b8cc}{%
+           family={Roetteler},
+           familyi={R\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=8c95c0b716ad4a10a2ab4370aca0d0ca}{%
+           family={Troyer},
+           familyi={T\bibinitperiod},
+           given={Matthias},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society (APS)}%
+      }
+      \strng{namehash}{11c18144ac85d5aa453442ea47f54526}
+      \strng{fullhash}{6a161b0f8ed00d1044442c28f80040ad}
+      \strng{fullhashraw}{6a161b0f8ed00d1044442c28f80040ad}
+      \strng{bibnamehash}{6a161b0f8ed00d1044442c28f80040ad}
+      \strng{authorbibnamehash}{6a161b0f8ed00d1044442c28f80040ad}
+      \strng{authornamehash}{11c18144ac85d5aa453442ea47f54526}
+      \strng{authorfullhash}{6a161b0f8ed00d1044442c28f80040ad}
+      \strng{authorfullhashraw}{6a161b0f8ed00d1044442c28f80040ad}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2643-1564}
+      \field{journaltitle}{Physical Review Research}
+      \field{month}{7}
+      \field{number}{3}
+      \field{title}{Quantum computing enhanced computational catalysis}
+      \field{volume}{3}
+      \field{year}{2021}
+      \verb{doi}
+      \verb 10.1103/physrevresearch.3.033055
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1103/PhysRevResearch.3.033055
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1103/PhysRevResearch.3.033055
+      \endverb
+    \endentry
     \entry{MikeIke}{book}{}{}
       \name{author}{2}{}{%
         {{hash=afe17482fc813e497188aee3b3783879}{%
@@ -43,8 +115,8 @@
       \strng{authornamehash}{456599bb4a61c2e997e2a7e1a21b25b4}
       \strng{authorfullhash}{456599bb4a61c2e997e2a7e1a21b25b4}
       \strng{authorfullhashraw}{456599bb4a61c2e997e2a7e1a21b25b4}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Quantum Computation and Quantum Information: 10th Anniversary Edition}
@@ -89,8 +161,8 @@
       \strng{authornamehash}{effc795ef39c881daa1ba1650e02594b}
       \strng{authorfullhash}{5f29953c0d828b365afbef814aaad6df}
       \strng{authorfullhashraw}{5f29953c0d828b365afbef814aaad6df}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{1539-0756}
@@ -129,8 +201,8 @@
       \strng{authornamehash}{36e37cc9a213735536fb5b817681bd19}
       \strng{authorfullhash}{36e37cc9a213735536fb5b817681bd19}
       \strng{authorfullhashraw}{36e37cc9a213735536fb5b817681bd19}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{1079-7114}
@@ -199,8 +271,8 @@
       \strng{authornamehash}{36bb3f90076a117208d4fb1b1b2aaaac}
       \strng{authorfullhash}{582b550e709ca3488c44e8a8fecdc96f}
       \strng{authorfullhashraw}{582b550e709ca3488c44e8a8fecdc96f}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{Quantum computers can in principle simulate quantum physics exponentially faster than their classical counterparts, but some technical hurdles remain. We propose methods which substantially improve the performance of a particular form of simulation, ab initio quantum chemistry, on fault-tolerant quantum computers; these methods generalize readily to other quantum simulation problems. Quantum teleportation plays a key role in these improvements and is used extensively as a computing resource. To improve execution time, we examine techniques for constructing arbitrary gates which perform substantially faster than circuits based on the conventional Solovay–Kitaev algorithm (Dawson and Nielsen 2006 Quantum Inform. Comput. 6 81). For a given approximation error ϵ, arbitrary single-qubit gates can be produced fault-tolerantly and using a restricted set of gates in time which is O(log ϵ) or O(log log ϵ); with sufficient parallel preparation of ancillas, constant average depth is possible using a method we call programmable ancilla rotations. Moreover, we construct and analyze efficient implementations of first- and second-quantized simulation algorithms using the fault-tolerant arbitrary gates and other techniques, such as implementing various subroutines in constant time. A specific example we analyze is the ground-state energy calculation for lithium hydride.}
@@ -248,8 +320,8 @@
       \strng{authornamehash}{ddffcb998f30d67fc879a7af0904dfbc}
       \strng{authorfullhash}{ddffcb998f30d67fc879a7af0904dfbc}
       \strng{authorfullhashraw}{ddffcb998f30d67fc879a7af0904dfbc}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{Quantum simulation is an important application of future quantum computers with applications in quantum chemistry, condensed matter, and beyond. Quantum simulation of fermionic systems presents a specific challenge. The Jordan-Wigner transformation allows for representation of a fermionic operator by O(n) qubit operations. Here, we develop an alternative method of simulating fermions with qubits, first proposed by Bravyi and Kitaev [Ann. Phys. 298, 210 (2002)10.1006/aphy.2002.6254; e-print arXiv:quant-ph/0003137v2], that reduces the simulation cost to O(log n) qubit operations for one fermionic operation. We apply this new Bravyi-Kitaev transformation to the task of simulating quantum chemical Hamiltonians, and give a detailed example for the simplest possible case of molecular hydrogen in a minimal basis. We show that the quantum circuit for simulating a single Trotter time step of the Bravyi-Kitaev derived Hamiltonian for H2 requires fewer gate applications than the equivalent circuit derived from the Jordan-Wigner transformation. Since the scaling of the Bravyi-Kitaev method is asymptotically better than the Jordan-Wigner method, this result for molecular hydrogen in a minimal basis demonstrates the superior efficiency of the Bravyi-Kitaev method for all quantum computations of electronic structure.}
@@ -296,8 +368,8 @@
       \strng{authornamehash}{a936726d9938c84323ff467c818fd876}
       \strng{authorfullhash}{a936726d9938c84323ff467c818fd876}
       \strng{authorfullhashraw}{a936726d9938c84323ff467c818fd876}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{We define a model of quantum computation with local fermionic modes (LFMs)—sites which can be either empty or occupied by a fermion. With the standard correspondence between the Foch space of m LFMs and the Hilbert space of m qubits, simulation of one fermionic gate takes O(m) qubit gates and vice versa. We show that using different encodings, the simulation cost can be reduced to O(log m) and a constant, respectively. Nearest neighbors fermionic gates on a graph of bounded degree can be simulated at a constant cost. A universal set of fermionic gates is found. We also study computation with Majorana fermions which are basically halves of LFMs. Some connection to qubit quantum codes is made.}
@@ -317,6 +389,105 @@
       \endverb
       \verb{url}
       \verb https://www.sciencedirect.com/science/article/pii/S0003491602962548
+      \endverb
+    \endentry
+    \entry{Amortize4}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=b351387558a5b335a119ac26050f7777}{%
+           family={Whitfield},
+           familyi={W\bibinitperiod},
+           given={James\bibnamedelima D.},
+           giveni={J\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=392818d7b034b0b53362804f322ab7a5}{%
+           family={Biamonte},
+           familyi={B\bibinitperiod},
+           given={Jacob},
+           giveni={J\bibinitperiod}}}%
+        {{hash=c96c915669c071f4f7c4d95ec8927be0}{%
+           family={and},
+           familyi={a\bibinitperiod},
+           given={Alán\bibnamedelima Aspuru-Guzik},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinithyphendelim G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Taylor \& Francis}%
+      }
+      \strng{namehash}{629be70813c626a97e6a907e0441a41f}
+      \strng{fullhash}{629be70813c626a97e6a907e0441a41f}
+      \strng{fullhashraw}{629be70813c626a97e6a907e0441a41f}
+      \strng{bibnamehash}{629be70813c626a97e6a907e0441a41f}
+      \strng{authorbibnamehash}{629be70813c626a97e6a907e0441a41f}
+      \strng{authornamehash}{629be70813c626a97e6a907e0441a41f}
+      \strng{authorfullhash}{629be70813c626a97e6a907e0441a41f}
+      \strng{authorfullhashraw}{629be70813c626a97e6a907e0441a41f}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Molecular Physics}
+      \field{number}{5}
+      \field{title}{Simulation of electronic structure Hamiltonians using quantum computers}
+      \field{volume}{109}
+      \field{year}{2011}
+      \field{pages}{735\bibrangedash 750}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1080/00268976.2011.552441
+      \endverb
+      \verb{eprint}
+      \verb https://doi.org/10.1080/00268976.2011.552441
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1080/00268976.2011.552441
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1080/00268976.2011.552441
+      \endverb
+    \endentry
+    \entry{CH}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=883ca506b36387ef49f12b3a0d8dbacf}{%
+           family={Peng},
+           familyi={P\bibinitperiod},
+           given={Bo},
+           giveni={B\bibinitperiod}}}%
+        {{hash=4463e285e74a4454f33fccc362fc6499}{%
+           family={Kowalski},
+           familyi={K\bibinitperiod},
+           given={Karol},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{8e08b80ea994610486ff603a02a45cfb}
+      \strng{fullhash}{8e08b80ea994610486ff603a02a45cfb}
+      \strng{fullhashraw}{8e08b80ea994610486ff603a02a45cfb}
+      \strng{bibnamehash}{8e08b80ea994610486ff603a02a45cfb}
+      \strng{authorbibnamehash}{8e08b80ea994610486ff603a02a45cfb}
+      \strng{authornamehash}{8e08b80ea994610486ff603a02a45cfb}
+      \strng{authorfullhash}{8e08b80ea994610486ff603a02a45cfb}
+      \strng{authorfullhashraw}{8e08b80ea994610486ff603a02a45cfb}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Chemical Theory and Computation}
+      \field{note}{PMID: 28834428}
+      \field{number}{9}
+      \field{title}{Highly Efficient and Scalable Compound Decomposition of Two-Electron Integral Tensor and Its Application in Coupled Cluster Calculations}
+      \field{volume}{13}
+      \field{year}{2017}
+      \field{pages}{4179\bibrangedash 4192}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1021/acs.jctc.7b00605
+      \endverb
+      \verb{eprint}
+      \verb https://doi.org/10.1021/acs.jctc.7b00605
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1021/acs.jctc.7b00605
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1021/acs.jctc.7b00605
       \endverb
     \endentry
     \entry{FSN}{article}{}{}
@@ -368,8 +539,8 @@
       \strng{authornamehash}{88bb752bc9192b6bcb9544c0ed00d8e6}
       \strng{authorfullhash}{1f9257de35e866fe65e4bec27ebb3362}
       \strng{authorfullhashraw}{1f9257de35e866fe65e4bec27ebb3362}
-      \field{sortinit}{8}
-      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{1079-7114}
@@ -387,52 +558,6 @@
       \endverb
       \verb{url}
       \verb http://dx.doi.org/10.1103/PhysRevLett.120.110501
-      \endverb
-    \endentry
-    \entry{CH}{article}{}{}
-      \name{author}{2}{}{%
-        {{hash=883ca506b36387ef49f12b3a0d8dbacf}{%
-           family={Peng},
-           familyi={P\bibinitperiod},
-           given={Bo},
-           giveni={B\bibinitperiod}}}%
-        {{hash=4463e285e74a4454f33fccc362fc6499}{%
-           family={Kowalski},
-           familyi={K\bibinitperiod},
-           given={Karol},
-           giveni={K\bibinitperiod}}}%
-      }
-      \strng{namehash}{8e08b80ea994610486ff603a02a45cfb}
-      \strng{fullhash}{8e08b80ea994610486ff603a02a45cfb}
-      \strng{fullhashraw}{8e08b80ea994610486ff603a02a45cfb}
-      \strng{bibnamehash}{8e08b80ea994610486ff603a02a45cfb}
-      \strng{authorbibnamehash}{8e08b80ea994610486ff603a02a45cfb}
-      \strng{authornamehash}{8e08b80ea994610486ff603a02a45cfb}
-      \strng{authorfullhash}{8e08b80ea994610486ff603a02a45cfb}
-      \strng{authorfullhashraw}{8e08b80ea994610486ff603a02a45cfb}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Journal of Chemical Theory and Computation}
-      \field{note}{PMID: 28834428}
-      \field{number}{9}
-      \field{title}{Highly Efficient and Scalable Compound Decomposition of Two-Electron Integral Tensor and Its Application in Coupled Cluster Calculations}
-      \field{volume}{13}
-      \field{year}{2017}
-      \field{pages}{4179\bibrangedash 4192}
-      \range{pages}{14}
-      \verb{doi}
-      \verb 10.1021/acs.jctc.7b00605
-      \endverb
-      \verb{eprint}
-      \verb https://doi.org/10.1021/acs.jctc.7b00605
-      \endverb
-      \verb{urlraw}
-      \verb https://doi.org/10.1021/acs.jctc.7b00605
-      \endverb
-      \verb{url}
-      \verb https://doi.org/10.1021/acs.jctc.7b00605
       \endverb
     \endentry
     \entry{Rz}{misc}{}{}

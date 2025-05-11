@@ -9,6 +9,8 @@ The field of computational chemistry aims to use computers to simulate and bette
 
 Quantum computational chemistry aims to perform this task using quantum computers, which can represent such systems more easily because its hardware, by definition, is inherently quantum. A superposition in a chemical system, for example, can represented by physically putting a quantum computer's hardware into superposition.
 
+The first half of this Chapter 1 will summarize well-known techniques in second quantization and Hamiltonian simulation that are relevant to our central problem in this paper, the electronic structure Hamiltonian. The second half will focus on one particular technique called ``double factorization'' that is useful on electronic structure Hamiltonians. Chapter 2 proposes a quantum circuit that can reduce the asympototic cost of individual terms in the double factorization for certain types of Hamiltonians and numerically analyzes its cost in comparison to competing methods. Chapter 3 explores types of Hamiltonians for which the quantum circuit is useful and proposes a potential framework for future work to use in identifying such cases.
+
 \section{Hamiltonian Simulation}
 
 In any quantum system, the behavior in which its state changes over time is dictated by its Hamiltonian operator $H$. In particular, if the system starts in state $\ket{\psi(0)}$, then we can determine its state $\ket{\psi(t)}$ at time $t$.
@@ -24,6 +26,8 @@ The Hamiltonian $H$ depends on many factors, such as the nature of interactions 
 \begin{equation}
     \epsilon \geq ||U - \tilde{U}|| = ||e^{-iHt} - \tilde{U}||
 \end{equation}
+
+At the same time, we want to minimize the cost of simulating $\tilde{U}$ on a quantum computer. To function well in practice, quantum computers require error correction, which generally only work on particular sets of gates. The Clifford+T set is usually considered the most promising set, meaning that we must decompose $\tilde{U}$ as a series of Clifford group gates and $T$ gates. Because $T$ gates over $100$ to $10000$ times \cite{DF} more costly than Clifford gates, the number of $T$ gates, or the ``$T$-count'', is often used as the cost metric. Hence, we wish to construct $\tilde{U}$ within error $\epsilon$ of $e^{-iHt}$ while minimizing $T$-count.
 
 This task is accordingly named Hamiltonian simulation.
 
@@ -218,7 +222,9 @@ Randomizing the order of the steps $e^{-ih_j\Delta t}$ can significantly improve
 
 The power of such techniques like Trotterization and qDRIFT (breaking $e^{-iHt}$ into many $e^{-ih_j\Delta t}$) allows us to analyze each term $h_j$ independently of the others. If one can simulate $e^{-ih_j \Delta t}$ for arbitrary $\Delta t$ for every term, one can approximately simulate $U = e^{-iHt}$.
 
-For example, one can Trotterize the electronic structure Hamiltonian \eqref{eq: H3}. One can substitute the operator correspondances from \eqref{eq: JWdown} and \eqref{eq: JWup} into \eqref{eq: H3} to obtain the corresponding qubit Hamiltonian, which would be a sum of many tensor products of Paulis. However, with $O(n^4)$ terms in \eqref{eq: H2}, there end up being $L = O(n^4)$ tensor products of Paulis in the qubit Hamiltonian, each containing $O(n)$ non-identity Paulis. It is possible to reduce this $O(n)$ to $O(1)$ amortized through methods in \cite{Amortize1}, \cite{Amortize2}, \cite{Amortize3}, or with a an FSN-method adapted from \cite{FSN}. Regardless, with $L = O(n^4)$, the number of iterations with second-order Trotter-Suzuki becomes $M = O(L^{1.5}) = O(n^6)$, totalling $O(ML) = O(n^{10})$ total steps. In the rest of this paper, we will refer to this direct Trotterization as the ``brute force method'' We'd like to see if there's a more concise method.
+For example, one can Trotterize the electronic structure Hamiltonian \eqref{eq: H3}. One can substitute the operator correspondances from \eqref{eq: JWdown} and \eqref{eq: JWup} into \eqref{eq: H3} to obtain the corresponding qubit Hamiltonian, which would be a sum of many tensor products of Paulis. However, with $O(n^4)$ terms in \eqref{eq: H2}, there end up being $L = O(n^4)$ tensor products of Paulis in the qubit Hamiltonian. Each such term can contain up to $O(n)$ Paulis, requiring $O(n)$ gates to implement individually, with methods such as \cite{Amortize1}, \cite{Amortize2}, \cite{Amortize3}, \cite{Amortize4}. However, most of these gates are actually Clifford gates (such as in \cite{Amortize4}), with only $O(1)$ non-Clifford gates (namely $R_z$). Since only the latter contibute to the $T$-count, we can consider a such a step to have a $O(1)$ cost. This relies on the assumption that the relative cost of $T$ gates eclipses the $O(n)$ quantity of Clifford gates in a step.
+
+If we accordingly assume a constant cost per step, with $L = O(n^4)$, the number of iterations with second-order Trotter-Suzuki becomes $M = O(L^{1.5}) = O(n^6)$, totalling $O(ML) = O(n^{10})$ total steps. In the rest of this paper, we will refer to this direct Trotterization as the ``brute force method'' We'd like to see if there's a more concise method.
 
 \section{Double Factorization of Electronic Structure Hamiltonian}
 
