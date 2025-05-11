@@ -168,3 +168,53 @@
   doi = {10.1103/PhysRevA.87.022328},
   url = {https://link.aps.org/doi/10.1103/PhysRevA.87.022328}
 }
+@book{MikeIke,
+    place={Cambridge},
+    title={Quantum Computation and Quantum Information: 10th Anniversary Edition},
+    publisher={Cambridge University Press},
+    author={Nielsen, Michael A. and Chuang, Isaac L.},
+    year={2010}
+}
+@article{Amortize1,
+    doi = {10.1088/1367-2630/14/11/115023},
+    url = {https://dx.doi.org/10.1088/1367-2630/14/11/115023},
+    year = {2012},
+    month = {nov},
+    publisher = {IOP Publishing},
+    volume = {14},
+    number = {11},
+    pages = {115023},
+    author = {Cody Jones, N and Whitfield, James D and McMahon, Peter L and Yung, Man-Hong and Meter, Rodney Van and Aspuru-Guzik, Alán and Yamamoto, Yoshihisa},
+    title = {Faster quantum chemistry simulation on fault-tolerant quantum computers},
+    journal = {New Journal of Physics},
+    abstract = {Quantum computers can in principle simulate quantum physics exponentially faster than their classical counterparts, but some technical hurdles remain. We propose methods which substantially improve the performance of a particular form of simulation, ab initio quantum chemistry, on fault-tolerant quantum computers; these methods generalize readily to other quantum simulation problems. Quantum teleportation plays a key role in these improvements and is used extensively as a computing resource. To improve execution time, we examine techniques for constructing arbitrary gates which perform substantially faster than circuits based on the conventional Solovay–Kitaev algorithm (Dawson and Nielsen 2006 Quantum Inform. Comput. 6 81). For a given approximation error ϵ, arbitrary single-qubit gates can be produced fault-tolerantly and using a restricted set of gates in time which is O(log ϵ) or O(log log ϵ); with sufficient parallel preparation of ancillas, constant average depth is possible using a method we call programmable ancilla rotations. Moreover, we construct and analyze efficient implementations of first- and second-quantized simulation algorithms using the fault-tolerant arbitrary gates and other techniques, such as implementing various subroutines in constant time. A specific example we analyze is the ground-state energy calculation for lithium hydride.}
+}
+@article{Amortize2,
+    author = {Seeley, Jacob T. and Richard, Martin J. and Love, Peter J.},
+    title = {The Bravyi-Kitaev transformation for quantum computation of electronic structure},
+    journal = {The Journal of Chemical Physics},
+    volume = {137},
+    number = {22},
+    pages = {224109},
+    year = {2012},
+    month = {12},
+    abstract = {Quantum simulation is an important application of future quantum computers with applications in quantum chemistry, condensed matter, and beyond. Quantum simulation of fermionic systems presents a specific challenge. The Jordan-Wigner transformation allows for representation of a fermionic operator by O(n) qubit operations. Here, we develop an alternative method of simulating fermions with qubits, first proposed by Bravyi and Kitaev [Ann. Phys. 298, 210 (2002)10.1006/aphy.2002.6254; e-print arXiv:quant-ph/0003137v2], that reduces the simulation cost to O(log n) qubit operations for one fermionic operation. We apply this new Bravyi-Kitaev transformation to the task of simulating quantum chemical Hamiltonians, and give a detailed example for the simplest possible case of molecular hydrogen in a minimal basis. We show that the quantum circuit for simulating a single Trotter time step of the Bravyi-Kitaev derived Hamiltonian for H2 requires fewer gate applications than the equivalent circuit derived from the Jordan-Wigner transformation. Since the scaling of the Bravyi-Kitaev method is asymptotically better than the Jordan-Wigner method, this result for molecular hydrogen in a minimal basis demonstrates the superior efficiency of the Bravyi-Kitaev method for all quantum computations of electronic structure.},
+    issn = {0021-9606},
+    doi = {10.1063/1.4768229},
+    url = {https://doi.org/10.1063/1.4768229},
+    eprint = {https://pubs.aip.org/aip/jcp/article-pdf/doi/10.1063/1.4768229/13999577/224109\_1\_online.pdf},
+}
+@article{Amortize3,
+    title = {Fermionic Quantum Computation},
+    journal = {Annals of Physics},
+    volume = {298},
+    number = {1},
+    pages = {210-226},
+    year = {2002},
+    issn = {0003-4916},
+    doi = {https://doi.org/10.1006/aphy.2002.6254},
+    url = {https://www.sciencedirect.com/science/article/pii/S0003491602962548},
+    author = {Sergey B. Bravyi and Alexei Yu. Kitaev},
+    abstract = {We define a model of quantum computation with local fermionic modes (LFMs)—sites which can be either empty or occupied by a fermion. With the standard correspondence between the Foch space of m LFMs and the Hilbert space of m qubits, simulation of one fermionic gate takes O(m) qubit gates and vice versa. We show that using different encodings, the simulation cost can be reduced to O(log m) and a constant, respectively. Nearest neighbors fermionic gates on a graph of bounded degree can be simulated at a constant cost. A universal set of fermionic gates is found. We also study computation with Majorana fermions which are basically halves of LFMs. Some connection to qubit quantum codes is made.}
+}
+

@@ -5,7 +5,7 @@
 
 \chapter{Introduction}
 
-The field of computational chemistry aims to use computers to simulate and better understand the behavior of complex chemical systems in the real world. Drug discovery, materials science, and nanotechnology are only a few areas that would benefit from the ability to computationally predict behavior of molecular systems. However, chemical systems at the particle level are inherently shaped by quantum effects, which are not easily modeled by a classical (non-quantum) computer. In particular, the phenomenon of quantum superposition allows a system to be in a linear combination of an exponential number of basis states at the same time. A classical computer must numerically store this exponential amount of data, a prohibitive task.
+The field of computational chemistry aims to use computers to simulate and better understand the behavior of complex chemical systems in the real world. Drug discovery, materials science, and nanotechnology are only a few areas that would benefit from the ability to computationally predict behavior of molecular systems. However, chemical systems at the particle level are inherently shaped by quantum effects, which are not easily modeled by a classical (non-quantum) computer. For example, the phenomenon of quantum superposition allows a system to be in a linear combination of an exponential number of basis states at the same time. A classical computer must numerically store this exponential amount of data, a prohibitive task.
 
 Quantum computational chemistry aims to perform this task using quantum computers, which can represent such systems more easily because its hardware, by definition, is inherently quantum. A superposition in a chemical system, for example, can represented by physically putting a quantum computer's hardware into superposition.
 
@@ -17,9 +17,9 @@ In any quantum system, the behavior in which its state changes over time is dict
     \ket{\psi(t)} = e^{-iHt}\ket{\psi(0)}
 \end{equation}
 
-Operators and states can be thought of as matrices and vectors, but where a vector maps integer indices to values, a state is a function that maps a continuous variable (such as position) to an amplitude value. An operator maps state functions to state functions how a matrix maps vectors to vectors.
+A wavefunction maps a continuous physical quantity (such as position) to an amplitude. A state denotes a physical system's wavefunction at a particular moment. An operator linearly maps wavefunctions to wavefunctions like how a matrix maps vectors to vectors.
 
-The Hamiltonian $H$ depends on many factors, such as the nature of interactions between particles in the system or external forces such as electric or magnetic fields acting in the system. $H$, and in turn $U = e^{-iHt}$ can be very complex, and usually it's not feasible to simulate $U$ exactly. Instead, we try find a different operator $\tilde{U}$ that is easy to simulate and sufficiently close to $\tilde{U}$. Usually we choose to define the error as the spectral norm (largest singular value) of the difference between $U$ and $\tilde{U}$. The goal is for the error to be below some variable threshold $\epsilon$.
+The Hamiltonian $H$ depends on many factors, such as the nature of interactions between particles in the system or external forces such as electric or magnetic fields acting in the system. $H$, and in turn $U = e^{-iHt}$ can be very complex, and usually it's not feasible to simulate $U$ exactly. Instead, we try to find a different operator $\tilde{U}$ that is easy to simulate and sufficiently close to $\tilde{U}$. Usually we choose to define the error as the spectral norm (largest singular value) of the difference between $U$ and $\tilde{U}$. The goal is for the error to be below some variable threshold $\epsilon$.
 
 \begin{equation}
     \epsilon \geq ||U - \tilde{U}|| = ||e^{-iHt} - \tilde{U}||
@@ -27,7 +27,7 @@ The Hamiltonian $H$ depends on many factors, such as the nature of interactions 
 
 This task is accordingly named Hamiltonian simulation.
 
-One important Hamiltonian is the electronic structure Hamiltonian, describing the behavior of electrons in a molecule consisting of many nuclei and electrons. In modeling this system, we use the Born-Oppenheimer approximation, which assumes that the positions of the nuclei are essentially fixed. This is justified by the fact that the nuclei are far more massive than the electrons, so we can study the movement of electrons separately from the movement of the nuclei. With this assumption, the electronic structure Hamiltonian contains only terms for the electrons' kinetic energies, for the interactions between electrons and nuclei, and for the interactions among electrons.
+One important Hamiltonian is the electronic structure Hamiltonian, which describes the behavior of electrons in a molecule consisting of many nuclei and electrons. In modeling this system, we use the Born-Oppenheimer approximation, which assumes that the positions of the nuclei are essentially fixed. This is justified by the fact that the nuclei are far more massive than the electrons, so we can study the movement of electrons separately from the movement of the nuclei. With this assumption, the electronic structure Hamiltonian contains only terms for the electrons' kinetic energies, for the interactions between electrons and nuclei, and for the interactions among electrons.
 
 \begin{equation}
     H = -\sum_p \frac{\hbar^2}{2m_e} \nabla^2_p - \sum_{p, P}\frac{e^2}{4\pi\epsilon_0}\frac{Z_P}{|\vec{r}_p - \vec{R}_P|} + \frac{1}{2}\sum_{p \neq q}\frac{e^2}{4\pi\epsilon_0}\frac{1}{|\vec{r}_p - \vec{r}_q|} \label{eq: H}
@@ -35,7 +35,7 @@ One important Hamiltonian is the electronic structure Hamiltonian, describing th
 
 $\vec{r}_p$ denotes the position of the $p$th electron, and $\vec{r}_P$ and $Z_P$ denote the position and charge of the $P$th nucleus.
 
-The ultimate goal of electronic structure theory is to find the eigenvalues and eigenstates of $e^{-iHt}$, or the states that are invariant (up to a phase) under $e^{-iHt}$. The ability to simulate the behavior of $e^{-iHt}$ on an arbitrary state can directly be used to find the eigenvalues using the quantum phase estimation algorithm. The details of this algorithm are not essential in the topic of this paper, the relevant fact is the power unlocked by performing $e^{-iHt}$.
+The ultimate goal of electronic structure theory is to find the eigenvalues and eigenstates of $e^{-iHt}$, or the states that are invariant (up to a phase) under $e^{-iHt}$. The ability to simulate the behavior of $e^{-iHt}$ on an arbitrary state can directly be used to find the eigenvalues using the quantum phase estimation algorithm. The details of this algorithm are explained in \cite{MikeIke}; the relevant fact for this paper is the power unlocked by performing $e^{-iHt}$.
 
 \section{Second Quantized Fock States}
 
@@ -218,11 +218,11 @@ Randomizing the order of the steps $e^{-ih_j\Delta t}$ can significantly improve
 
 The power of such techniques like Trotterization and qDRIFT (breaking $e^{-iHt}$ into many $e^{-ih_j\Delta t}$) allows us to analyze each term $h_j$ independently of the others. If one can simulate $e^{-ih_j \Delta t}$ for arbitrary $\Delta t$ for every term, one can approximately simulate $U = e^{-iHt}$.
 
-For example, one can Trotterize the electronic structure Hamiltonian \eqref{eq: H3}. One can substitute the operator correspondances from \eqref{eq: JWdown} and \eqref{eq: JWup} into \eqref{eq: H3} to obtain the corresponding qubit Hamiltonian, which would be a sum of many tensor products of Paulis. However, with $O(n^4)$ terms in \eqref{eq: H2}, there end up being $L = O(n^4)$ tensor products of Paulis in the qubit Hamiltonian, each containing $O(n)$ non-identity Paulis. With $L = O(n^4)$, the number of iterations with second-order Trotter-Suzuki becomes $M = O(L^{1.5}) = O(n^6)$, totalling $O(ML) = O(n^{10})$ total steps. We'd like to see if there's a more concise method.
+For example, one can Trotterize the electronic structure Hamiltonian \eqref{eq: H3}. One can substitute the operator correspondances from \eqref{eq: JWdown} and \eqref{eq: JWup} into \eqref{eq: H3} to obtain the corresponding qubit Hamiltonian, which would be a sum of many tensor products of Paulis. However, with $O(n^4)$ terms in \eqref{eq: H2}, there end up being $L = O(n^4)$ tensor products of Paulis in the qubit Hamiltonian, each containing $O(n)$ non-identity Paulis. It is possible to reduce this $O(n)$ to $O(1)$ amortized through methods in \cite{Amortize1}, \cite{Amortize2}, \cite{Amortize3}, or with a an FSN-method adapted from \cite{FSN}. Regardless, with $L = O(n^4)$, the number of iterations with second-order Trotter-Suzuki becomes $M = O(L^{1.5}) = O(n^6)$, totalling $O(ML) = O(n^{10})$ total steps. In the rest of this paper, we will refer to this direct Trotterization as the ``brute force method'' We'd like to see if there's a more concise method.
 
 \section{Double Factorization of Electronic Structure Hamiltonian}
 
-Recall that because $h'_{iljk} = h_{ijkl}$ is symmetric between $(i, l)$ and $(j, k)$, $h'$ can be treated as a real symmetric $n^2 \times n^2$ matrix and eigendecomposed with eigenvalues $\lambda_r$ and eigenvectors $Q^{(r)}$ whose indices are $(i, l)$ ordered pairs. A Cholesky decomposition is also an option but for now we will use an eigendecomposition. Denote $R = \text{rank}{(h')}$.
+Recall that $h'_{iljk} = h_{ijkl}$ is symmetric between $(i, l)$ and $(j, k)$. $h'$ can then be treated as a real symmetric $n^2 \times n^2$ matrix and eigendecomposed with eigenvalues $\lambda_r$ and eigenvectors $Q^{(r)}$ whose indices are $(i, l)$ ordered pairs. A Cholesky decomposition is also an option but for now we will use an eigendecomposition. Denote $R = \text{rank}{(h')}$.
 
 \begin{equation}
     h'_{iljk} = \sum_{r = 0}^{R - 1} \lambda_r Q^{(r)}_{i, l}Q^{(r)}_{j, k}
