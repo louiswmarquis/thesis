@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber MIT-Thesis"] 1746981612.99529 "MIT-Thesis.bcf" "MIT-Thesis.bbl" "MIT-Thesis" 1746982819.46371 0
-  "MIT-Thesis.bcf" 1746982818 110598 e41f9ff20fa964ccc8303b497c4ea807 "pdflatex"
+["biber MIT-Thesis"] 1746981612.99529 "MIT-Thesis.bcf" "MIT-Thesis.bbl" "MIT-Thesis" 1746985867.8002 0
+  "MIT-Thesis.bcf" 1746985865 110598 e41f9ff20fa964ccc8303b497c4ea807 "pdflatex"
   "main.bib" 1746979009 11769 b1bc543f32951f05fbf2696426cafab4 ""
   (generated)
   "MIT-Thesis.bbl"
   "MIT-Thesis.blg"
   (rewritten before read)
-["pdflatex"] 1746982802.34 "c:/Users/Louis Marquis/Documents/MIT/MIT Center for Theoretical Physics/thesis/MIT-Thesis.tex" "MIT-Thesis.pdf" "MIT-Thesis" 1746982819.46571 0
+["pdflatex"] 1746985841.46982 "c:/Users/Louis Marquis/Documents/MIT/MIT Center for Theoretical Physics/thesis/MIT-Thesis.tex" "MIT-Thesis.pdf" "MIT-Thesis" 1746985867.80184 0
   "C:/Users/Louis" 1726693344 18926 06549b4f9e867640d597b3a16002c932 ""
   "C:/Users/Louis Marquis/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1746313121 137939 18b8921e08414ae25dae3db7d58b523c ""
   "C:/Users/Louis Marquis/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1726357653 24269186 c6d46cb9e6c793a7f4b8ce14fefcd863 ""
@@ -225,26 +225,26 @@
   "C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/svgnam.def" 1700127522 4705 ec4d2f4b7125d5a5145cc9aabae1d54b ""
   "C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/x11nam.def" 1700127522 9125 e0e22f8bd8f488926acdd4e96dcc4d1e ""
   "C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "MIT-Thesis.aux" 1746982818 14535 d12b0a79be33c18bb7cd94bfe8a1cd81 "pdflatex"
+  "MIT-Thesis.aux" 1746985865 14535 d12b0a79be33c18bb7cd94bfe8a1cd81 "pdflatex"
   "MIT-Thesis.bbl" 1746981618 31391 dc75cb0090d415161e12eec33b101065 "biber MIT-Thesis"
-  "MIT-Thesis.lof" 1746982818 1335 b0c6815804c982987461114f279e7e66 "pdflatex"
-  "MIT-Thesis.run.xml" 1746982818 2538 46cfbed08f300502fc3aa3e8f1dd6724 "pdflatex"
+  "MIT-Thesis.lof" 1746985865 1335 b0c6815804c982987461114f279e7e66 "pdflatex"
+  "MIT-Thesis.run.xml" 1746985865 2538 46cfbed08f300502fc3aa3e8f1dd6724 "pdflatex"
   "MIT-Thesis.tex" 1746971020 14977 7ab5c48a06360c1a76b62efb7be08c1f ""
-  "MIT-Thesis.toc" 1746982818 2450 d522d2ad6ccb7a11b881e06cc5a4f0f9 "pdflatex"
+  "MIT-Thesis.toc" 1746985865 2450 d522d2ad6ccb7a11b881e06cc5a4f0f9 "pdflatex"
   "abstract.tex" 1745599059 1172 3709d932ac4b8b6d5d686d5681ea9253 ""
-  "acknowledgments.aux" 1746982811 4238 77a38d8220d559722f7ae4c3f7cd530c "pdflatex"
+  "acknowledgments.aux" 1746985846 4238 77a38d8220d559722f7ae4c3f7cd530c "pdflatex"
   "acknowledgments.tex" 1746912375 347 b9805dcab754047d13c5338e7a42d769 ""
-  "appendixa.aux" 1746982817 6342 7a05d0e5e86fe42f4cf5c624414b4994 "pdflatex"
+  "appendixa.aux" 1746985863 6342 7a05d0e5e86fe42f4cf5c624414b4994 "pdflatex"
   "appendixa.tex" 1746313900 23707 248d97e52dc7a4e398556d983633d92c ""
   "c:/Users/Louis" 1726693344 18926 06549b4f9e867640d597b3a16002c932 ""
   "c:/Users/Louis Marquis/Documents/MIT/MIT Center for Theoretical Physics/thesis/MIT-Thesis.tex" 1746971020 14977 7ab5c48a06360c1a76b62efb7be08c1f ""
-  "chapter1.aux" 1746982812 7749 5dff8b81800f59382cf3affa58b1381e "pdflatex"
-  "chapter1.tex" 1746982795 30226 77950451ad391f58dc00e7402096aa4d ""
-  "chapter2.aux" 1746982812 6630 ea6a0b4d69fb92fd7cebd2ef775986fa "pdflatex"
+  "chapter1.aux" 1746985848 7749 5dff8b81800f59382cf3affa58b1381e "pdflatex"
+  "chapter1.tex" 1746985838 30387 dd71f437f2ff2d8064f443ec84f31181 ""
+  "chapter2.aux" 1746985850 6630 ea6a0b4d69fb92fd7cebd2ef775986fa "pdflatex"
   "chapter2.tex" 1746908180 27052 a9dcf848d2fc6c9d2be0feab31cf8343 ""
-  "chapter3.aux" 1746982812 5997 0f0da3e20d74de20dcc5f8bfdcc9d5b3 "pdflatex"
+  "chapter3.aux" 1746985850 5997 0f0da3e20d74de20dcc5f8bfdcc9d5b3 "pdflatex"
   "chapter3.tex" 1746927541 10408 27822a0966cf11b42a816fb294ff377a ""
-  "chapter4.aux" 1746982813 4548 3f93cad743307b437594b3f6eb060217 "pdflatex"
+  "chapter4.aux" 1746985851 4548 3f93cad743307b437594b3f6eb060217 "pdflatex"
   "chapter4.tex" 1745701480 230 e25cf8bf8d14581a863380efacf463e8 ""
   "fontsets/mitthesis-defaultfonts.tex" 1745599059 1052 e744fe67008fcb4c8fb221d5ba7b8401 ""
   (generated)
