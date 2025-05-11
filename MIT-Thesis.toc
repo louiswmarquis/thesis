@@ -16,14 +16,14 @@
 \contentsline {section}{\numberline {2.5}Complexity Analysis}{27}{section.2.5}%
 \contentsline {section}{\numberline {2.6}Numerical Cost Estimates}{28}{section.2.6}%
 \contentsline {section}{\numberline {2.7}Discussion}{29}{section.2.7}%
-\contentsline {chapter}{\numberline {3}Convex Optimization of Decomposition of Electron-Electron Interaction Hamiltonian Term}{31}{chapter.3}%
+\contentsline {chapter}{\numberline {3}Low Range Hamiltonians}{31}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Sparse Hamiltonians}{31}{section.3.1}%
 \contentsline {section}{\numberline {3.2}K-Range Hamiltonian}{32}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Decomposition of Hamiltonian Term}{33}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Gradient Descent}{34}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Gate Count Analysis}{34}{section.3.5}%
-\contentsline {section}{\numberline {3.6}Numerics}{34}{section.3.6}%
-\contentsline {chapter}{\numberline {4}Conclusion}{35}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Directions for Further Work}{35}{section.4.1}%
-\contentsline {chapter}{\numberline {A}Quantum Circuit Diagrams}{37}{appendix.A}%
-\contentsline {backmatter}{References}{41}{appendix*.10}%
+\contentsline {section}{\numberline {3.3}Extraction of Low-Range Terms from Generic Electronic Structure Hamiltonians}{34}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Gradient Descent}{35}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Gate Count Analysis}{35}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Numerics}{35}{section.3.6}%
+\contentsline {chapter}{\numberline {4}Conclusion}{37}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Directions for Further Work}{37}{section.4.1}%
+\contentsline {chapter}{\numberline {A}Quantum Circuit Diagrams}{39}{appendix.A}%
+\contentsline {backmatter}{References}{43}{appendix*.10}%

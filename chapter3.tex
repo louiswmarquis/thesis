@@ -3,7 +3,7 @@
 % Documentation: https://ctan.org/pkg/mitthesis
 
 
-\chapter{Convex Optimization of Decomposition of Electron-Electron Interaction Hamiltonian Term}
+\chapter{Low Range Hamiltonians}
 
 \section{Sparse Hamiltonians}
 
@@ -77,9 +77,14 @@ Observe also that the range condition implies, for all $r$, that $Q^{(r)}_{i, j}
     \end{bmatrix}
 \end{equation}
 
-If $Q^{(r)}$ has bandwidth $K$, this guarantees $u^{(r)}$ can be decomposed into at most $Kn$ Givens rotations, corresponding to at most $O(Kn)$ two-qubit basis rotations comprising $U(u^{(r)})$. \textcolor{red}{PROOF?}
+If $Q^{(r)}$ has bandwidth $K$, this guarantees $u^{(r)}$ can be decomposed into fewer than $Kn$ Givens rotations, corresponding to at most $O(Kn)$ two-qubit basis rotations comprising $U(u^{(r)})$ \footnote{To see this, observe that (as quoted from \cite{FSN} and appropriated for our purposes), when a Givens rotation matrix $r_{pq}(\theta)$ left multiplies a matrix, it effects a rotation between rows $p$ and $q$ which can be used to zero out a single element in one of the rows. In \cite{FSN} there were ${n \choose 2}$ elements below the diagonal, in $Q^{(r)}$ there are ${n \choose 2} - {n - K \choose 2} = \frac{2Kn - K^2 - 2n + K}{2}< Kn$. So $u^{(r)}$ requires less than $Kn$ Givens rotations (on each side) to make $Q^{(r)}$ diagonal.}
 
 Therefore, a $K$-range Hamiltonian can be expressed as a sum of $R$ terms $H_{2e}^{(r)}$, each simulable with either the $O(n^2)$ expansion method or the $O(n(\log{n} + K))$ $T$-gates (we ignore $\epsilon$ factors for simplicity).
+
+\ref{table:1} lists bounds on second-order Trotterization $T$-counts using the brute force, double-factorized expansion, and double-factorized coherent methods. It considers their performance on generic $H_{2e}$ as well as ones that are $K$-range, linear-rank, or both. We chose to list second-order Trotterization costs rather than first-order to show that the double-factorized coherent method holds advantages over brute-force methods even in higher-order Trotterization, reduces the asymptotic impact of $L$, which is more present in the latter.
+
+Observe that the coherent method has the lowest asymptotic upper bound among all three methods for low-rank $K$-range Hamiltonians, as long as $K = o(n)$ (otherwise it's the same as the expansion method). Of course, this is assuming that $K$ is not so low that $H_{2e}$ simplifies into a sum of commuting terms (which comprise one Trotter term) in the way of \eqref{eq: collapse}.
+For generic-rank $K$-range $H_{2e}$, it performs asymptotically better than brute force if $K = \omega(n^{0.25})$ and better than expansion if $K = o(n)$. 
 
 \begin{table}[h!]
     \centering
@@ -117,19 +122,9 @@ Therefore, a $K$-range Hamiltonian can be expressed as a sum of $R$ terms $H_{2e
     \label{table:1}
 \end{table}
 
-\section{Decomposition of Hamiltonian Term}
+\section{Extraction of Low-Range Terms from Generic Electronic Structure Hamiltonians}
 
-We can expand our usage of this coherent method to electronic structure Hamiltonians that are ``low-rangedly dominant''. These are Hamiltonians that are not themselves low-range but can be expressed as a sum of a low-range term $H_0$ and a relatively small arbitrary-range term $\Delta H$.
-
-\begin{equation}
-    \begin{split}
-        H &= H_0 + \Delta H \\
-        ||\Delta H|| &\ll ||H_0|| \\
-    \end{split}
-    \label{eq: LRD}
-\end{equation}
-
-$e^{-iH_0t}$ is (asymptotically) cheaper, while $e^{-i\Delta Ht}$ is asymptotically more expensive but it affects the output to a lesser extent (since it's smaller). The idea, then, is to use a randomized Hamiltonian simulation algorithm such as qDRIFT, which samples terms more if they have a higher weight (operator norm). In simulating \eqref{eq: LRD}, the algorithm would perform $e^{-iH_0t}$ much more frequently (asymptotically) than $e^{-i\Delta Ht}$, which is good because the former is cheaper. If the operator norm discrepancy $||\Delta H|| \ll ||H_0||$ is large enough, $\Delta H$ will not contribute too much to the overall cost, while still being performed enough times to simulate $H$ precisely.
+We have shown some asymptotic advantages for the coherent method within a deterministic Trotterization assumption. qDRIFT is often stated to perform better for Hamiltonians with many small terms (such as our case of $H_{2e}$), so we would like to see how effective the coherent method may be in the context of such randomized algorithms as well. Asymptotic order-of-magnitude calculations are not as straightforward in the context of qDRIFT, however, as its gate count is based on the weights of the terms, which varies across specific Hamiltonians and systems. Instead, we propose an algorithm for decomposing generic Hamiltonians into low-range terms and numerically assess its performance.
 
 
 \section{Gradient Descent}

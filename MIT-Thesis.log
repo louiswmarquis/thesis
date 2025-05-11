@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.14)  10 MAY 2025 19:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.14)  10 MAY 2025 21:39
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1101,23 +1101,23 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 
 
-] (MIT-Thesis.toc
-
-[7])
+] (MIT-Thesis.toc)
 \tf@toc=\write6
 \openout6 = `MIT-Thesis.toc'.
 
 
 
-[8] (MIT-Thesis.lof)
+[7]
+
+[8
+
+] (MIT-Thesis.lof)
 \tf@lof=\write7
 \openout7 = `MIT-Thesis.lof'.
 
 
 
-[9
-
-{C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}]
+[9{C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}]
 \openout2 = `chapter1.aux'.
 
  (chapter1.tex
@@ -1210,28 +1210,32 @@ Overfull \hbox (25.92189pt too wide) detected at line 78
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-)
 
-[33]
+
+[33])
 
 [34]
+
+[35]
 \openout2 = `chapter4.aux'.
 
  (chapter4.tex
-Chapter 4.
-)
 
-[35
+[36
 
 
 
 
 ]
+Chapter 4.
+)
+
+[37]
 \openout2 = `appendixa.aux'.
 
  (appendixa.tex
 
-[36
+[38
 
 
 
@@ -1248,13 +1252,13 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 Excluding 'comment' comment.)
 
-[37]
-
-[38]
-
 [39]
 
-[40
+[40]
+
+[41]
+
+[42
 
 
 
@@ -1272,38 +1276,29 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 
 
-[41]
+[43]
 
-[42] (MIT-Thesis.aux (acknowledgments.aux) (chapter1.aux) (chapter2.aux) (chapter3.aux) (chapter4.aux) (appendixa.aux))
+[44] (MIT-Thesis.aux (acknowledgments.aux) (chapter1.aux) (chapter2.aux) (chapter3.aux) (chapter4.aux) (appendixa.aux))
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-08-16>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                MIT-Thesis
-(biblatex)                and rerun LaTeX afterwards.
-
 Package logreq Info: Writing requests to 'MIT-Thesis.run.xml'.
 \openout1 = `MIT-Thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 34481 strings out of 473898
- 626266 string characters out of 5722667
- 2189383 words of memory out of 5000000
- 56453 multiletter control sequences out of 15000+600000
- 644572 words of font info for 214 fonts, out of 8000000 for 9000
+ 34494 strings out of 473898
+ 626392 string characters out of 5722667
+ 2189417 words of memory out of 5000000
+ 56452 multiletter control sequences out of 15000+600000
+ 645064 words of font info for 220 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,26n,93p,1581b,2915s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi6.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi7.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy6.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on MIT-Thesis.pdf (42 pages, 550201 bytes).
+ 90i,26n,93p,1581b,2913s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi6.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi7.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr5.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy6.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy7.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
+Output written on MIT-Thesis.pdf (44 pages, 587410 bytes).
 PDF statistics:
- 724 PDF objects out of 1000 (max. 8388607)
- 187 named destinations out of 1000 (max. 500000)
+ 752 PDF objects out of 1000 (max. 8388607)
+ 189 named destinations out of 1000 (max. 500000)
  48929 words of extra memory for PDF output out of 51595 (max. 10000000)
 

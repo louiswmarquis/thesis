@@ -2414,6 +2414,8 @@
     <bcf:citekey order="16" intorder="1">Toffoli</bcf:citekey>
     <bcf:citekey order="17" intorder="1">Gate_Count</bcf:citekey>
     <bcf:citekey order="18" intorder="1">Gate_Count</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">FSN</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">FSN</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
