@@ -383,6 +383,8 @@ INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\e
 INPUT .\abstract.tex
 INPUT .\abstract.tex
 INPUT abstract.tex
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-mathit.enc
+INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-rm.enc
 INPUT .\acknowledgments.tex
 INPUT .\acknowledgments.tex
 OUTPUT acknowledgments.aux
@@ -402,8 +404,6 @@ INPUT MIT-Thesis.lof
 OUTPUT MIT-Thesis.lof
 INPUT .\chapter1.tex
 INPUT .\chapter1.tex
-INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-mathit.enc
-INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-rm.enc
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-mathsy.enc
 OUTPUT chapter1.aux
 INPUT .\chapter1.tex
