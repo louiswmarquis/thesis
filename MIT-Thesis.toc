@@ -19,11 +19,7 @@
 \contentsline {chapter}{\numberline {3}Low Range Hamiltonians}{33}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Sparse Hamiltonians}{33}{section.3.1}%
 \contentsline {section}{\numberline {3.2}K-Range Hamiltonian}{34}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Extraction of Low-Range Terms from Generic Electronic Structure Hamiltonians}{36}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Gradient Descent}{37}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Gate Count Analysis}{37}{section.3.5}%
-\contentsline {section}{\numberline {3.6}Numerics}{37}{section.3.6}%
+\contentsline {section}{\numberline {3.3}Extraction of Low-Range Terms from Practical Electronic Structure Hamiltonians}{36}{section.3.3}%
 \contentsline {chapter}{\numberline {4}Conclusion}{39}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Directions for Further Work}{39}{section.4.1}%
 \contentsline {chapter}{\numberline {A}Quantum Circuit Diagrams}{41}{appendix.A}%
 \contentsline {backmatter}{References}{45}{appendix*.10}%

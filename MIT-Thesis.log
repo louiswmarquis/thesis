@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.14)  11 MAY 2025 13:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.9.14)  11 MAY 2025 22:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1072,14 +1072,7 @@ File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 
 [2
 
-] (abstract.tex
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 11.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 11.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 11.
-)
+] (abstract.tex)
 \l__supervisor_supervisorno_int=\count504
 
 
@@ -1180,6 +1173,13 @@ Chapter 2.
 [27]
 
 [28]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 259.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 259.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 259.
+
 
 [29]
 
@@ -1212,9 +1212,9 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[35])
+[35]
 
-[36]
+[36])
 
 [37]
 \openout2 = `chapter4.aux'.
@@ -1289,17 +1289,17 @@ Package logreq Info: Writing requests to 'MIT-Thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 34504 strings out of 473898
- 626678 string characters out of 5722667
- 2192116 words of memory out of 5000000
- 56458 multiletter control sequences out of 15000+600000
- 645152 words of font info for 220 fonts, out of 8000000 for 9000
+ 34498 strings out of 473898
+ 626633 string characters out of 5722667
+ 2192969 words of memory out of 5000000
+ 56454 multiletter control sequences out of 15000+600000
+ 645239 words of font info for 221 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,26n,93p,1581b,2914s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,26n,93p,1581b,2916s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi6.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi7.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr5.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy6.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy7.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Louis Marquis/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on MIT-Thesis.pdf (46 pages, 596568 bytes).
+Output written on MIT-Thesis.pdf (46 pages, 593406 bytes).
 PDF statistics:
- 771 PDF objects out of 1000 (max. 8388607)
- 193 named destinations out of 1000 (max. 500000)
- 48929 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 748 PDF objects out of 1000 (max. 8388607)
+ 189 named destinations out of 1000 (max. 500000)
+ 48897 words of extra memory for PDF output out of 51595 (max. 10000000)
 
