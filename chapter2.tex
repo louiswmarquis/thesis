@@ -297,11 +297,12 @@ The traditional construction of the Toffoli gate uses $2$ Hadamard gates, $6$ CN
     \end{split}
 \end{equation}
 
-We can substitute the asymptotic threshold $m^* = O(\log_2(\frac{n}{\epsilon}))$ from \eqref{eq: m_min} to obtain an asymptotic $\tilde{N}_{T}$ in terms of $n$ and $\frac{1}{\epsilon}$. One can also substitute the exact expression for $m^*$ into the exact expression in \eqref{eq: Ts_mneps}, but it would be too messy to be informative, so we choose to keep it in the more concise form of two equations.
+We can substitute the asymptotic threshold $m^* = O(\log_2\left(n\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right))$ from \eqref{eq: m_min} to obtain an asymptotic $\tilde{N}_{T}$. We can further simplify this asymptotic $T$-count to only include $n$ and $\frac{1}{\epsilon}$, if desired. One can also substitute the exact expression for $m^*$ into the exact expression in \eqref{eq: Ts_mneps}, but it would be too messy to be informative, so we choose to keep it in the more concise form of two equations.
 
 \begin{equation}
     \begin{split}
-        \tilde{N}_{T} &= O(\log_2(\frac{n}{\epsilon})n + (\log_2(\frac{n}{\epsilon}))^2 + \log_2(\frac{n}{\epsilon})\log_2(\frac{1}{\epsilon})) \\
+        \tilde{N}_{T} &= O((\log_2\left(n\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right))n + (\log_2\left(n\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right))^2 + \log_2(\log_2\left(n\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right))\log_2(\frac{1}{\epsilon})) \\
+        &= O((\log_2\left(n\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right))n + (\log_2\left(n\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right))^2) \\
         &= O(n\log_2(\frac{n}{\epsilon}) + \log_2(\frac{1}{\epsilon})^2) \label{eq: Ts_neps}
     \end{split}
 \end{equation}
