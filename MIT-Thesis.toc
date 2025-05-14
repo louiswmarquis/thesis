@@ -6,7 +6,7 @@
 \contentsline {section}{\numberline {1.4}Second-Quantized Electronic Structure Hamiltonian}{15}{section.1.4}%
 \contentsline {section}{\numberline {1.5}Trotterization}{16}{section.1.5}%
 \contentsline {section}{\numberline {1.6}Double Factorization of Electronic Structure Hamiltonian}{17}{section.1.6}%
-\contentsline {subsection}{\numberline {1.6.1}Double-Factorized Expansion Method}{19}{subsection.1.6.1}%
+\contentsline {subsection}{\numberline {1.6.1}Double-Factorized Expansion Method}{20}{subsection.1.6.1}%
 \contentsline {section}{\numberline {1.7}Discussion}{21}{section.1.7}%
 \contentsline {chapter}{\numberline {2}Quantum Arithmetic Circuit Design for Double-Factorized Electronic Structure Hamiltonian Simulation}{23}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Summation}{24}{section.2.1}%
@@ -22,4 +22,4 @@
 \contentsline {section}{\numberline {3.3}Extraction of Low-Range Terms from Practical Electronic Structure Hamiltonians}{36}{section.3.3}%
 \contentsline {chapter}{\numberline {4}Conclusion}{39}{chapter.4}%
 \contentsline {chapter}{\numberline {A}Quantum Circuit Diagrams}{41}{appendix.A}%
-\contentsline {backmatter}{References}{45}{appendix*.10}%
+\contentsline {backmatter}{References}{45}{appendix*.11}%

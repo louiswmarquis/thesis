@@ -17,19 +17,19 @@ We can substitute the number operator correspondance from \eqref{eq: JWnum} to f
     U_A^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2} \leftrightarrow e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \ket{1}\bra{1}_s\right)^2}
 \end{equation}
 
-This qubit operator, when acting on a qubit computational basis state $\ket{\vec{x}}$, it simply applies a phase shift that is a function of $\vec{x}$.
+This qubit operator, when acting on a qubit computational basis state $\ket{\vec{x}}$, simply applies a phase shift that is a function of $\vec{x}$.
 
 \begin{equation}
     e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \ket{1}\bra{1}_s\right)^2}\ket{\vec{x}} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s x_s\right)^2}\ket{\vec{x}}
 \end{equation}
 
-We want to find an efficient way to approximately simulate $U_A^{(r)}$. That is, we want to find an operator $\tilde{U}_A^{(r)}$ that applies the specified phase rotation on $\ket{\vec{x}}$ as precisely as possible and with as few gates as possible. As a reminder, the error (and therefore precision) is measured by the operator norm of the difference in the ideal and approximate operators. $\epsilon$ is a parameter that limits the maximum error of this approximation and it affects the cost of $\tilde{U}_A^{(r)}$. A tighter bound requires more gates to achieve that bound.
+We want to find an efficient way to approximately simulate $U_A^{(r)}$. That is, we want to find an operator $\tilde{U}_A^{(r)}$ that applies the specified phase rotation on $\ket{\vec{x}}$ as precisely as possible and with as few gates as possible. As a reminder, the error (and therefore precision) is measured by the operator norm of the difference in the ideal and approximate operators. The parameter $\epsilon$ limits the maximum error of this approximation and it affects the cost of $\tilde{U}_A^{(r)}$. A tighter bound requires more gates to achieve that bound.
 
 \begin{equation}
     \epsilon \geq ||U_A^{(r)} - \tilde{U}_A^{(r)}|| = ||e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2} - \tilde{U}_A^{(r)}|| \label{eq: error}
 \end{equation}
 
-\eqref{eq: expansion} presented a method that simulated $U_A^{(r)}$ exactly (no error) but it required $O(n^2)$ gates. We now present a $\tilde{U}_A^{(r)}$ that requires $O(n\log_2(\frac{n}{\epsilon}) + \log_2(\frac{1}{\epsilon})^2)$ gates. The idea is to coherently calculate the phase of the phase rotation on a separate qubit register and use these qubits representing the phase as controls to apply a phase rotation. Hence, we call this the ``coherent'' method.
+The expansion method in \eqref{eq: expansion} simulates but requires $O(n^2)$ non-Clifford gates, leading to a $O(n^2\log_2{\frac{n}{\epsilon}})$ $T$-count. We now present a $\tilde{U}_A^{(r)}$ that requires $O(n\log_2(\frac{n}{\epsilon}) + \log_2(\frac{1}{\epsilon})^2)$ gates. The idea is to coherently calculate the phase of the phase rotation on a separate qubit register and use these qubits representing the phase as controls to apply a phase rotation. Hence, we call this the ``coherent'' method.
 
 More formally, denote the value of the summation in the phase rotation as $y_r(\vec{x})$.
 
@@ -55,7 +55,7 @@ We begin with a register of $n$ qubits in a Fock state $\ket{\vec{x}}$ and intro
 
 \section{Summation}
 
-Because $\lambda'^{(r)}$ can assume any real (including irrational) values, a finite set of qubits will not be able to represent $y_r(\vec{x}) = \sum_s \lambda'^{(r)}_s x_s$ precisely. Instead, we compute an approximation $\tilde{y}_r(\vec{x})$ that can be expressed in $\frac{m}{2}$ bits. We essentially truncate (or round) each term in the sum and add them together. $m$ can be increased to enhance precision at the cost of ancilla qubits and more gates, and vice versa. In short, we'd like to use the qubits $\ket{\vec{x}}$ to transform $\ket{0^{\frac{m}{2}}}$ to $\ket{\tilde{y}_r(\vec{x})}$.
+Because $\lambda'^{(r)}$ can assume any real (including irrational) values, a finite set of qubits will not be able to represent $y_r(\vec{x}) = \sum_s \lambda'^{(r)}_s x_s$ precisely. Instead, we compute an approximation $\tilde{y}_r(\vec{x})$ that can be expressed in $\frac{m}{2}$ bits. We essentially truncate (or round) each term in the sum and add them together. One can increase $m$ to enhance precision at the cost of ancilla qubits and more gates, and vice versa. In short, we'd like to use the qubits $\ket{\vec{x}}$ to transform $\ket{0^{\frac{m}{2}}}$ to $\ket{\tilde{y}_r(\vec{x})}$.
 
 \begin{equation}
     \ket{\vec{x}}\ket{0^{\frac{m}{2}}} \rightarrow \ket{\vec{x}}\ket{\tilde{y}_r(\vec{x})} = \ket{\vec{x}}\ket{\sum_s \tilde{\lambda}'^{(r)}_s x_s}
@@ -170,7 +170,7 @@ We can then decompose the phase operation into several $R_z$ gates. These gates 
 
 We observe that factoring the phase into $R_z$ rotations results in a global phase factor $e^{i\sum_k \varphi_k}$. However, such a phase can be ignored as long as it is independent of $\vec{x}$ (which it is).
 
-Because the $R_z$ gate is not a Clifford gate, it cannot be directly implemented in a fault-tolerant way. Instead, it must be approximated using Clifford and $T$ gates. The number of such gates scales with $O(\log_2(\frac{1}{\epsilon_z}))$, where $\epsilon_z$ is the desired precision of the $R_z$ operator. An implementation by \cite{Rz} achieves a $T$-count of $10 + 4\log_2(\frac{1}{\epsilon_z})$. 
+Because the $R_z$ gate is not a Clifford gate, it cannot be directly implemented in a fault-tolerant way. Instead, it must be approximated using Clifford and $T$ gates. In general, the number of $T$ gates scales with $O(\log_2(\frac{1}{\epsilon_z}))$, where $\epsilon_z$ is the desired precision of the $R_z$ operator. An implementation by Ref. \cite{Rz} achieves a $T$-count of $10 + 4\log_2(\frac{1}{\epsilon_z})$. 
 
 Once the phase has been applied, it is necessary to uncompute the values $\tilde{y}_r(\vec{x}), \tilde{y}_r(\vec{x})^2$ computed in the ancilla registers and reset the registers to zeros. One can simply do this by applying all the previous gates (in the summation and squaring) in reverse order. Then the empty registers can be safely removed and $\tilde{U}_A^{(r)}$ has successfully been applied.
 
@@ -203,7 +203,7 @@ We propagate this error to $\tilde{y}(\vec{x})^2$.
     \end{split}
 \end{equation}
 
-Recall that there is some error generated from the $m$ $R_z$ gates in $\tilde{U}_A^{(r)}$. Each gate generates error $\epsilon_z$, which is variable depending on how many Clifford + $T$ gates we use to implement it. Since the operator norm is a norm, the total error is sub-additive.
+Recall that there is some error generated from the $m$ $R_z$ gates in $\tilde{U}_A^{(r)}$. Each gate generates error $\epsilon_z$, which is variable depending on how many Clifford + $T$ gates we use to implement it. Due to the Triangle Inequality, the total such error is sub-additive.
 
 \begin{equation}
     \begin{split}
@@ -235,7 +235,7 @@ We want $m$ to be large enough and $\epsilon_z$ small enough that this quantity 
     \end{split}
 \end{equation}
 
-We choose the first input of the $\max$. Both options are asymptotically the same, so we choose the one with the larger constant factor to establish an upper bound on the threshold. If it turns out that $\log_2\left(n^2\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) < 2$, then $m^*$ won't be much larger than (and may be less than) $2\log_2(n)$ anyway.
+We choose the first input of the $\max$. Both options are asymptotically the same, so we choose the one with the larger constant multiplier to establish an upper bound on the threshold. If it turns out that $\log_2\left(n^2\frac{|\lambda_r|Y_r^2\Delta t}{\epsilon}\right) < 2$, then $m^*$ won't be much larger than (and may be less than) $2\log_2(n)$ anyway.
 
 Clearly $m^*$ is asymptotically logarithmic in $n$, as long as $|\lambda_r|$ and $Y_r$ are not exponential in $n$ (in reality they are sublinear). Referring back to \eqref{eq: toffolis}, the total asymptotic gate cost of $\tilde{U}_A^{(r)}$ is therefore $O(mn + m^2) = O(n\log{n} + (\log{n})^2) = O(n\log{n})$.
 
@@ -252,7 +252,7 @@ Meanwhile, the restriction on $m\epsilon_z$ leads to a threshold $\epsilon_z^*$.
 
 \section{Complexity Analysis}
 
-We would like to establish an upper bound on the cost of $\tilde{U}_A^{(r)}$. In implementing fault-tolerant quantum circuits, the $T$-count is the usual cost metric, since $T$-state distillation is usually the bottleneck.
+We would like to establish an upper bound on the $T$-count of $\tilde{U}_A^{(r)}$.
 
 The controlled constant addition in \ref{fig: add} requires $\frac{m}{2} - 1$ ancilla qubits (in addition to the target register) and its gate count depends on the values of $[w]_j$. At maximum, it requires $1.5m - 5$ Toffolis and $2.5m - 7$ CNOTs.
 
@@ -277,7 +277,7 @@ In our implementation of $\tilde{U}_A^{(r)}$, there are $2n$ controlled constant
     \end{split}
 \end{equation}
 
-Given $\epsilon_z$, each $R_z$ gate requires $10 + 4\log_2(\frac{1}{\epsilon_z})$ T-gates using the implementation in \cite{Rz}. There are $m$ $R_z$ gates in $\tilde{U}_A^{(r)}$. We can use the threshold $\epsilon_z^*$ calculated in \eqref{eq: e_z} to upper-bound this $T$-count in terms of $m$ and $\epsilon$.
+Given $\epsilon_z$, each $R_z$ gate requires $10 + 4\log_2(\frac{1}{\epsilon_z})$ T-gates using the implementation in Ref. \cite{Rz}. There are $m$ $R_z$ gates in $\tilde{U}_A^{(r)}$. We can use the threshold $\epsilon_z^*$ calculated in \eqref{eq: e_z} to upper-bound this $T$-count in terms of $m$ and $\epsilon$.
 
 \begin{equation}
     \begin{split}
@@ -286,7 +286,7 @@ Given $\epsilon_z$, each $R_z$ gate requires $10 + 4\log_2(\frac{1}{\epsilon_z})
     \end{split}
 \end{equation}
 
-The traditional construction of the Toffoli gate uses $2$ Hadamard gates, $6$ CNOT gates, and $7$ T-gates. However, \cite{Toffoli} proposed a construction that uses only $4$ $T$-gates. We can calculate the total $T$-count of $\tilde{U}_A^{(r)}$ if we use the latter construction.
+The traditional construction of the Toffoli gate uses $2$ Hadamard gates, $6$ CNOT gates, and $7$ T-gates. However, Ref. \cite{Toffoli} proposed a construction that uses only $4$ $T$-gates. We can calculate the total $T$-count of $\tilde{U}_A^{(r)}$ using this construction.
 
 \begin{equation}
     \begin{split}
@@ -297,7 +297,7 @@ The traditional construction of the Toffoli gate uses $2$ Hadamard gates, $6$ CN
     \end{split}
 \end{equation}
 
-We can substitute the asymptotic threshold $m^* = O(\log_2(\frac{n}{\epsilon}))$ from \eqref{eq: m_min} to obtain an asymptotic $\tilde{N}_{T}$ in terms of $n$ and $\frac{1}{\epsilon}$.
+We can substitute the asymptotic threshold $m^* = O(\log_2(\frac{n}{\epsilon}))$ from \eqref{eq: m_min} to obtain an asymptotic $\tilde{N}_{T}$ in terms of $n$ and $\frac{1}{\epsilon}$. One can also substitute the exact expression for $m^*$ into the exact expression in \eqref{eq: Ts_mneps}, but it would be too messy to be informative, so we choose to keep it in the more concise form of two equations.
 
 \begin{equation}
     \begin{split}
@@ -308,9 +308,9 @@ We can substitute the asymptotic threshold $m^* = O(\log_2(\frac{n}{\epsilon}))$
 
 \section{Numerical Cost Estimates}
 
-The gate cost of this $\tilde{U}_A^{(r)}$ is asympotically lower in $n$ than the $O(n^2\log_2(\frac{n}{\epsilon}))$ cost of the expansion method in \eqref{eq: expansionTs}, which is a significant advantage. It's useful to get a (very rough) numerical estimate of the gate counts to understand the scale ($n$) at which the advantage appears.
+The gate cost of this coherent $\tilde{U}_A^{(r)}$ is asympotically lower in $n$ than the $O(n^2\log_2(\frac{n}{\epsilon}))$ cost of the expansion method in \eqref{eq: expansionTs}, which is a significant advantage. It's useful to get a (very rough) numerical estimate of the gate counts to understand the scale ($n$) at which the advantage appears.
 
-The value of $\Delta t$ depends on the particular Trotter-like algorithm used. An obvious but very loose upper bound for $\Delta t$ is $t$ itself. \cite{Gate_Count} establishes $t = 6000 \frac{1}{E_h}$ and $\epsilon = 10^{-6}$ as typical values. For estimates of $|\lambda_r|Y_r^2$, we decomposed Hamiltonians of hydrogen chain systems for various $n$ ($n$ is the number of $H$s and the number of orbitals) to obtain values of $|\lambda_r|$ and $Y_r$. It turns out for these systems that $|\lambda_r|Y_r^2 \approx n\log_2{n} E_h$.
+The value of $\Delta t$ depends on the particular Trotter-like algorithm used. An obvious but very loose upper bound for $\Delta t$ is $t$ itself. One recent example Ref. \cite{Gate_Count} establishes $t = 6000 \frac{1}{E_h}$ and $\epsilon = 10^{-6}$ as plausible values. For estimates of $|\lambda_r|Y_r^2$, we decomposed Hamiltonians of hydrogen chain systems for various $n$ ($n$ is the number of $H$s and the number of orbitals) to obtain values of $|\lambda_r|$ and $Y_r$. It turns out for these systems that $\max_r |\lambda_r|Y_r^2 \approx n\log_2{n} E_h$.
 
 \begin{equation}
     \begin{split}
@@ -320,7 +320,7 @@ The value of $\Delta t$ depends on the particular Trotter-like algorithm used. A
     \end{split}
 \end{equation}
 
-In practice, $\Delta << t$, so $t$ is not a useful order of magnitude for $\Delta t$. \cite{Gate_Count} also mentions a value $\Delta t = 0.01 \frac{1}{E_h}$ which is probably closer to the actual of $\Delta t$.
+In practice, $\Delta << t$, so $t$ is not a useful order of magnitude for $\Delta t$. Ref. \cite{Gate_Count} also mentions a value $\Delta t = 0.01 \frac{1}{E_h}$ which is probably closer to the actual magnitude of $\Delta t$.
 
 \begin{equation}
     \begin{split}
@@ -334,13 +334,17 @@ In practice, $\Delta << t$, so $t$ is not a useful order of magnitude for $\Delt
     \end{split}
 \end{equation}
 
-We plot this $T$-count of the ``coherent method'' as well as that of the ``expansion method'' in \eqref{eq: expansionTs} as functions of $n$. It turns out that the expansion method surpasses the coherent method in $T$-count at approxmiately $n \approx 64$. At $n = 64$, the coherent method requires about $2.51 * 10^5$ $T$-gates and has $m = 60$, while the expansion method requires about $2.57 * 10^5$ $T$-gates.
+We plot in \ref{fig: Tcounts} this $T$-count of the ``coherent method'' as well as that of the ``expansion method'' in \eqref{eq: expansionTs} as functions of $n$. It turns out that the expansion method surpasses the coherent method in $T$-count at approxmiately $n \approx 64$. At $n = 64$, the coherent method requires about $2.51 \cdot 10^5$ $T$-gates and has $m = 60$, while the expansion method requires about $2.57 * 10^5$ $T$-gates.
 
-We reiterate that this is a very rough estimate, intended to show the order of magnitude of the threshold $n$, rather than a specific practical value. The number of ancillas and the gate count of the coherent method are highly dependent on the scale of values $\lambda_r, Y_r$ which are highly dependent on the specific Hamiltonian. The values of $\epsilon$ and $\Delta t$ are also vary significantly across use cases.
+We reiterate that this is a very rough estimate, intended to show the order of magnitude of the threshold $n$, rather than a specific practical value. The number of ancillas and the gate count of the coherent method are highly dependent on the scale of values $\lambda_r, Y_r$ which are highly dependent on the specific Hamiltonian. The values of $\epsilon$ and $\Delta t$ are also vary significantly across use cases. However, the fairly low threshold $n \approx 64$ in this case is a very promising sign for the applicability of the coherent method in the general case.
 
-Additionally, the circuit design describes an uncontrolled implementation of $e^{-i\hat{H}_2^{(r)}\delta t}$, while in practice the main use case of an operation $e^{-iHt}$ is in phase estimation to obtain the ground state of $H$. Phase estimation will require a controlled version of $e^{-iHt}$, and therefore a controlled version of $e^{-i\hat{H}_2^{(r)}\delta t}$. This will turn the Toffoli gates into $CCCNOT$ gates, $CNOT$ gates into Toffolis, $R_z$ gates into $CR_z$ gates, and $CR_z$ gates into $CCR_z$ gates, which will increase the gate count of both the expansion and coherent methods and will shift the threshold $n$. However, such a transformation will only affect the the gate counts by a constant factor (e.g. a $CCCNOT$ can be implemented with $3$ Toffolis) and will not affect the asymptotic performance of the coherent and expansion methods.
 
-\textcolor{red}{INSERT PLOT}
+\begin{figure}[h]
+    \centering
+    \includegraphics{Tcount.png}
+    \caption{Approximate $T$-counts for the expansion and coherent methods of $U_A^{(r)}$ using $\epsilon = 10^{-6}$, $\Delta t = 0.01 \frac{1}{E_h}$, and $|\lambda_r|Y_r^2 = n\log_2{n} E_h$ estimated for hydrogen chain Hamiltonians.}
+    \label{fig: Tcounts}
+\end{figure}
 
 %When is O(n log n) really better than n^2/2?
 
@@ -348,9 +352,9 @@ Additionally, the circuit design describes an uncontrolled implementation of $e^
 
 \section{Discussion}
 
-The asymptotic (in $n$) advantage of the coherent method ($O(n\log_2{n})$) over the expansion method ($O(n^2)$) is only useful in $U_A^{(r)}$ if the number of $T$ gates in $U_R(u^{(r)})$ can also be reduced from $O(n^2\log_2(\frac{n}{\epsilon}))$. Otherwise, the latter complexity dominates and maintains the overall complexity unchanged.
+The asymptotic (in $n$) advantage of the coherent method ($O(n\log_2{n})$) over the expansion method ($O(n^2)$) is only useful in $U_A^{(r)}$ if the number of $T$ gates in $U_R(u^{(r)})$ can also be reduced from $O(n^2\log_2(\frac{n}{\epsilon}))$. Otherwise, the latter asymptotically dominates and maintains the overall complexity unchanged.
 
-In Chapter 3, we explore chemical systems and Hamiltonians for which it is the case that $U_R(u^{(r)})$ can be decomposed ``easily'' as such.
+In Chapter 3, we explore Hamiltonians for which it is the case that $U_R(u^{(r)})$ can be decomposed ``easily'' as such.
 
 
 %%%%%%%%%%%%%%%% end table %%%%%%%%%%%%%%%%%%% 

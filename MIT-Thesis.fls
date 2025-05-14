@@ -438,6 +438,13 @@ INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\c
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmbsy7.tfm
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmbsy5.tfm
 INPUT C:\Users\Louis Marquis\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmr7.tfm
+INPUT .\Tcount.png
+INPUT .\Tcount.png
+INPUT .\Tcount.png
+INPUT .\Tcount.png
+INPUT .\Tcount.png
+INPUT .\Tcount.png
+INPUT .\Tcount.png
 INPUT .\chapter3.tex
 INPUT .\chapter3.tex
 OUTPUT chapter3.aux

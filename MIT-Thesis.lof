@@ -1,9 +1,10 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {1.1}{\ignorespaces Construction of $CR_z(\varphi )$ in \textup {\hbox {\mathsurround \z@ {(\ignorespaces \ref {eq: CR_z}\unskip \@@italiccorr )}}} with two $CNOT$ gates and three $R_z$ gates}}{20}{figure.caption.5}%
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Approximate $T$-counts for the expansion and coherent methods of $U_A^{(r)}$ using $\epsilon = 10^{-6}$, $\Delta t = 0.01 \frac {1}{E_h}$, and $|\lambda _r|Y_r^2 = n\log _2{n} E_h$ estimated for hydrogen chain Hamiltonians.}}{32}{figure.caption.6}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {A.1}{\ignorespaces Quantum circuit diagram for $U_A^{(r)}$ using arithmetic circuits (uncomputing not shown)}}{41}{figure.caption.7}%
-\contentsline {figure}{\numberline {A.2}{\ignorespaces Example quantum circuit diagram for a controlled addition of $w$ for $\frac {m}{2} = 4$. The label $[w]_j$ indicates that the correspondingly boxed gates are only applied when $[w]_j = 1$. }}{42}{figure.caption.8}%
-\contentsline {figure}{\numberline {A.3}{\ignorespaces Quantum circuit diagram for $\mathinner {|{w}\rangle }\mathinner {|{z}\rangle } \rightarrow \mathinner {|{w}\rangle }\mathinner {|{z + [w]_j2^{M_r - (\frac {m}{2} - 1) + j}w}\rangle }$. This is essentially the equivalent of \ref {fig: add} if the added input were quantum, and if the controlling qubit $\mathinner {|{\vec {x}}\rangle }_s$ were instead a qubit in $w$, and if the . Qubits $0$ to $j - 1$ of the $\mathinner {|{z}\rangle }$ register are not shown. }}{43}{figure.caption.9}%
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Quantum circuit diagram for $U_A^{(r)}$ using arithmetic circuits (uncomputing not shown)}}{41}{figure.caption.8}%
+\contentsline {figure}{\numberline {A.2}{\ignorespaces Example quantum circuit diagram for a controlled addition of $w$ for $\frac {m}{2} = 4$. The label $[w]_j$ indicates that the correspondingly boxed gates are only applied when $[w]_j = 1$. }}{42}{figure.caption.9}%
+\contentsline {figure}{\numberline {A.3}{\ignorespaces Quantum circuit diagram for $\mathinner {|{w}\rangle }\mathinner {|{z}\rangle } \rightarrow \mathinner {|{w}\rangle }\mathinner {|{z + [w]_j2^{M_r - (\frac {m}{2} - 1) + j}w}\rangle }$. This is essentially the equivalent of \ref {fig: add} if the added input were quantum, and if the controlling qubit $\mathinner {|{\vec {x}}\rangle }_s$ were instead a qubit in $w$, and if the . Qubits $0$ to $j - 1$ of the $\mathinner {|{z}\rangle }$ register are not shown. }}{43}{figure.caption.10}%

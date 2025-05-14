@@ -5,7 +5,7 @@
 
 \chapter{Introduction}
 
-The field of computational chemistry aims to use computers to simulate and better understand the behavior of complex chemical systems in the real world. Drug discovery, materials science, and nanotechnology are only a few areas that would benefit from the ability to computationally predict behavior of molecular systems. However, chemical systems at the particle level are inherently shaped by quantum effects, which are not easily modeled by a classical (non-quantum) computer. For example, the phenomenon of quantum superposition allows a system to be in a linear combination of an exponential number of basis states at the same time. A classical computer must numerically store this exponential amount of data, a prohibitive task.
+The field of computational chemistry \cite{QCC} aims to use computers to simulate and better understand the behavior of complex chemical systems in the real world. Drug discovery, materials science, and nanotechnology are only a few areas that would benefit from the ability to computationally predict behavior of molecular systems. However, chemical systems are inherently shaped by quantum effects, which are not easily modeled by a classical (non-quantum) computer. For example, the phenomenon of quantum superposition allows a system to be in a linear combination of an exponential \cite{QCC} number of basis states at the same time. A classical computer must numerically store this exponential amount of data, a prohibitive task, or resort to approximations without provable error bounds.
 
 Quantum computational chemistry aims to perform this task using quantum computers, which can represent such systems more easily because its hardware, by definition, is inherently quantum. A superposition in a chemical system, for example, can represented by physically putting a quantum computer's hardware into superposition.
 
@@ -13,7 +13,7 @@ The first half of this Chapter 1 will summarize well-known techniques in second 
 
 \section{Hamiltonian Simulation}
 
-In any quantum system, the behavior in which its state changes over time is dictated by its Hamiltonian operator $H$. In particular, if the system starts in state $\ket{\psi(0)}$, then we can determine its state $\ket{\psi(t)}$ at time $t$.
+In any quantum system, the behavior in which its state changes over time is dictated by its Hamiltonian operator $H$. In particular, if the system starts in state $\ket{\psi(0)}$, then we can determine its state $\ket{\psi(t)}$ at time $t$ \cite{MikeIke}.
 
 \begin{equation}
     \ket{\psi(t)} = e^{-iHt}\ket{\psi(0)}
@@ -21,35 +21,35 @@ In any quantum system, the behavior in which its state changes over time is dict
 
 A wavefunction maps a continuous physical quantity (such as position) to an amplitude. A state denotes a physical system's wavefunction at a particular moment. An operator linearly maps wavefunctions to wavefunctions like how a matrix maps vectors to vectors.
 
-The Hamiltonian $H$ depends on many factors, such as the nature of interactions between particles in the system or external forces such as electric or magnetic fields acting in the system. $H$, and in turn $U = e^{-iHt}$ can be very complex, and usually it's not feasible to simulate $U$ exactly. Instead, we try to find a different operator $\tilde{U}$ that is easy to simulate and sufficiently close to $\tilde{U}$. Usually we choose to define the error as the spectral norm (largest singular value) of the difference between $U$ and $\tilde{U}$. The goal is for the error to be below some variable threshold $\epsilon$.
+The Hamiltonian $H$ depends on many factors, such as the nature of interactions between particles in the system or external forces such as electric or magnetic fields acting in the system. Therefore, $H$, and in turn $U = e^{-iHt}$ can be very complex, and usually it's not feasible to simulate $U$ exactly. Instead, we try to find a different operator $\tilde{U}$ that is easy to simulate and sufficiently close to $\tilde{U}$. Unlike with classical approximation methods, there are methods in quantum simulation to make error arbitrarily small. Usually we choose to define the error as the spectral norm (largest singular value) \cite{DF} of the difference between $U$ and $\tilde{U}$. The goal is for the error to be below some variable threshold $\epsilon$.
 
 \begin{equation}
     \epsilon \geq ||U - \tilde{U}|| = ||e^{-iHt} - \tilde{U}||
 \end{equation}
 
-At the same time, we want to minimize the cost of simulating $\tilde{U}$ on a quantum computer. To function well in practice, quantum computers require error correction, which generally only work on particular sets of gates. The Clifford+T set is usually considered the most promising set, meaning that we must decompose $\tilde{U}$ as a series of Clifford group gates and $T$ gates. Because $T$ gates over $100$ to $10000$ times \cite{DF} more costly than Clifford gates, the number of $T$ gates, or the ``$T$-count'', is often used as the cost metric. Hence, we wish to construct $\tilde{U}$ within error $\epsilon$ of $e^{-iHt}$ while minimizing $T$-count.
+At the same time, we want to minimize the cost of simulating $\tilde{U}$ on a quantum computer. To function well in practice, quantum computers require error correction, which generally only work on particular sets of gates. The Clifford+T set is usually considered the most promising set, meaning that we must decompose $\tilde{U}$ as a series of Clifford group gates and $T$ gates. Because $T$ gates are over $100$ to $10000$ times \cite{DF} more costly than Clifford gates, the number of $T$ gates, or the ``$T$-count'', is often used as the cost metric. Hence, we wish to construct $\tilde{U}$ within error $\epsilon$ of $e^{-iHt}$ while minimizing $T$-count.
 
 This task is accordingly named Hamiltonian simulation.
 
-One important Hamiltonian is the electronic structure Hamiltonian, which describes the behavior of electrons in a molecule consisting of many nuclei and electrons. In modeling this system, we use the Born-Oppenheimer approximation, which assumes that the positions of the nuclei are essentially fixed. This is justified by the fact that the nuclei are far more massive than the electrons, so we can study the movement of electrons separately from the movement of the nuclei. With this assumption, the electronic structure Hamiltonian contains only terms for the electrons' kinetic energies, for the interactions between electrons and nuclei, and for the interactions among electrons.
+One important Hamiltonian is the electronic structure Hamiltonian \cite{QCC}, which describes the behavior of electrons in a molecule consisting of many nuclei and electrons. In modeling this system, we use the Born-Oppenheimer approximation \cite{QCC}, which assumes that the positions of the nuclei are essentially fixed. This is justified by the fact that the nuclei are far more massive than the electrons, so we can study the movement of electrons separately from the movement of the nuclei. With this assumption, the electronic structure Hamiltonian contains only terms for the electrons' kinetic energies, for the interactions between electrons and nuclei, and for the interactions among electrons \cite{QCC}.
 
 \begin{equation}
     H = -\sum_p \frac{\hbar^2}{2m_e} \nabla^2_p - \sum_{p, P}\frac{e^2}{4\pi\epsilon_0}\frac{Z_P}{|\vec{r}_p - \vec{R}_P|} + \frac{1}{2}\sum_{p \neq q}\frac{e^2}{4\pi\epsilon_0}\frac{1}{|\vec{r}_p - \vec{r}_q|} \label{eq: H}
 \end{equation}
 
-$\vec{r}_p$ denotes the position of the $p$th electron, and $\vec{r}_P$ and $Z_P$ denote the position and charge of the $P$th nucleus.
+In \eqref{eq: H}, $\vec{r}_p$ denotes the position of the $p$th electron, and $\vec{r}_P$ and $Z_P$ denote the position and charge of the $P$th nucleus.
 
-The ultimate goal of electronic structure theory is to find the eigenvalues and eigenstates of $e^{-iHt}$, or the states that are invariant (up to a phase) under $e^{-iHt}$. The ability to simulate the behavior of $e^{-iHt}$ on an arbitrary state can directly be used to find the eigenvalues using the quantum phase estimation algorithm. The details of this algorithm are explained in \cite{MikeIke}; the relevant fact for this paper is the power unlocked by performing $e^{-iHt}$.
+The ultimate goal of electronic structure theory is to find the eigenvalues and eigenstates of $e^{-iHt}$, or the states that are invariant (up to a phase) under $e^{-iHt}$. The ability to simulate the behavior of $e^{-iHt}$ on an arbitrary state can directly be used to find the eigenvalues using the quantum phase estimation algorithm \cite{QCC}. The details of this algorithm are explained in Ref. \cite{MikeIke}; the relevant fact for this paper is the power unlocked by performing $e^{-iHt}$.
 
 \section{Second Quantized Fock States}
 
-We would like to model the electronic structure system described by $H$ in \eqref{eq: H}. As previously described, the system consists of numerous identical electrons and numerous nuclei at fixed positions. The indistinguishability of the electrons means that the joint wavefunction is only determined by how many electrons are in each basis state, rather than which electron is in which state. For example, electrons $1$ and $2$ being in respective states $\phi_1$ and $\phi_2$ must create the same wavefunction as them being in the states $\phi_2$ and $\phi_1$. In addition, the joint wavefunction of many identical fermions must be anti-symmetric upon exchange of any pair of fermions. For example, if we want to express a state where one electron is in state $\phi_1$ and the other is in state $\phi_2$, a simple tensor product $\phi_1 \otimes \phi_2$ would not be a valid joint wavefunction. Instead, it must be anti-symmetrized.
+We would like to model the electronic structure system described by $H$ in \eqref{eq: H}. As previously described, the system consists of numerous identical electrons and numerous nuclei at fixed positions. The indistinguishability of the electrons means that the joint wavefunction is only determined by how many electrons are in each basis state, rather than which electron is in which state. For example, electrons $1$ and $2$ being in respective states $\phi_1$ and $\phi_2$ must create the same wavefunction as them being in the states $\phi_2$ and $\phi_1$. In addition, the joint wavefunction of many identical fermions must be anti-symmetric upon exchange of any pair of fermions. For example, if we want to express a state where one electron is in state $\phi_1$ and the other is in state $\phi_2$, a simple tensor product $\phi_1 \otimes \phi_2$ would not be a valid joint wavefunction. Instead, it must be anti-symmetrized \cite{QCC}.
 
 \begin{equation}
     \psi = \phi_1 \otimes \phi_2 - \phi_2 \otimes \phi_1
 \end{equation}
 
-This required process can make many-body calculations very cumbersome. Fortunately, second quantization significantly simplifies the representation of many-body systems by introducing the Fock basis, whose states are inherently anti-symmetrized.
+This required process can make many-body calculations very cumbersome. Fortunately, second quantization significantly simplifies the representation of many-body systems by introducing the Fock basis \cite{QCC}, whose states are inherently anti-symmetrized.
 
 Suppose for a single electron we'd like to use a basis $\{\phi_i\}$. Although the basis has infinite size, usually only basis states below a certain energy threshold are relevant, restricting our concern to a finite basis $\{\phi_i\}_{i \in [0, n)}$.
 
@@ -59,26 +59,26 @@ If there are many identical particles, we often want to express a state where $f
     \ket{\vec{f}} = \ket{f_0, f_1, ..., f_{n - 1}} \label{eq: fock}
 \end{equation}
 
-With $n$ orbitals (basis states), there are $2^n$ such Fock states, one for each n-bitstring $\vec{f} \in \{0, 1\}^n$. These $2^n$ states form a complete basis of the many-body Hilbert space. That is, any state possible for a many-body system within these $n$ orbitals can be expressed as a linear combination of these Fock states.
+With $n$ orbitals (basis states), there are $2^n$ such Fock states, one for each n-bitstring $\vec{f} \in \{0, 1\}^n$. These $2^n$ states form a complete basis of the many-body Hilbert space \cite{QCC}. That is, any state possible for a many-body system within these $n$ orbitals can be expressed as a linear combination of these Fock states.
 
-We can define fermionic creation $a^\dag_i$ and annihilation $a_i$ operators that map Fock states to Fock states.
+We can define fermionic annihilation $a_i$ and creation $a^\dag_i$ operators \cite{QCC} that map Fock states to Fock states.
 
-\begin{equation}
-    \begin{split}
-        a^\dag_i\ket{\vec{f}} &= a^\dag_i\ket{f_0, ..., f_{n - 1}} \\
-        &= \delta_{f_i, 1}(-1)^{\sum_{j = 0}^{i - 1}}\ket{f_0, ..., f_i \oplus 1, ..., f_{n - 1}}
-    \end{split}
-    \label{eq: creation}
-\end{equation}
 \begin{equation}
     \begin{split}
         a_i\ket{\vec{f}} &= a_i\ket{f_0, ..., f_{n - 1}} \\
-        &= \delta_{f_i, 0}(-1)^{\sum_{j = 0}^{i - 1}}\ket{f_0, ..., f_i \oplus 1, ..., f_{n - 1}}
+        &= \delta_{f_i, 0}(-1)^{\sum_{j = 0}^{i - 1} f_j}\ket{f_0, ..., f_i \oplus 1, ..., f_{n - 1}}
     \end{split}
     \label{eq: annihilation}
 \end{equation}
+\begin{equation}
+    \begin{split}
+        a^\dag_i\ket{\vec{f}} &= a^\dag_i\ket{f_0, ..., f_{n - 1}} \\
+        &= \delta_{f_i, 1}(-1)^{\sum_{j = 0}^{i - 1} f_j}\ket{f_0, ..., f_i \oplus 1, ..., f_{n - 1}}
+    \end{split}
+    \label{eq: creation}
+\end{equation}
 
-$a^\dag_i$ transforms a Fock state with $f_i = 0$ into a Fock state with $f_i = 1$, thereby ``creating'' a fermion in state $\phi_i$ and adding a phase shift to account for anti-symmetry. If orbital $i$ is already occupied, the new state is $0$ (it disappears). $a_i$ does the reverse of $a^\dag_i$ and de-occupies orbital $i$.
+The annihilation operator $a_i$ transforms a Fock state with $f_i = 1$ into a Fock state with $f_i = 0$, thereby ``annihilating'' a fermion in state $\phi_i$ and adding a phase shift to account for anti-symmetry. If orbital $i$ is unoccupied, the new state is $0$ (it disappears). The creation operator $a^\dag_i$ does the reverse of $a_i$ and creates a fermion in orbital $i$.
 
 As typical with creation and annihilation operators, their product is a number operator $n_i = a^\dag_ia_i$ \cite{QCC}.
 
@@ -101,7 +101,7 @@ Second quantization, in short, equips us with a concise representation of many-f
 
 The Fock basis allows us to easily represent physical systems of many electrons. We would like to encode these physical systems on a quantum computer made of qubits so that we can compute on them. Conveniently, it is very straightforward to do so with the Fock basis.
 
-Quantum computers are comprised of qubits. A qubit is simply a system with a two-dimensional Hilbert space. One example is an electron spin (up or down). Given a basis $\{\ket{0}, \ket{1}\}$, the state of a qubit can be any normalized linear combination of these two basis vectors.
+Quantum computers are comprised of qubits \cite{MikeIke}. A qubit is simply a system with a two-dimensional Hilbert space. One example is an electron spin (up or down). Given a basis $\{\ket{0}, \ket{1}\}$, the state of a qubit can be any normalized linear combination of these two basis vectors.
 
 \begin{equation}
     \ket{\psi} = A_0\ket{0} + A_1\ket{1} \text{ such that } |A_0|^2 + |A_1|^2 = 1
@@ -113,15 +113,15 @@ The joint state of $n$ qubits can be any normalized superposition of all $2^n$ b
     \ket{\psi} = \sum_{\vec{x} \in \{0, 1\}^n} A_{\vec{x}} \ket{\vec{x}} \text{ such that } \sum_{\vec{x} \in \{0, 1\}^n} |A_{\vec{x}}|^2 = 1 \label{eq: qubits}
 \end{equation}
 
-It is then straightforward that basis states \eqref{eq: fock} of an $n$-orbital many-electron physical system correspond to basis states \eqref{eq: qubits} of $n$ qubits in a quantum computer. This is the Jordan-Wigner Encoding.
+It is then straightforward that basis states \eqref{eq: fock} of an $n$-orbital many-electron physical system correspond to basis states \eqref{eq: qubits} of $n$ qubits in a quantum computer. This is the Jordan-Wigner encoding \cite{QCC}.
 
 \begin{equation}
     \ket{\vec{f}} \leftrightarrow \ket{\vec{x}}
 \end{equation}
 
-That is, in the Jordan-Wigner Encoding, the value $x_i$ of the $i$th qubit represents the occupation $f_i$ of the orbital $\phi_i$.
+That is, in the Jordan-Wigner encoding, the value $x_i$ of the $i$th qubit represents the occupation $f_i$ of the orbital $\phi_i$.
 
-Accordingly, creation \eqref{eq: creation} and annihilation \eqref{eq: annihilation} operators on the physical system also correspond to qubit operators.
+Accordingly, annihilation \eqref{eq: annihilation} and creation \eqref{eq: creation} operators \cite{QCC} on the physical system also correspond to qubit operators.
 
 \begin{equation}
     a_i \leftrightarrow Z_0Z_1...Z_{i - 1}\ket{0}\bra{1}_i \label{eq: JWdown}
@@ -135,11 +135,11 @@ Accordingly, creation \eqref{eq: creation} and annihilation \eqref{eq: annihilat
 
 We use the short-hand $U_i = I^{\otimes i}\otimes U \otimes I^{\otimes n - i - 1}$ to denote applying a gate $U$ on the $i$th qubit.
 
-Observe that individual physical and annihilation operators map to a series of $i$ gates (qubit operators). In the average case, this amounts to $O(n)$ gates, which is not ideal. There are other encodings that optimize the efficiency of operator mappings, but they sacrifice the simplicity in basis state mappings exhibited by the Jordan-Wigner Encoding. For the purposes of this project, the Jordan-Wigner Encoding is sufficient.
+Observe that individual physical annihilation and creation operators map to a series of $i$ gates (qubit operators). In the average case, this amounts to $O(n)$ gates, which is not ideal. There are other encodings that optimize the efficiency of operator mappings, but they sacrifice the simplicity in basis state mappings exhibited by the Jordan-Wigner encoding. For the purposes of this project, the Jordan-Wigner encoding is sufficient.
 
 \section{Second-Quantized Electronic Structure Hamiltonian}
 
-Equipped with Fock states and creation and annihilation operators, we can rewrite the electron structure Hamiltonian from \eqref{eq: H} in a simpler, second-quantized form.
+Equipped with Fock states and annihilation and creation operators, we can rewrite the electron structure Hamiltonian from \eqref{eq: H} in a simpler, second-quantized form \cite{QCC}.
 
 \begin{equation}
     H = \sum_{i, j} h_{ij}a^\dag_ia_j + \frac{1}{2}\sum_{i,j,k,l} h_{ijkl}a^\dag_ia^\dag_ja_ka_l
@@ -162,7 +162,7 @@ The real coefficients $h_{ij}$ and $h_{ijkl}$ are the projections of $H$ onto th
     \label{eq: hijkl}
 \end{equation}
 
-Observe from \eqref{eq: hij} that $h_{ij}$, which is real, must be symmetric between $i$ and $j$. From \eqref{eq: hijkl}, $h_{ijkl}$, which is also real, must also be symmetric between $i$ and $l$, $j$ and $k$, and $(i, l)$ and $(j, k)$. Inspired by this symmetry, we can rearrange the operators in the second summation using anti-commutation relations to put $i, l$ and $j, k$ next to each other.
+Observe from \eqref{eq: hij} that $h_{ij}$, which is real, must be symmetric between $i$ and $j$ \cite{DF}. From \eqref{eq: hijkl}, $h_{ijkl}$, which is also real, must also be symmetric between $i$ and $l$, $j$ and $k$, and $(i, l)$ and $(j, k)$. Inspired by this symmetry, we can rearrange the operators in the second summation using anti-commutation relations to put $i, l$ and $j, k$ next to each other. This step was done implicitly in Ref. \cite{DF}.
 
 \begin{equation}
     \begin{split}
@@ -176,7 +176,7 @@ Observe from \eqref{eq: hij} that $h_{ij}$, which is real, must be symmetric bet
     \end{split}
     \label{eq: H3}
 \end{equation}
-We introduced new coefficients $h'_{ij}$ and $h'_{iljk}$ for this new ordering and label the summations $H_{1e}$ and $H_{2e}$.
+For clarity, we introduced new coefficients $h'_{ij}$ and $h'_{iljk}$ for this new ordering and label the summations $H_{1e}$ and $H_{2e}$.
 \begin{equation}
     \begin{split}
         h'_{ij} &= h_{ij} - \frac{1}{2}\sum_k h_{ikjk} \\
@@ -192,7 +192,7 @@ We introduced new coefficients $h'_{ij}$ and $h'_{iljk}$ for this new ordering a
 
 \section{Trotterization}
 
-We would like to simulate $U = e^{-iHt}$ on a quantum computer. Unfortunately, simulating $U$ itself is very difficult: we don't even know what the eigenstates of $H$ are. The main problem is $H$ is sum of many terms, each of which act very differently on a state. We'd like to study each term separately. Fortunately, Trotterization allows us to do so.
+We would like to simulate $U = e^{-iHt}$ on a quantum computer. Unfortunately, simulating $U$ itself is very difficult: for example, we don't even know what the eigenstates of $H$ are. The main problem is that $H$ is a sum of many terms, each of which act very differently on a state. We'd like to study each term separately. Fortunately, Trotterization allows us to do so.
 
 Consider a generic Hamiltonian $H$ that is the sum of $L$ terms $h_j$.
 
@@ -200,35 +200,35 @@ Consider a generic Hamiltonian $H$ that is the sum of $L$ terms $h_j$.
     H = \sum_{j = 0}^{L - 1} h_j
 \end{equation}
 
-We can use the Lie-Trotter formula to approximate the target operator $U = e^{-iHt}$ as the product of many smaller rotations.
+We can use the Lie-Trotter formula \cite{QCC} to approximate the target operator $U = e^{-iHt}$ as the product of many smaller rotations.
 
 \begin{equation}
     U = e^{-iHt} = e^{-i\sum_{j = 0}^{L - 1} h_jt} = \lim_{M \rightarrow \infty} (\prod_{j = 0}^{L - 1} e^{-ih_j\frac{t}{M}})^M
 \end{equation}
 
-In other words, for sufficiently large $M$, $U$ is essentially equivalent to iterating $M$ times through smaller evolutions $e^{-ih_j\frac{t}{M}}$. We can denote $\Delta t = \frac{t}{M}$ the step size. This is the first-order Trotter-Suzuki Algorithm. One can use the term ``Trotterize'' to denote the breaking of $e^{-iHt}$ into the product of many $e^{-ih_j\Delta t}$
+In other words, for sufficiently large $M$, $U$ is essentially equivalent to iterating $M$ times through smaller evolutions $e^{-ih_j\frac{t}{M}}$. We can denote $\Delta t = \frac{t}{M}$ the step size. This is the first-order Trotter-Suzuki Algorithm \cite{Amortize4}. Often, the term ``Trotterize'' \cite{QCC} is used to denote the breaking of $e^{-iHt}$ into the product of many $e^{-ih_j\Delta t}$
 
-However, $M$ must be sufficiently large to make the approximation sufficiently precise. In first-order Trotterization, $M = O(\frac{(L\Lambda t)^2}{\epsilon})$ (in which $\lambda = max_j ||h_j||$, the largest singular value of a term), scales quadratically with the number of terms $L$. Each iteration requires $L$ steps, totalling $O(ML = O(\frac{L^3(\Lambda t)^2}{\epsilon}))$ steps.
+However, $M$ must be sufficiently large to make the approximation sufficiently precise. First-order Trotterization requires $M = O(\frac{(L\Lambda t)^2}{\epsilon})$ (in which $\Lambda = \max_j ||h_j||$ \cite{QDRIFT}, the largest singular value of a term), which scales quadratically with the number of terms $L$. Each iteration requires $L$ steps, totalling $O(ML) = O(\frac{L^3(\Lambda t)^2}{\epsilon})$ steps \cite{QDRIFT}.
 
-We can reduce the asymptotic number of iterations necessary with the second-order Trotter-Suzuki Algorithm, which essentially iterates $[h_j]_j$ in ascending order then descending order.
+We can reduce the asymptotic number of iterations necessary with the second-order Trotter-Suzuki Algorithm \cite{Amortize4}, which essentially iterates $[h_j]_j$ in ascending order then descending order.
 
 \begin{equation}
     U = e^{-iHt} = e^{-i\sum_{j = 0}^{L - 1} h_jt} = \lim_{M \rightarrow \infty} (\prod_{j = 0}^{L - 1} e^{-ih_j\frac{t}{2M}}\prod_{j = L - 1}^{0} e^{-ih_j\frac{t}{2M}})^M
 \end{equation}
 
-Second-order Trotterization requires $M = O(\frac{(L\Lambda t)^{1.5}}{\sqrt{\epsilon}})$. In fact, one can continue increasing the order: in general, the $2k$th order Trotterization requires $M = O(\frac{(L\Lambda t)^{1+\frac{1}{2k}}}{\epsilon^{\frac{1}{2k}}})$. However, increasing the order $k$ quickly increases the constant factor, so in practice it's rarely useful to go beyond $k = 3$.
+Second-order Trotterization requires $M = O(\frac{(L\Lambda t)^{1.5}}{\sqrt{\epsilon}})$ \cite{QDRIFT}. In fact, one can continue increasing the order: in general, the $2k$th order Trotterization requires $M = O(\frac{(L\Lambda t)^{1+\frac{1}{2k}}}{\epsilon^{\frac{1}{2k}}})$ \cite{QDRIFT}. However, increasing the order $k$ quickly increases the constant factor \cite{QDRIFT}, so practical purposes typically don't go past second or fourth order.
 
-Randomizing the order of the steps $e^{-ih_j\Delta t}$ can significantly improve performance. \cite{QDRIFT} proposed the qDRIFT algorithm, which samples among terms $[h_j]_j$, assigning $h_j$ a probability proportional to $||h_j||$. It requires at most $\frac{2\lambda^2 t^2}{\epsilon} \leq \frac{2L^2\Lambda^2 t^2}{\epsilon}$ total steps, in which $\lambda = \sum_j ||h_j||$.
+Randomizing the order of the steps $e^{-ih_j\Delta t}$ can significantly improve performance. Ref. \cite{QDRIFT} proposed the qDRIFT algorithm, which samples among terms $[h_j]_j$, assigning $h_j$ a probability proportional to $||h_j||$. It requires at most $\frac{2\lambda^2 t^2}{\epsilon} \leq \frac{2L^2\Lambda^2 t^2}{\epsilon}$ total steps, in which $\lambda = \sum_j ||h_j||$, the sum of the terms' norms. Observe that the advantage of qDRIFT over deterministic Trotterization is especially prominent for decompositions where $\lambda \ll L\Lambda$: that is, when there are many terms with spectral norms much smaller than than that the largest term.
 
 The power of such techniques like Trotterization and qDRIFT (breaking $e^{-iHt}$ into many $e^{-ih_j\Delta t}$) allows us to analyze each term $h_j$ independently of the others. If one can simulate $e^{-ih_j \Delta t}$ for arbitrary $\Delta t$ for every term, one can approximately simulate $U = e^{-iHt}$.
 
-For example, one can Trotterize the electronic structure Hamiltonian \eqref{eq: H3}. One can substitute the operator correspondances from \eqref{eq: JWdown} and \eqref{eq: JWup} into \eqref{eq: H3} to obtain the corresponding qubit Hamiltonian, which would be a sum of many tensor products of Paulis. However, with $O(n^4)$ terms in \eqref{eq: H2}, there end up being $L = O(n^4)$ tensor products of Paulis in the qubit Hamiltonian. Each such term can contain up to $O(n)$ Paulis, requiring $O(n)$ gates to implement individually, with methods such as \cite{Amortize1}, \cite{Amortize2}, \cite{Amortize3}, \cite{Amortize4}. However, most of these gates are actually Clifford gates, which don't contribute to the $T$-count. Taking the implementation of \cite{Amortize4}, there are only $O(1)$ non-Clifford gates (namely $R_z$), which cost $O(\log_2{1}{\epsilon})$ $T$ gates (where $\epsilon$ is the error bound for the step). If we only consider asymptotic scaling in $n$, then we can consider a such a step to have $O(1)$ cost. This relies on the assumption that the relative cost of $T$ gates eclipses the $O(n)$ quantity of Clifford gates in a step.
+For example, one can Trotterize the electronic structure Hamiltonian \eqref{eq: H3}. One can substitute the operator correspondances from \eqref{eq: JWdown} and \eqref{eq: JWup} into \eqref{eq: H3} to obtain the corresponding qubit Hamiltonian, which would be a sum of many tensor products of Paulis. However, with $O(n^4)$ terms in \eqref{eq: H2}, there end up being $L = O(n^4)$ tensor products of Paulis in the qubit Hamiltonian. Each such term can contain up to $O(n)$ Paulis, requiring $O(n)$ gates to implement individually, with methods such as Ref. \cite{Amortize1}, Ref. \cite{Amortize2}, Ref. \cite{Amortize3}, or Ref. \cite{Amortize4}. However, most of these gates are actually Clifford gates, which don't contribute to the $T$-count. Focusing on the implementation of Ref. \cite{Amortize4}, there are only $O(1)$ non-Clifford gates (namely $R_z$), which cost $O(\log_2{\frac{1}{\epsilon}})$ $T$ gates ($\epsilon$ is the error bound for the step). If we only consider asymptotic scaling in $n$, then we can consider a such a step to have $O(1)$ cost. This relies on the assumption that the relative cost of $T$ gates eclipses the $O(n)$ quantity of Clifford gates in a step.
 
-If we accordingly assume a constant cost per step, with $L = O(n^4)$, the number of iterations with second-order Trotter-Suzuki becomes $M = O(L^{1.5}) = O(n^6)$, totalling $O(ML) = O(n^{10})$ total steps. In the rest of this paper, we will refer to this direct Trotterization as the ``brute force method'' We'd like to see if there's a more concise method.
+If we accordingly assume a constant cost per step, with $L = O(n^4)$, the number of iterations with second-order Trotter-Suzuki becomes $M = O(L^{1.5}) = O(n^6)$, totalling $O(ML) = O(n^{10})$ total steps. In the rest of this paper, we will refer to this direct Trotterization as the ``direct unfactorized method'' We'd like to see if there's a more concise method.
 
 \section{Double Factorization of Electronic Structure Hamiltonian}
 
-Recall that $h'_{iljk} = h_{ijkl}$ is symmetric between $(i, l)$ and $(j, k)$. $h'$ can then be treated as a real symmetric $n^2 \times n^2$ matrix and eigendecomposed with eigenvalues $\lambda_r$ and eigenvectors $Q^{(r)}$ whose indices are $(i, l)$ ordered pairs. A Cholesky decomposition is also an option but for now we will use an eigendecomposition. Denote $R = \text{rank}{(h')}$.
+Recall that $h'_{iljk} = h_{ijkl}$ is symmetric between $(i, l)$ and $(j, k)$. The tensor $h'$ can then be treated as a real symmetric $n^2 \times n^2$ matrix \cite{DF} and eigendecomposed with eigenvalues $\lambda_r$ and eigenvectors $Q^{(r)}$ whose indices are $(i, l)$ ordered pairs. A Cholesky decomposition is also an option but for now we will use an eigendecomposition. Denote $R = \text{rank}{(h')}$.
 
 \begin{equation}
     h'_{iljk} = \sum_{r = 0}^{R - 1} \lambda_r Q^{(r)}_{i, l}Q^{(r)}_{j, k}
@@ -245,7 +245,7 @@ Recall that $h'_{iljk} = h_{ijkl}$ is symmetric between $(i, l)$ and $(j, k)$. $
     \label{eq: DF}
 \end{equation}
 
-We have written $H_{2e}$ as a sum of terms $H_{2e}^{(r)}$, defined in \eqref{eq: H2er}. The number $R$ of terms is the rank of $h'$, and in the worst case $R = n^2$. However, for molecular systems, $h'$ is often low-rank, with $R$ often being $O(n)$, such as in the carbon-hydrogen systems studied in \cite{CH}. If we could simulate $U_2^{(r)} = e^{-iH_{2e}^{(r)}\Delta t}$ for an arbitrary $\Delta t$, then we could Trotter or qDRIFT over these $R$ terms to implement $U_2$, far fewer than the $O(n^4)$ terms in direct Trotterization of $H_{2e}$.
+We have written $H_{2e}$ as a sum of terms $H_{2e}^{(r)}$, defined in \eqref{eq: H2er}. The number $R$ of terms is the rank of $h'$, and in the worst case $R = n^2$. However, for molecular systems, $h'$ is often low-rank, with $R$ often being $O(n)$, such as in the carbon-hydrogen systems studied in Ref. \cite{CH}. If we could simulate $U_2^{(r)} = e^{-iH_{2e}^{(r)}\Delta t}$ for an arbitrary $\Delta t$, then we could Trotterize or qDRIFT over these $R$ terms to implement $U_2$, far fewer than the $O(n^4)$ terms in direct Trotterization of $H_{2e}$.
 
 \begin{equation}
     H_{2e}^{(r)} = \frac{1}{2}\lambda_r\left(\sum_{i,j} Q^{(r)}_{i, j}a^\dag_ia_j\right)^2 \label{eq: H2er}
@@ -262,14 +262,15 @@ Observe that $h'_{iljk}$ is symmetric between $i$ and $l$ and between $j$ and $k
     \end{split}
 \end{equation}
 
-We introduce the operators $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s$, which are respectively linear combinations of the the creation operators $\{a^\dag_i\}_{i \in [0, n)}$ and annihilation operators $\{a_i\}_{i \in [0, n)}$. Because $u^{(r)}$ is orthogonal (and therefore unitary), these $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s$ are actually creation and annihilation operators of a different Fock basis; that is, the Fock basis created from the single-particle basis $\{\tilde{\phi}_s = \sum_s u^{(r)}_{is} \phi_i\}_{s \in [0, n)}$. This rotated basis also has its own number operators $\tilde{n}^{(r)}_s$.
+We introduce the annihilation operators $\tilde{a}^{(r)}_s$, which are linear combinations of the annihilation operators $\{a_i\}_{i \in [0, n)}$. Because $u^{(r)}$ is orthogonal and real (and therefore unitary), these $\tilde{a}^{(r)}_s$ are actually annihilation operators of a different Fock basis; that is, the Fock basis created from the single-particle basis $\{\tilde{\phi}_s = \sum_s u^{(r)}_{is} \phi_i\}_{s \in [0, n)}$. It follows that this rotated basis also has creation operators $\tilde{a}^{(r)\dag}_s$ and number operators $\tilde{n}^{(r)}_s$.
 
 \begin{equation}
     \begin{split}
-        \tilde{a}^{(r)\dag}_s &= \sum_iu^{(r)}_{is}a^\dag_i \\
         \tilde{a}^{(r)}_s &= \sum_iu^{(r)}_{is}a_i \\
+        \tilde{a}^{(r)\dag}_s &= \sum_iu^{(r)}_{is}a^\dag_i \\
         \tilde{n}^{(r)}_s &= \tilde{a}^{(r)\dag}_s\tilde{a}^{(r)}_s
     \end{split}
+    \label{eq: basis}
 \end{equation}
 
 We can rewrite $H_{2e}^{(r)}$ in terms of $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)}_s, \tilde{n}^{(r)}_s$.
@@ -284,11 +285,14 @@ We can rewrite $H_{2e}^{(r)}$ in terms of $\tilde{a}^{(r)\dag}_s, \tilde{a}^{(r)
     \end{split}
 \end{equation}
 
-We would like to simulate $U_2^{(r)} = e^{-iH_{2e}^{(r)}\Delta t}$ for an arbitrary $\Delta t$. If the operator's eigenbasis were the same as the qubits' computational basis, it would be very simple. However, its eigenbasis is the Fock basis constructed from the rotated basis $\{\tilde{\phi}_s\}$. Meanwhile, the qubit computational basis $\{\ket{\vec{x}}\}$ corresponds to the original physical Fock basis $\{\ket{\vec{f}}\}$ constructed from $\{\phi_i\}$. To deal with this, we have to essentially rotate the operator $U_r$ into the computational basis. \cite{FSN} uses the Thouless Theorem to show that such a rotation operator $U_R(u^{(r)})$ necessary can be calculated from $u^{(r)}$ and and corresponds to a maximum of ${n \choose 2} = O(n^2)$ gates on the quantum computer. 
+We would like to simulate $U_2^{(r)} = e^{-iH_{2e}^{(r)}\Delta t}$ for an arbitrary $\Delta t$. If the operator's eigenbasis were the same as the qubits' computational basis, it would be very simple. However, its eigenbasis is the Fock basis constructed from the rotated basis $\{\tilde{\phi}_s\}$. Meanwhile, the qubit computational basis $\{\ket{\vec{x}}\}$ corresponds to the original physical Fock basis $\{\ket{\vec{f}}\}$ constructed from $\{\phi_i\}$. To deal with this, we have to essentially rotate the operator $U_2^{(r)}$ into the computational basis. Ref. \cite{FSN} uses the Thouless Theorem to construct the rotation operator $U_R$ necessary for this basis change and decomposes it into at most ${n \choose 2} O(n^2)$ non-Clifford gates as shown in \eqref{eq: U_R}. The particular decomposition is obtained by decomposing $u^{(r)}$ into many Givens rotations, each of which corresponds to a two-qubit basis rotation (which is non-Clifford) with angle $\theta_{ij}$. Note that technically we use a slightly different convention than Ref. \cite{FSN}: the $u^{(r)}$ unitary used in \eqref{eq: basis} is the Hermitian of the $u$ unitary in Ref. \cite{FSN}. So, technically, we will have to do a reverse of the basis change gate defined in Ref. \cite{FSN}, although this does not affect the gate count.
 
 \begin{equation}
-    U_2^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s\right)^2} = U_R(u^{(r)})^\dag e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2}U_R(u^{(r)}) = U_R(u^{(r)})^\dag U_A^{(r)}U_R(u^{(r)})
+    U_2^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s \tilde{n}^{(r)}_s\right)^2} = U_R(u^{(r)})^\dag e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2}U_R(u^{(r)}) = U_R(u^{(r)}) U_A^{(r)}U_R(u^{(r)})^\dag
     \label{eq: U_2^r}
+\end{equation}
+\begin{equation}
+    U_R(u^{(r)}) = e^{\sum_{i,j} [\ln{u}]_{i,j} (a^\dag_i a_j - a^\dag_j a_i)} = \prod_i \prod_{j > i} e^{\theta_{ij}(a^\dag_i a_j - a^\dag_j a_i)} \label{eq: U_R}
 \end{equation}
 \begin{equation}
     U_A^{(r)} = e^{-\frac{i\Delta t}{2}\lambda_r\left(\sum_s \lambda'^{(r)}_s n_s\right)^2}
@@ -341,7 +345,7 @@ There are therefore $n$ $R_z$ operators and ${n \choose 2}$ $CR_z$ operators in 
     \label{fig: CR_z}
 \end{figure}
 
-\cite{Rz} achieves a fault-tolerant implementation of $R_z$ using at most $10 + 4\log_2(\frac{1}{\epsilon_z})$ T-gates, in which $\epsilon_z$ is the the desired error bound of $R_z$. Since $U_A^{(r)}$ contains $\frac{3n(n - 1)}{2}$ $R_z$ gates and error (which is by operator norm) propagates sub-additively, we need $\epsilon_z \leq \frac{\epsilon}{\frac{3n(n - 1)}{2}}$ to guarantee a threshold $\epsilon$ for the error of $U_A^{(r)}$.
+Ref. \cite{Rz} achieves a fault-tolerant implementation of $R_z$ using at most $10 + 4\log_2(\frac{1}{\epsilon_z})$ T-gates, in which $\epsilon_z$ is the the desired error bound of $R_z$. Since $U_A^{(r)}$ contains $\frac{3n(n - 1)}{2}$ $R_z$ gates and error (which is by operator norm) propagates sub-additively, we need $\epsilon_z \leq \frac{\epsilon}{\frac{3n(n - 1)}{2}}$ to guarantee a threshold $\epsilon$ for the error of $U_A^{(r)}$.
 
 We can then calculate the upper bound for the $T$-count $\tilde{N}_T$ of $U_A^{(r)}$ using the expansion method in terms of $n, \frac{1}{\epsilon}$.
 
@@ -356,11 +360,11 @@ We can then calculate the upper bound for the $T$-count $\tilde{N}_T$ of $U_A^{(
 
 \section{Discussion}
 
-Similarly to \eqref{eq: expansion}, $U_R(u^{(r)})$ in \eqref{eq: U_2^r} can be decomposed into at most $O(n^2)$ non-Clifford gates as described in \cite{FSN}, resulting in a $O(n^2\log_2(\frac{n}{\epsilon}))$ $T$-count. Combined with \eqref{eq: expansionTs}, one can achieve an overall $T$-count of $O(n^2\log_2(\frac{n}{\epsilon}))$ for $U_2^{(r)}$.
+Similarly to \eqref{eq: expansion}, $U_R(u^{(r)})$ in \eqref{eq: U_2^r} can be decomposed into at most $O(n^2)$ non-Clifford gates as shown in \eqref{eq: U_R}, which is adapted from Ref. \cite{FSN}. These gates require a total $O(n^2\log_2(\frac{n}{\epsilon}))$ $T$-count. Combined with \eqref{eq: expansionTs}, one can achieve an overall $T$-count of $O(n^2\log_2(\frac{n}{\epsilon}))$ for $U_2^{(r)}$.
 
-We'd like to find alternative fault-tolerant implementations of $U_2^{(r)}$ with a lower asymptotic $T$-count. For this to be possible, the chemical system must have a Hamiltonian with ``easy'' basis rotations; that is, it double factorizes such that all $U_R(u^{(r)})$ decomposes using the \cite{FSN} method to $o(n^2)$ non-Clifford gates. We also need to both implement $U_A^{(r)}$ more efficiently.
+We'd like to find alternative fault-tolerant implementations of $U_2^{(r)}$ with a lower asymptotic $T$-count. For this to be possible, the chemical system must have a Hamiltonian with ``easy'' basis rotations. This is to say that it double factorizes such that all $U_R(u^{(r)})$ decomposes using the method from Ref. \cite{FSN} to $o(n^2)$ non-Clifford gates. In other words, a vast number of the $\theta_{ij}$ in \eqref{eq: U_R} should be $0$. In addition to ``easy'' basis rotations, we also need to both implement $U_A^{(r)}$ more efficiently.
 
-Chapter 2 introduces and explicitly constructs a quantum circuit that simulates $U_R(u^{(r)})$ with $O(n\log_2(\frac{n}{\epsilon}) + \log_2(\frac{1}{\epsilon})^2)$ $T$-count. We call this quantum circuit the ``coherent method'', in contrast to the ``expansion method''. Chapter 3 explores types of Hamiltonians with ``easy'' basis rotations and how to effectively leverage the ``coherent method'' for these Hamiltonians.
+Chapter 2 introduces and explicitly constructs a quantum circuit that simulates $U_A^{(r})$ with $O(n\log_2(\frac{n}{\epsilon}) + \log_2(\frac{1}{\epsilon})^2)$ $T$-count. We call this quantum circuit the ``coherent method'', in contrast to the ``expansion method''. Chapter 3 explores types of Hamiltonians with ``easy'' basis rotations and how to effectively leverage the ``coherent method'' for these Hamiltonians.
 
 %%%%%%%%%%%%%%%% end table %%%%%%%%%%%%%%%%%%% 
 
