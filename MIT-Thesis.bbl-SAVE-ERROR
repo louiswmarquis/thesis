@@ -539,8 +539,8 @@
       \strng{authornamehash}{88bb752bc9192b6bcb9544c0ed00d8e6}
       \strng{authorfullhash}{1f9257de35e866fe65e4bec27ebb3362}
       \strng{authorfullhashraw}{1f9257de35e866fe65e4bec27ebb3362}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{1079-7114}
@@ -576,8 +576,8 @@
       \strng{authornamehash}{0d665e53102b24b5d852725ad829d803}
       \strng{authorfullhash}{0d665e53102b24b5d852725ad829d803}
       \strng{authorfullhashraw}{0d665e53102b24b5d852725ad829d803}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -674,8 +674,8 @@
       \strng{authornamehash}{39120a596902d09c0cf9d429495f0249}
       \strng{authorfullhash}{4c30a9264f7ebe91dd57dbd187322276}
       \strng{authorfullhashraw}{4c30a9264f7ebe91dd57dbd187322276}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issue}{2}
@@ -694,6 +694,60 @@
       \endverb
       \verb{url}
       \verb https://link.aps.org/doi/10.1103/PhysRevA.90.022305
+      \endverb
+    \endentry
+    \entry{CompositeQDRIFT}{misc}{}{}
+      \name{author}{5}{}{%
+        {{hash=a77e457eda3c12a43310500d107707d8}{%
+           family={Pocrnic},
+           familyi={P\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod}}}%
+        {{hash=67fd6948e9a1f3cb9d2b8ff8a08b3ef4}{%
+           family={Hagan},
+           familyi={H\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod}}}%
+        {{hash=cb5e0d185d66df725ae13199d38f4265}{%
+           family={Carrasquilla},
+           familyi={C\bibinitperiod},
+           given={Juan},
+           giveni={J\bibinitperiod}}}%
+        {{hash=bde3612b497b348aa0cdd4af4180fb7a}{%
+           family={Segal},
+           familyi={S\bibinitperiod},
+           given={Dvira},
+           giveni={D\bibinitperiod}}}%
+        {{hash=9906b78ec80183f9ac5008ae54ce7088}{%
+           family={Wiebe},
+           familyi={W\bibinitperiod},
+           given={Nathan},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{6c991fac5ab6c69bdecce1e75c6b433f}
+      \strng{fullhash}{2939c03b4e4951e8113e401a4c19d7ef}
+      \strng{fullhashraw}{2939c03b4e4951e8113e401a4c19d7ef}
+      \strng{bibnamehash}{2939c03b4e4951e8113e401a4c19d7ef}
+      \strng{authorbibnamehash}{2939c03b4e4951e8113e401a4c19d7ef}
+      \strng{authornamehash}{6c991fac5ab6c69bdecce1e75c6b433f}
+      \strng{authorfullhash}{2939c03b4e4951e8113e401a4c19d7ef}
+      \strng{authorfullhashraw}{2939c03b4e4951e8113e401a4c19d7ef}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{title}{Composite QDrift-Product Formulas for Quantum and Classical Simulations in Real and Imaginary Time}
+      \field{year}{2023}
+      \verb{eprint}
+      \verb 2306.16572
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2306.16572
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2306.16572
       \endverb
     \endentry
   \enddatalist

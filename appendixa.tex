@@ -13,17 +13,17 @@
         \lstick{} &          &          & \cdots &          &     &     &     & \\
         \lstick{} & \qw      & \qw      & \qw    & \ctrl{1} & \qw & \qw & \qw
         \inputgroupv{1}{4}{.8em}{2.4em}{\ket{\psi}}\\
-        \lstick{} & \multigate{3}{+\lambda^{(r)}_0} & \multigate{3}{+\lambda^{(r)}_1} & \qw    & \multigate{3}{+\lambda^{(r)}_{n - 1}} & \multigate{8}{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \qw & \qw \\
-        \lstick{} & \ghost{+\lambda^{(r)}_0}       & \ghost{+\lambda^{(r)}_1}         & \qw    & \ghost{+\lambda^{(r)}_{n - 1}}        &  \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}}         & \qw & \qw \\
-        \lstick{} & \nghost{+\lambda^{(r)}_0}      & \nghost{+\lambda^{(r)}_1}        & \cdots & \nghost{+\lambda^{(r)}_{n - 1}}       & \nghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}}     &     & \\
-        \lstick{} & \ghost{+\lambda^{(r)}_0}       & \ghost{+\lambda^{(r)}_1}         & \qw    & \ghost{+\lambda^{(r)}_{n - 1}}        &  \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \qw & \qw 
-        \inputgroupv{5}{8}{.8em}{2.4em}{\ket{0^{\frac{m}{2}}}}\\
-        \lstick{} & \qw & \qw & \qw & \qw & \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \gate{P(-\frac{\Delta t}{2}\lambda_r2^{2(M_r - (\frac{m}{2} - 1))})} & \qw \\
-        \lstick{} & \qw & \qw & \qw & \qw & \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \gate{P(-\frac{\Delta t}{2}\lambda_r2^{2(M_r - (\frac{m}{2} - 1)) + 1})} & \qw \\
+        \lstick{} & \multigate{3}{+\tilde{\lambda}'^{(r)}_0} & \multigate{3}{+\tilde{\lambda}'^{(r)}_1} & \qw    & \multigate{3}{+\tilde{\lambda}'^{(r)}_{n - 1}} & \multigate{8}{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \qw & \qw \\
+        \lstick{} & \ghost{+\tilde{\lambda}'^{(r)}_0}       & \ghost{+\tilde{\lambda}'^{(r)}_1}         & \qw    & \ghost{+\tilde{\lambda}'^{(r)}_{n - 1}}        &  \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}}         & \qw & \qw \\
+        \lstick{} & \nghost{+\tilde{\lambda}'^{(r)}_0}      & \nghost{+\tilde{\lambda}'^{(r)}_1}        & \cdots & \nghost{+\tilde{\lambda}'^{(r)}_{n - 1}}       & \nghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}}     &     & \\
+        \lstick{} & \ghost{+\tilde{\lambda}'^{(r)}_0}       & \ghost{+\tilde{\lambda}'^{(r)}_1}         & \qw    & \ghost{+\tilde{\lambda}'^{(r)}_{n - 1}}        &  \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \qw & \qw 
+        \inputgroupv{5}{8}{.8em}{3.2em}{\ket{0^{\frac{m}{2}}}}\\
+        \lstick{} & \qw & \qw & \qw & \qw & \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \gate{R_z(-\frac{\Delta t}{2}\lambda_r2^{2(M_r - (\frac{m}{2} - 1))})} & \qw \\
+        \lstick{} & \qw & \qw & \qw & \qw & \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \gate{R_z(-\frac{\Delta t}{2}\lambda_r2^{2(M_r - (\frac{m}{2} - 1)) + 1})} & \qw \\
         \lstick{} & & & \cdots & & \nghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \cdots & \\
-        \lstick{} & \qw & \qw & \qw & \qw & \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \gate{P(-\frac{\Delta t}{2}\lambda_r2^{2M_r - 1})} & \qw \\
-        \lstick{} & \qw & \qw & \qw & \qw & \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \gate{P(\frac{\Delta t}{2}\lambda_r2^{2M_r + 1})} & \qw 
-        \inputgroupv{9}{13}{.8em}{2.4em}{\ket{0^m}}
+        \lstick{} & \qw & \qw & \qw & \qw & \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \gate{R_z(-\frac{\Delta t}{2}\lambda_r2^{2M_r - 1})} & \qw \\
+        \lstick{} & \qw & \qw & \qw & \qw & \ghost{\substack{\ket{w}\ket{z} \rightarrow \\ \ket{w}\ket{z + w^2}}} & \gate{R_z(\frac{\Delta t}{2}\lambda_r2^{2M_r + 1})} & \qw 
+        \inputgroupv{9}{13}{.8em}{6.4em}{\ket{0^m}}
     }
     \caption{Quantum circuit diagram for $U_A^{(r)}$ using arithmetic circuits (uncomputing not shown)}
     \label{fig: U_A}
